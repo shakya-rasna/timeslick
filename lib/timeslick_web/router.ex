@@ -17,7 +17,7 @@ defmodule TimeslickWeb.Router do
   scope "/", TimeslickWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", PayoutController, :index
 
     resources "/payouts", PayoutController
     get "/new_payouts", PayoutFileController, :new_payout, as: :new_payout
