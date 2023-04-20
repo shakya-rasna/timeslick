@@ -1,7 +1,7 @@
-defmodule Timeslick.PaymentsFixtures do
+defmodule DTTRecharger.PaymentsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Timeslick.Payments` context.
+  entities via the `DTTRecharger.Payments` context.
   """
 
   @doc """
@@ -21,7 +21,7 @@ defmodule Timeslick.PaymentsFixtures do
         quantity: 42,
         surname: "some surname"
       })
-      |> Timeslick.Payments.create_payout()
+      |> DTTRecharger.Payments.create_payout()
 
     payout
   end

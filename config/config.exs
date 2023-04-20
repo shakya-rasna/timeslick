@@ -7,17 +7,17 @@
 # General application configuration
 import Config
 
-config :timeslick,
-  ecto_repos: [Timeslick.Repo]
+config :dttrecharger,
+  ecto_repos: [DTTRecharger.Repo]
 
 # Configures the endpoint
-config :timeslick, TimeslickWeb.Endpoint,
+config :dttrecharger, DTTRechargerWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
-    formats: [html: TimeslickWeb.ErrorHTML, json: TimeslickWeb.ErrorJSON],
+    formats: [html: DTTRechargerWeb.ErrorHTML, json: DTTRechargerWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Timeslick.PubSub,
+  pubsub_server: DTTRecharger.PubSub,
   live_view: [signing_salt: "fBt8d2Ly"]
 
 # Configures the mailer
@@ -27,7 +27,7 @@ config :timeslick, TimeslickWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :timeslick, Timeslick.Mailer, adapter: Swoosh.Adapters.Local
+config :dttrecharger, DTTRecharger.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,

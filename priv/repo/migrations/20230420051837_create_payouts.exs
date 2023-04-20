@@ -1,4 +1,4 @@
-defmodule Timeslick.Repo.Migrations.CreatePayouts do
+defmodule DTTRecharger.Repo.Migrations.CreatePayouts do
   use Ecto.Migration
 
   def change do

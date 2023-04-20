@@ -1,9 +1,9 @@
-defmodule Timeslick.MixProject do
+defmodule DTTRecharger.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :timeslick,
+      app: :dttrecharger,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule Timeslick.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Timeslick.Application, []},
+      mod: {DTTRecharger.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

@@ -1,4 +1,4 @@
-# Timeslick
+# DTTRecharger
 
 To start your Phoenix server:
 
