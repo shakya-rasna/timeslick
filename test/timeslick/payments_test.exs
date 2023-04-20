@@ -4,7 +4,7 @@ defmodule Timeslick.PaymentsTest do
   alias Timeslick.Payments
 
   describe "payouts" do
-    alias Timeslick.Payments.Payout
+    alias Timeslick.Schema.Payout
 
     import Timeslick.PaymentsFixtures
 
