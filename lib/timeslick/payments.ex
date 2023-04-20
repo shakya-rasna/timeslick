@@ -6,7 +6,7 @@ defmodule Timeslick.Payments do
   import Ecto.Query, warn: false
   alias Timeslick.Repo
 
-  alias Timeslick.Payments.Payout
+  alias Timeslick.Payments.{Payout, PayoutFile}
 
   @doc """
   Returns the list of payouts.
@@ -100,5 +100,18 @@ defmodule Timeslick.Payments do
   """
   def change_payout(%Payout{} = payout, attrs \\ %{}) do
     Payout.changeset(payout, attrs)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking payout changes.
+
+  ## Examples
+
+      iex> change_payoutfile(payoutfile)
+      %Ecto.Changeset{data: %PayoutFile{}}
+
+  """
+  def change_payoutfile(%PayoutFile{} = payout_file, attrs \\ %{}) do
+    PayoutFile.changeset(payout_file, attrs)
   end
 end

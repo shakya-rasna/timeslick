@@ -3,6 +3,7 @@ defmodule TimeslickWeb.PayoutController do
 
   alias Timeslick.Payments
   alias Timeslick.Payments.Payout
+  alias Timeslick.Payments.PayoutFile
 
   def index(conn, _params) do
     payouts = Payments.list_payouts()
@@ -15,7 +16,7 @@ defmodule TimeslickWeb.PayoutController do
   end
 
   def new_payout(conn, _params) do
-    changeset = Payments.change_payout(%Payout{})
+    changeset = Payments.change_payoutfile(%PayoutFile{})
     render(conn, :new_payout, changeset: changeset)
   end
 
