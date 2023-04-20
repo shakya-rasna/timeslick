@@ -1,4 +1,4 @@
-defmodule Timeslick.Payments.Payout do
+defmodule Timeslick.Schema.Payout do
   use Ecto.Schema
   import Ecto.Changeset
 

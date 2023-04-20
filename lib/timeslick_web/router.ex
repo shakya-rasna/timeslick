@@ -20,8 +20,8 @@ defmodule TimeslickWeb.Router do
     get "/", PageController, :home
 
     resources "/payouts", PayoutController
-    get "/new_payouts", PayoutController, :new_payout, as: :new_payout
-    post "/import_payouts", PayoutController, :import_payout, as: :import_payout
+    get "/new_payouts", PayoutFileController, :new_payout, as: :new_payout
+    post "/import_payouts", PayoutFileController, :import_payout, as: :import_payout
   end
 
   # Other scopes may use custom stacks.

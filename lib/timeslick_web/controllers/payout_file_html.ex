@@ -1,7 +1,7 @@
-defmodule TimeslickWeb.PayoutHTML do
+defmodule TimeslickWeb.PayoutFileHTML do
   use TimeslickWeb, :html
 
-  embed_templates "payout_html/*"
+  embed_templates "payout_file_html/*"
 
   @doc """
   Renders a payout form.
@@ -9,5 +9,5 @@ defmodule TimeslickWeb.PayoutHTML do
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def payout_form(assigns)
+  def import_payout_form(assigns)
 end

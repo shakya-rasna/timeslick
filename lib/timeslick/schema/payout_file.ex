@@ -1,4 +1,4 @@
-defmodule Timeslick.Payments.PayoutFile do
+defmodule Timeslick.Schema.PayoutFile do
   use Ecto.Schema
   import Ecto.Changeset
   use  Waffle.Ecto.Schema
@@ -12,7 +12,6 @@ defmodule Timeslick.Payments.PayoutFile do
 
   @doc false
   def changeset(payout_file, attrs) do
-    IEx.pry
     payout_file
     |> cast(attrs, [])
     |> cast_attachments(attrs, [:file])
