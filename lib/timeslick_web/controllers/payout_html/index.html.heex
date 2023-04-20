@@ -1,0 +1,31 @@
+<.header>
+  Listing Payouts
+  <:actions>
+    <.link href={~p"/payouts/new"}>
+      <.button>New Payout</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="payouts" rows={@payouts} row_click={&JS.navigate(~p"/payouts/#{&1}")}>
+  <:col :let={payout} label="Mobile number"><%= payout.mobile_number %></:col>
+  <:col :let={payout} label="Product name"><%= payout.product_name %></:col>
+  <:col :let={payout} label="Quantity"><%= payout.quantity %></:col>
+  <:col :let={payout} label="Id number"><%= payout.id_number %></:col>
+  <:col :let={payout} label="Contract number"><%= payout.contract_number %></:col>
+  <:col :let={payout} label="Surname"><%= payout.surname %></:col>
+  <:col :let={payout} label="Initials"><%= payout.initials %></:col>
+  <:col :let={payout} label="Amount"><%= payout.amount %></:col>
+  <:col :let={payout} label="Entity name"><%= payout.entity_name %></:col>
+  <:action :let={payout}>
+    <div class="sr-only">
+      <.link navigate={~p"/payouts/#{payout}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/payouts/#{payout}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={payout}>
+    <.link href={~p"/payouts/#{payout}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

@@ -18,6 +18,8 @@ defmodule TimeslickWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    resources "/payouts", PayoutController
   end
 
   # Other scopes may use custom stacks.
