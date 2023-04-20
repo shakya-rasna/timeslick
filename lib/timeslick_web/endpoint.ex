@@ -23,6 +23,8 @@ defmodule TimeslickWeb.Endpoint do
     gzip: false,
     only: TimeslickWeb.static_paths()
 
+  plug Plug.Static, at: "/uploads", from: Path.expand('./uploads'), gzip: false
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -38,6 +40,7 @@ defmodule TimeslickWeb.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
+
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

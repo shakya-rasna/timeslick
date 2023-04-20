@@ -62,6 +62,8 @@ config :timeslick, TimeslickWeb.Endpoint,
     ]
   ]
 
+config :waffle, storage: Waffle.Storage.Local
+
 # Enable dev routes for dashboard and mailbox
 config :timeslick, dev_routes: true
 
