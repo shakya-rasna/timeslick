@@ -14,6 +14,11 @@ defmodule TimeslickWeb.PayoutController do
     render(conn, :new, changeset: changeset)
   end
 
+  def new_payout(conn, _params) do
+    changeset = Payments.change_payout(%Payout{})
+    render(conn, :new_payout, changeset: changeset)
+  end
+
   def create(conn, %{"payout" => payout_params}) do
     case Payments.create_payout(payout_params) do
       {:ok, payout} ->

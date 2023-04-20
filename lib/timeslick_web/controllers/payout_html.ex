@@ -10,4 +10,5 @@ defmodule TimeslickWeb.PayoutHTML do
   attr :action, :string, required: true
 
   def payout_form(assigns)
+  def import_payout_form(assigns)
 end
