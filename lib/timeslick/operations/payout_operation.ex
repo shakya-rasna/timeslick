@@ -6,7 +6,7 @@ defmodule Timeslick.Operations.PayoutOperation do
   import Ecto.Query, warn: false
   alias Timeslick.Repo
 
-  alias Timeslick.Schema.{Payout, PayoutFile}
+  alias Timeslick.Schema.{Payout}
 
   @doc """
   Returns the list of payouts.
@@ -53,6 +53,20 @@ defmodule Timeslick.Operations.PayoutOperation do
     %Payout{}
     |> Payout.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def bulk_csv_import_payouts(attrs) do
+    payout_changesets = Enum.map(attrs, fn attr -> Payout.changeset(%Payout{}, attr) end)
+    result = payout_changesets
+             |> Enum.with_index()
+             |> Enum.reduce(Ecto.Multi.new(), fn ({changeset, index}, multi) ->
+                  Ecto.Multi.insert(multi, Integer.to_string(index), changeset)
+                end)
+             |> Repo.transaction
+    case result do
+      {:ok, payouts } -> {:ok, payouts}
+      {:error, _, changeset, _ } -> {:error, changeset}
+    end
   end
 
   @doc """

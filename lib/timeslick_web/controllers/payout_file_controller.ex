@@ -1,9 +1,8 @@
 defmodule TimeslickWeb.PayoutFileController do
   use TimeslickWeb, :controller
 
-  alias Timeslick.Operations.PayoutFileOperation
+  alias Timeslick.Operations.{PayoutOperation, PayoutFileOperation}
   alias Timeslick.Schema.PayoutFile
-  require IEx
 
   def new_payout(conn, _params) do
     changeset = PayoutFileOperation.change_payoutfile(%PayoutFile{})
@@ -12,27 +11,29 @@ defmodule TimeslickWeb.PayoutFileController do
 
   def import_payout(conn, %{"payout_file" => payout_file_params}) do
     data = csv_decoder(payout_file_params["file"])
-    import_payout_data(data)
-    conn
-      |> put_flash(:info, "Payout has been imported successfully.")
-      |> redirect(to: ~p"/payouts")
+    case import_payout_data(data) do
+      {:ok, _payouts} ->
+        conn
+          |> put_flash(:info, "Payout has been imported successfully.")
+          |> redirect(to: ~p"/payouts")
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, :new_payout, changeset: changeset)
+    end
   end
 
   def import_payout_data(data) do
-    payout_datas = Enum.map(data, fn {:ok, payout_data} -> parse(payout_data) end)
-    params = PayoutFileOperation.convert_params(payout_datas)
-    {_, _} = PayoutFileOperation.insert_payout_datas(payout_datas)
+    with {:ok, params} <- PayoutFileOperation.convert_params(data),
+         {:ok, payouts} <- PayoutOperation.bulk_csv_import_payouts(params) do
+      {:ok, payouts}
+    end
   end
 
-  def csv_decoder(file) do
-    csv = "#{file.path}"
+  defp csv_decoder(%Plug.Upload{path: path, content_type: _content_type, filename: _filename}) do
+    path
     |> Path.expand(__DIR__)
     |> File.stream!()
     |> CSV.decode(headers: true)
-    |> Enum.map(fn data -> data end)
-  end
-
-  defp parse(payout_data) do
-    fields = PayoutFileOperation.parse_fields(payout_data)
+    |> Enum.map(fn {:ok, data} -> data end)
   end
 end

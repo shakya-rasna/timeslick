@@ -3,6 +3,7 @@
     Oops, something went wrong! Please check the errors below.
   </.error>
   <.input field={f[:file]} type="file" label="File" />
+  <.error :for={msg <- f[:file].errors}><%= inspect(msg) %></.error>
   <:actions>
     <.button>Import Payout</.button>
   </:actions>
