@@ -20,8 +20,8 @@ defmodule DttRechargerWeb.Router do
     get "/", RecordController, :index
 
     resources "/records", RecordController
-    get "/new_order_files", OrderFileController, :new_order_file, as: :new_order_file
-    post "/import_order_records", OrderFileController, :import_order_record, as: :import_order_record
+    get "/new_upload_file", UploadFileController, :new_upload_file, as: :new_upload_file
+    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
   end
 
   # Other scopes may use custom stacks.

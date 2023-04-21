@@ -1,7 +1,7 @@
-defmodule DttRechargerWeb.OrderFileHTML do
+defmodule DttRechargerWeb.UploadFileHTML do
   use DttRechargerWeb, :html
 
-  embed_templates "order_file_html/*"
+  embed_templates "upload_file_html/*"
 
   @doc """
   Renders a order form.
@@ -9,5 +9,5 @@ defmodule DttRechargerWeb.OrderFileHTML do
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def import_order_file_form(assigns)
+  def import_upload_file_form(assigns)
 end
