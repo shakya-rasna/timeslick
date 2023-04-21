@@ -1,8 +1,8 @@
-defmodule DttRecharger.Schema.Payout do
+defmodule DttRecharger.Schema.Record do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "payouts" do
+  schema "records" do
     field :amount, :string
     field :contract_number, :string
     field :entity_name, :string
@@ -17,8 +17,8 @@ defmodule DttRecharger.Schema.Payout do
   end
 
   @doc false
-  def changeset(payout, attrs) do
-    payout
+  def changeset(record, attrs) do
+    record
     |> cast(attrs, [:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name])
     |> validate_required([:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name])
   end

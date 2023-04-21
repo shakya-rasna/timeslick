@@ -1,0 +1,8 @@
+<.header>
+  Edit Record <%= @record.id %>
+  <:subtitle>Use this form to manage record records in your database.</:subtitle>
+</.header>
+
+<.record_form changeset={@changeset} action={~p"/records/#{@record}"} />
+
+<.back navigate={~p"/records"}>Back to records</.back>

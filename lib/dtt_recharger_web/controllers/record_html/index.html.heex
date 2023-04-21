@@ -1,0 +1,31 @@
+<.header>
+  Listing Order Records
+  <:actions>
+    <.link href={~p"/new_order_files"}>
+      <.button>Import Order Record</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="records" rows={@records} row_click={&JS.navigate(~p"/records/#{&1}")}>
+  <:col :let={record} label="Mobile number"><%= record.mobile_number %></:col>
+  <:col :let={record} label="Product name"><%= record.product_name %></:col>
+  <:col :let={record} label="Quantity"><%= record.quantity %></:col>
+  <:col :let={record} label="Id number"><%= record.id_number %></:col>
+  <:col :let={record} label="Contract number"><%= record.contract_number %></:col>
+  <:col :let={record} label="Surname"><%= record.surname %></:col>
+  <:col :let={record} label="Initials"><%= record.initials %></:col>
+  <:col :let={record} label="Amount"><%= record.amount %></:col>
+  <:col :let={record} label="Entity name"><%= record.entity_name %></:col>
+  <:action :let={record}>
+    <div class="sr-only">
+      <.link navigate={~p"/records/#{record}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/records/#{record}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={record}>
+    <.link href={~p"/records/#{record}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
