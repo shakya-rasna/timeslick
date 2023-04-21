@@ -1,7 +1,7 @@
-defmodule DTTRecharger.PaymentsFixtures do
+defmodule DttRecharger.PaymentsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `DTTRecharger.Payments` context.
+  entities via the `DttRecharger.Payments` context.
   """
 
   @doc """
@@ -21,7 +21,7 @@ defmodule DTTRecharger.PaymentsFixtures do
         quantity: 42,
         surname: "some surname"
       })
-      |> DTTRecharger.Payments.create_payout()
+      |> DttRecharger.Payments.create_payout()
 
     payout
   end

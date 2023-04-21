@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(DTTRecharger.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(DttRecharger.Repo, :manual)

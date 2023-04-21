@@ -1,4 +1,4 @@
-# DTTRecharger
+# DTT Recharger
 
 To start your Phoenix server:
 

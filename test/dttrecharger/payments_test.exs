@@ -1,12 +1,12 @@
-defmodule DTTRecharger.PaymentsTest do
-  use DTTRecharger.DataCase
+defmodule DttRecharger.PaymentsTest do
+  use DttRecharger.DataCase
 
-  alias DTTRecharger.Payments
+  alias DttRecharger.Payments
 
   describe "payouts" do
-    alias DTTRecharger.Schema.Payout
+    alias DttRecharger.Schema.Payout
 
-    import DTTRecharger.PaymentsFixtures
+    import DttRecharger.PaymentsFixtures
 
     @invalid_attrs %{amount: nil, contract_number: nil, entity_name: nil, id_number: nil, initials: nil, mobile_number: nil, product_name: nil, quantity: nil, surname: nil}
 

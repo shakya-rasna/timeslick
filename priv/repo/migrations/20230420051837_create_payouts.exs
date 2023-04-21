@@ -1,4 +1,4 @@
-defmodule DTTRecharger.Repo.Migrations.CreatePayouts do
+defmodule DttRecharger.Repo.Migrations.CreatePayouts do
   use Ecto.Migration
 
   def change do

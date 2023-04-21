@@ -1,7 +1,7 @@
-defmodule DTTRechargerWeb.PayoutControllerTest do
-  use DTTRechargerWeb.ConnCase
+defmodule DttRechargerWeb.PayoutControllerTest do
+  use DttRechargerWeb.ConnCase
 
-  import DTTRecharger.PaymentsFixtures
+  import DttRecharger.PaymentsFixtures
 
   @create_attrs %{amount: "some amount", contract_number: "some contract_number", entity_name: "some entity_name", id_number: "some id_number", initials: "some initials", mobile_number: "some mobile_number", product_name: "some product_name", quantity: 42, surname: "some surname"}
   @update_attrs %{amount: "some updated amount", contract_number: "some updated contract_number", entity_name: "some updated entity_name", id_number: "some updated id_number", initials: "some updated initials", mobile_number: "some updated mobile_number", product_name: "some updated product_name", quantity: 43, surname: "some updated surname"}

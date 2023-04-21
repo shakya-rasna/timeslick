@@ -1,5 +1,5 @@
-defmodule DTTRechargerWeb.PageControllerTest do
-  use DTTRechargerWeb.ConnCase
+defmodule DttRechargerWeb.PageControllerTest do
+  use DttRechargerWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

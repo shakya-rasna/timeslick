@@ -1,9 +1,9 @@
-defmodule DTTRecharger.MixProject do
+defmodule DttRecharger.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :dttrecharger,
+      app: :dtt_recharger,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule DTTRecharger.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {DTTRecharger.Application, []},
+      mod: {DttRecharger.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

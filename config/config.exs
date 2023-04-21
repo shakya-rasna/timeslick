@@ -7,17 +7,17 @@
 # General application configuration
 import Config
 
-config :dttrecharger,
-  ecto_repos: [DTTRecharger.Repo]
+config :dtt_recharger,
+  ecto_repos: [DttRecharger.Repo]
 
 # Configures the endpoint
-config :dttrecharger, DTTRechargerWeb.Endpoint,
+config :dtt_recharger, DttRechargerWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
-    formats: [html: DTTRechargerWeb.ErrorHTML, json: DTTRechargerWeb.ErrorJSON],
+    formats: [html: DttRechargerWeb.ErrorHTML, json: DttRechargerWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: DTTRecharger.PubSub,
+  pubsub_server: DttRecharger.PubSub,
   live_view: [signing_salt: "fBt8d2Ly"]
 
 # Configures the mailer
@@ -27,7 +27,7 @@ config :dttrecharger, DTTRechargerWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :dttrecharger, DTTRecharger.Mailer, adapter: Swoosh.Adapters.Local
+config :dtt_recharger, DttRecharger.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
