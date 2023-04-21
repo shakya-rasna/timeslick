@@ -2,7 +2,6 @@ defmodule DTTRecharger.Schema.PayoutFile do
   use Ecto.Schema
   import Ecto.Changeset
   use  Waffle.Ecto.Schema
-  require IEx
 
   schema "payout_files" do
     field :file, DTTRecharger.FileCsv.Type
