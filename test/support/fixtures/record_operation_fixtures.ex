@@ -1,14 +1,14 @@
-defmodule DttRecharger.PaymentsFixtures do
+defmodule DttRecharger.RecordOperationFixtures do
   @moduledoc """
   This module defines test helpers for creating
   entities via the `DttRecharger.Payments` context.
   """
 
   @doc """
-  Generate a payout.
+  Generate a record.
   """
-  def payout_fixture(attrs \\ %{}) do
-    {:ok, payout} =
+  def record_fixture(attrs \\ %{}) do
+    {:ok, record} =
       attrs
       |> Enum.into(%{
         amount: "some amount",
@@ -21,8 +21,8 @@ defmodule DttRecharger.PaymentsFixtures do
         quantity: 42,
         surname: "some surname"
       })
-      |> DttRecharger.Payments.create_payout()
+      |> DttRecharger.Payments.create_record()
 
-    payout
+    record
   end
 end

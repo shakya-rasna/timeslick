@@ -1,0 +1,23 @@
+<.header>
+  Record <%= @record.id %>
+  <:subtitle>This is a record record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/records/#{@record}/edit"}>
+      <.button>Edit record</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Mobile number"><%= @record.mobile_number %></:item>
+  <:item title="Product name"><%= @record.product_name %></:item>
+  <:item title="Quantity"><%= @record.quantity %></:item>
+  <:item title="Id number"><%= @record.id_number %></:item>
+  <:item title="Contract number"><%= @record.contract_number %></:item>
+  <:item title="Surname"><%= @record.surname %></:item>
+  <:item title="Initials"><%= @record.initials %></:item>
+  <:item title="Amount"><%= @record.amount %></:item>
+  <:item title="Entity name"><%= @record.entity_name %></:item>
+</.list>
+
+<.back navigate={~p"/records"}>Back to records</.back>

@@ -17,11 +17,11 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through :browser
 
-    get "/", PayoutController, :index
+    get "/", RecordController, :index
 
-    resources "/payouts", PayoutController
-    get "/new_payouts", PayoutFileController, :new_payout, as: :new_payout
-    post "/import_payouts", PayoutFileController, :import_payout, as: :import_payout
+    resources "/records", RecordController
+    get "/new_order_files", OrderFileController, :new_order_file, as: :new_order_file
+    post "/import_order_records", OrderFileController, :import_order_record, as: :import_order_record
   end
 
   # Other scopes may use custom stacks.

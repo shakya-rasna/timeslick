@@ -1,13 +1,13 @@
-defmodule DttRechargerWeb.PayoutFileHTML do
+defmodule DttRechargerWeb.RecordHTML do
   use DttRechargerWeb, :html
 
-  embed_templates "payout_file_html/*"
+  embed_templates "record_html/*"
 
   @doc """
-  Renders a payout form.
+  Renders a record form.
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def import_payout_form(assigns)
+  def record_form(assigns)
 end
