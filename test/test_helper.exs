@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(Timeslick.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(DttRecharger.Repo, :manual)
