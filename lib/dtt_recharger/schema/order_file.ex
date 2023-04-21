@@ -2,13 +2,15 @@ defmodule DttRecharger.Schema.OrderFile do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.UploadFile
+  alias DttRecharger.Schema.{UploadFile, Record}
 
   schema "order_files" do
     field :total_records, :integer
     field :processed_records, :integer
 
     belongs_to :upload_file, UploadFile, foreign_key: :upload_file_id
+    has_many :records, Record, on_replace: :delete
+
     timestamps()
   end
 
