@@ -1,11 +1,12 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     DttRecharger.Repo.insert!(%DttRecharger.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+# Insert vibes
+
+alias DttRecharger.Repo
+alias DttRecharger.Schema.FileType
+
+file_types = ["stock", "order"]
+
+Enum.each(file_types, fn(file_type) ->
+  %FileType{}
+  |> FileType.changeset(%{type: file_type})
+  |> Repo.insert
+end)
