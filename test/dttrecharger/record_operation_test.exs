@@ -33,7 +33,7 @@ defmodule DttRecharger.RecordOperationTest do
       assert record.product_name == "some product_name"
       assert record.quantity == 42
       assert record.surname == "some surname"
-    endm
+    end
 
     test "create_record/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Payments.create_record(@invalid_attrs)
