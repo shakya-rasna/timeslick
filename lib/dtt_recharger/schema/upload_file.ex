@@ -4,6 +4,7 @@ defmodule DttRecharger.Schema.UploadFile do
   use  Waffle.Ecto.Schema
 
   alias DttRecharger.Schema.FileType
+  alias DttRecharger.Operations.FileTypeOperation
 
   schema "upload_files" do
     field :content_type, :string
@@ -18,10 +19,18 @@ defmodule DttRecharger.Schema.UploadFile do
 
   @doc false
   def changeset(upload_file, attrs) do
+    attrs = if is_nil(attrs[:file_type]), do: attrs, else: Map.put(attrs, :file_type_id, get_file_type_id(attrs[:file_type]))
     upload_file
     |> cast(attrs, [:file, :filename, :path, :content_type, :file_type_id])
     |> cast_attachments(attrs, [:file])
     |> assoc_constraint(:file_type)
     |> validate_required([:file, :filename, :path, :content_type, :file_type_id])
+  end
+
+  defp get_file_type_id(file_type)  do
+    case FileTypeOperation.get_file_type_by_type(file_type) do
+      nil -> nil
+      file_type -> file_type.id
+    end
   end
 end

@@ -3,25 +3,35 @@ defmodule DttRecharger.Operations.UploadFileOperation do
   The Payments context.
   """
   import Ecto.Query, warn: false
-  import DttRecharger.Helpers.StringParser
+  import DttRecharger.Helpers.CsvParser
 
+  alias Ecto.Multi
   alias DttRecharger.Repo
-  alias DttRecharger.Schema.UploadFile
+  alias DttRecharger.Schema.{UploadFile, OrderFile}
+  alias DttRecharger.Operations.{OrderFileOperation, RecordOperation}
 
-  def convert_params(data) do
-    datas = data
-    |> Enum.map(fn order_record_datas ->
-      order_record_datas
-      |> Enum.map(fn order_record_data -> order_record_data end)
-      |> Enum.map(fn {key, value} -> {snakecase(key), value} end)
-      |> Enum.into(%{})
-      |> convert()
-    end)
-    {:ok, datas}
-  end
+  def save_file_and_import_orders(file_param) do
+    %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
+    attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "order"}
+    csv_parsed_datas = parse_csv(path, type)
+    result = Multi.new()
+             |> Multi.insert(:upload_file, UploadFile.changeset(%UploadFile{}, attrs))
+             |> Multi.insert(:order_file,
+                  fn %{upload_file: %UploadFile{id: upload_file_id}} ->
+                    OrderFileOperation.change_orderfile(%OrderFile{}, %{upload_file_id: upload_file_id,
+                                                                        total_records: length(csv_parsed_datas)}) end)
+             |> Repo.transaction()
+    case result do
+      {:ok, info} ->
+        record_attrs = Enum.map(csv_parsed_datas, fn data -> Map.put(data, :order_file_id, info[:order_file].id) end)
+        case RecordOperation.bulk_csv_import_records(record_attrs) do
+          {:ok, records} -> OrderFile.changeset(Repo.get(OrderFile, info[:order_file].id), %{processed_records: Enum.count(records)})
+                            |> Repo.update
+          {:error, changeset} -> {:error, changeset}
+        end
 
-  def convert(data) do
-    for {key, val} <- data, into: %{}, do: {String.to_atom(key), val}
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 
     @doc """

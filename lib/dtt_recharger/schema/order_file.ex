@@ -19,6 +19,6 @@ defmodule DttRecharger.Schema.OrderFile do
     order_file
     |> cast(attrs, [:total_records, :processed_records, :upload_file_id])
     |> assoc_constraint(:upload_file)
-    |> validate_required([:total_records, :processed_records, :upload_file_id])
+    |> validate_required([:total_records, :upload_file_id])
   end
 end
