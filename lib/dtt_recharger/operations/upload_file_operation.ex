@@ -1,4 +1,4 @@
-defmodule DttRecharger.Operations.OrderFileOperation do
+defmodule DttRecharger.Operations.UploadFileOperation do
   @moduledoc """
   The Payments context.
   """
@@ -6,7 +6,7 @@ defmodule DttRecharger.Operations.OrderFileOperation do
   import DttRecharger.Helpers.StringParser
 
   alias DttRecharger.Repo
-  alias DttRecharger.Schema.OrderFile
+  alias DttRecharger.Schema.UploadFile
 
   def convert_params(data) do
     datas = data
@@ -29,11 +29,10 @@ defmodule DttRecharger.Operations.OrderFileOperation do
 
     ## Examples
 
-        iex> change_orderfile(orderfile)
-        %Ecto.Changeset{data: %OrderFile{}}
-
+        iex> change_uploadfile(upload_file)
+        %Ecto.Changeset{data: %UploadFile{}}
     """
-    def change_orderfile(%OrderFile{} = order_record_file, attrs \\ %{}) do
-      OrderFile.changeset(order_record_file, attrs)
+    def change_uploadfile(%UploadFile{} = upload_file, attrs \\ %{}) do
+      UploadFile.changeset(upload_file, attrs)
     end
   end
