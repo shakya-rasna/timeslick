@@ -4,7 +4,6 @@ defmodule DttRecharger.Schema.StockItem do
   import DttRecharger.Helpers.{Converter, StringParser}
 
   alias DttRecharger.Schema.{Status, StockFile}
-  require IEx
 
   schema "stock_items" do
     field :activation_pin, :string
@@ -24,7 +23,6 @@ defmodule DttRecharger.Schema.StockItem do
 
   @doc false
   def changeset(stock_item, attrs) do
-    IEx.pry
     attrs = Map.merge(attrs, %{activation_pin: attrs[:voucher_pin], recharge_number: attrs[:serial_number],
                                denomination: convert!(attrs[:denomination]), active: convert!(downcase(attrs[:active]))})
     stock_item

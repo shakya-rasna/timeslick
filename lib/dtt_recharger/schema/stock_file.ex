@@ -3,7 +3,6 @@ defmodule DttRecharger.Schema.StockFile do
   import Ecto.Changeset
 
   alias DttRecharger.Schema.{UploadFile, StockItem}
-  require IEx
 
   schema "stock_files" do
 
@@ -15,7 +14,6 @@ defmodule DttRecharger.Schema.StockFile do
 
   @doc false
   def changeset(stock_file, attrs) do
-    IEx.pry
     stock_file
     |> cast(attrs, [:upload_file_id])
     |> assoc_constraint(:upload_file)
