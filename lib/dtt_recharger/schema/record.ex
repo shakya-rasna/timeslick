@@ -24,6 +24,7 @@ defmodule DttRecharger.Schema.Record do
   def changeset(record, attrs) do
     record
     |> cast(attrs, [:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name])
+    |> assoc_constraint(:order_file)
     |> validate_required([:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name])
   end
 end

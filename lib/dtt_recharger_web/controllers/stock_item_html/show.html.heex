@@ -1,0 +1,20 @@
+<.header>
+  Stock item <%= @stock_item.id %>
+  <:subtitle>This is a stock_item record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/stock_items/#{@stock_item}/edit"}>
+      <.button>Edit stock_item</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Activation pin"><%= @stock_item.activation_pin %></:item>
+  <:item title="Recharge number"><%= @stock_item.recharge_number %></:item>
+  <:item title="Denomination"><%= @stock_item.denomination %></:item>
+  <:item title="Expiry date"><%= @stock_item.expiry_date %></:item>
+  <:item title="Product name"><%= @stock_item.product_name %></:item>
+  <:item title="Active"><%= @stock_item.active %></:item>
+</.list>
+
+<.back navigate={~p"/stock_items"}>Back to stock_items</.back>
