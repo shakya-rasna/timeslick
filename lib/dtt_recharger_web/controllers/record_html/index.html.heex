@@ -7,7 +7,7 @@
   </:actions>
 </.header>
 
-<div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2 py-10">
+<div class="container w-full mx-auto px-2 py-10">
   <.table id="records" rows={@records} row_click={&JS.navigate(~p"/records/#{&1}")}>
     <:col :let={record} label="Mobile number"><%= record.mobile_number %></:col>
     <:col :let={record} label="Product name"><%= record.product_name %></:col>
@@ -29,6 +29,5 @@
         Delete
       </.link>
     </:action>
-  </.table>  
+  </.table>
 </div>
-

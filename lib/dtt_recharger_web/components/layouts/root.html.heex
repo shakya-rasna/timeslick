@@ -30,7 +30,7 @@
     </style>
     <style>
       /*Overrides for Tailwind CSS */
-  
+
       /*Form fields*/
       .dataTables_wrapper select,
       .dataTables_wrapper .dataTables_filter input {
@@ -54,20 +54,20 @@
         /*border-gray-200*/
         background-color: #edf2f7;
         /*bg-gray-200*/
-        
+
       }
 
       .dataTables_wrapper select{
         width: 70px;
       }
-  
+
       /*Row Hover*/
       table.dataTable.hover tbody tr:hover,
       table.dataTable.display tbody tr:hover {
         background-color: #ebf4ff;
         /*bg-indigo-100*/
       }
-  
+
       /*Pagination Buttons*/
       .dataTables_wrapper .dataTables_paginate .paginate_button {
         font-weight: 700;
@@ -77,7 +77,7 @@
         border: 1px solid transparent;
         /*border border-transparent*/
       }
-  
+
       /*Pagination Buttons - Current selected */
       .dataTables_wrapper .dataTables_paginate .paginate_button.current {
         color: #fff !important;
@@ -93,7 +93,7 @@
         border: 1px solid transparent;
         /*border border-transparent*/
       }
-  
+
       /*Pagination Buttons - Hover */
       .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
         color: #fff !important;
@@ -109,7 +109,7 @@
         border: 1px solid transparent;
         /*border border-transparent*/
       }
-  
+
       /*Add padding to bottom border */
       table.dataTable.no-footer {
         border-bottom: 1px solid #e2e8f0;
@@ -117,7 +117,7 @@
         margin-top: 0.75em;
         margin-bottom: 0.75em;
       }
-  
+
       /*Change colour of responsive icon*/
       table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before,
       table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
@@ -194,15 +194,23 @@
       <div class="sidebar-wrapper">
         <div class="sidebar-item">
           <.link
-          href={~p"/"}
-          class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-        >
-          Dashboard
-        </.link>
+            href={~p"/stock_files"}
+            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          >
+            Stock Files
+          </.link>
         </div>
         <div class="sidebar-item">
           <.link
-            href={~p"/"}
+            href={~p"/stock_items"}
+            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          >
+            Stocks
+          </.link>
+        </div>
+        <div class="sidebar-item">
+          <.link
+            href={~p"/records"}
             class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
           >
             Records
@@ -218,7 +226,7 @@
       <script>
         $(document).ready(function() {
 
-          var table = $('#records').DataTable({
+          var table = $('.js_datatable').DataTable({
             scrollX: true,
             scrollY: true,
           })

@@ -7,24 +7,26 @@
   </:actions>
 </.header>
 
-<.table id="stock_items" rows={@stock_items} row_click={&JS.navigate(~p"/stock_items/#{&1}")}>
-  <:col :let={stock_item} label="Activation pin"><%= stock_item.activation_pin %></:col>
-  <:col :let={stock_item} label="Recharge number"><%= stock_item.recharge_number %></:col>
-  <:col :let={stock_item} label="Description"><%= stock_item.description %></:col>
-  <:col :let={stock_item} label="Dealers name"><%= stock_item.dealers_name %></:col>
-  <:col :let={stock_item} label="Denomination"><%= stock_item.denomination %></:col>
-  <:col :let={stock_item} label="Expiry date"><%= stock_item.expiry_date %></:col>
-  <:col :let={stock_item} label="Product name"><%= stock_item.product_name %></:col>
-  <:col :let={stock_item} label="Active"><%= stock_item.active %></:col>
-  <:action :let={stock_item}>
-    <div class="sr-only">
-      <.link navigate={~p"/stock_items/#{stock_item}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/stock_items/#{stock_item}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={stock_item}>
-    <.link href={~p"/stock_items/#{stock_item}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<div class="container w-full mx-auto px-2 py-10">
+  <.table id="stock_items" rows={@stock_items} row_click={&JS.navigate(~p"/stock_items/#{&1}")}>
+    <:col :let={stock_item} label="Activation pin"><%= stock_item.activation_pin %></:col>
+    <:col :let={stock_item} label="Recharge number"><%= stock_item.recharge_number %></:col>
+    <:col :let={stock_item} label="Description"><%= stock_item.description %></:col>
+    <:col :let={stock_item} label="Dealers name"><%= stock_item.dealers_name %></:col>
+    <:col :let={stock_item} label="Denomination"><%= stock_item.denomination %></:col>
+    <:col :let={stock_item} label="Expiry date"><%= stock_item.expiry_date %></:col>
+    <:col :let={stock_item} label="Product name"><%= stock_item.product_name %></:col>
+    <:col :let={stock_item} label="Active"><%= stock_item.active %></:col>
+    <:action :let={stock_item}>
+      <div class="sr-only">
+        <.link navigate={~p"/stock_items/#{stock_item}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/stock_items/#{stock_item}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={stock_item}>
+      <.link href={~p"/stock_items/#{stock_item}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</div>
