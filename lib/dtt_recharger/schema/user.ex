@@ -69,7 +69,7 @@ defmodule DttRecharger.Schema.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 8, max: 15)
+    |> validate_length(:password, min: 8, max: 40)
     # Examples of additional password validation:
     |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
@@ -92,6 +92,11 @@ defmodule DttRecharger.Schema.User do
     else
       changeset
     end
+  end
+
+  def sign_in_count_changeset(%Femma.Schema.User{} = user, attrs) do
+    user
+    |> cast(attrs, [:sign_in_count])
   end
 
   defp maybe_validate_unique_email(changeset, opts) do

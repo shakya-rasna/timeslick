@@ -1,4 +1,5 @@
 defmodule DttRecharger.Operations.UserOperation do
+
   @moduledoc """
   The Schema context.
   """
@@ -51,7 +52,7 @@ defmodule DttRecharger.Operations.UserOperation do
   """
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.registration_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -100,6 +101,6 @@ defmodule DttRecharger.Operations.UserOperation do
 
   """
   def change_user(%User{} = user, attrs \\ %{}) do
-    User.changeset(user, attrs)
+    User.registration_changeset(user, attrs)
   end
 end
