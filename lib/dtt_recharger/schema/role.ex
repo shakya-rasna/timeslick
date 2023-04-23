@@ -8,7 +8,7 @@ defmodule DttRecharger.Schema.Role do
     field :name, :string
 
     timestamps()
-    many_to_many :users, DttRecharger.Schema.User, join_through: "users_roles", join_keys: [role_id: :id, user_id: :id]
+    many_to_many :users, User, join_through: "users_roles", join_keys: [role_id: :id, user_id: :id]
   end
 
   @doc false
