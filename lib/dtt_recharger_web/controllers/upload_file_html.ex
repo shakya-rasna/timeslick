@@ -9,5 +9,6 @@ defmodule DttRechargerWeb.UploadFileHTML do
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
 
-  def import_upload_file_form(assigns)
+  def import_order_file_form(assigns)
+  def import_stock_file_form(assigns)
 end

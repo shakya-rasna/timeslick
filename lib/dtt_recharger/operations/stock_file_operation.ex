@@ -1,4 +1,4 @@
-defmodule DttRecharger.Operations.StockFile do
+defmodule DttRecharger.Operations.StockFileOperation do
   @moduledoc """
   The Schema context.
   """
