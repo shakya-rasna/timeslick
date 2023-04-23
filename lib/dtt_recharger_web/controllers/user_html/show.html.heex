@@ -1,0 +1,17 @@
+<.header>
+  <%= @user.first_name <> " " <> @user.last_name %>
+  <:actions>
+    <.link href={~p"/users/#{@user}/edit"}>
+      <.button>Edit user</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="First name"><%= @user.first_name %></:item>
+  <:item title="Last name"><%= @user.last_name %></:item>
+  <:item title="Email"><%= @user.email %></:item>
+  <:item title="Role"><%= @user.role.name %></:item>
+</.list>
+
+<.back navigate={~p"/users"}>Back to users</.back>

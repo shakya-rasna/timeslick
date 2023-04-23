@@ -2,13 +2,15 @@ defmodule DttRecharger.Schema.Role do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.User
+  alias DttRecharger.Schema.{UserRole}
 
   schema "roles" do
     field :name, :string
 
     timestamps()
-    many_to_many :users, User, join_through: "users_roles", join_keys: [role_id: :id, user_id: :id]
+
+    has_many :user_roles, UserRole, on_replace: :delete, on_delete: :delete_all
+    has_many :users, through: [:user_roles, :user]
   end
 
   @doc false

@@ -2,7 +2,7 @@ defmodule DttRecharger.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.Role
+  alias DttRecharger.Schema.{UserRole}
 
   schema "users" do
     field :email, :string
@@ -12,7 +12,8 @@ defmodule DttRecharger.Schema.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
-    many_to_many :roles, Role, join_through: "users_roles", join_keys: [user_id: :id, role_id: :id], on_replace: :delete
+    has_one :user_role, UserRole, on_replace: :delete, on_delete: :delete_all
+    has_one :role, through: [:user_role, :role]
 
     timestamps()
   end
@@ -43,9 +44,17 @@ defmodule DttRecharger.Schema.User do
   def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email, :password, :first_name, :last_name])
-    |> cast_assoc(:roles, required: false)
+    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_required([:first_name, :last_name])
+  end
+
+  def changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:email, :first_name, :last_name])
+    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
+    |> validate_email(opts)
     |> validate_required([:first_name, :last_name])
   end
 

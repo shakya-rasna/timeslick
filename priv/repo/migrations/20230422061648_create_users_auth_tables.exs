@@ -8,7 +8,7 @@ defmodule DttRecharger.Repo.Migrations.CreateUsersAuthTables do
       add :first_name, :string
       add :last_name, :string
       add :email, :citext, null: false
-      add :hashed_password, :string, null: false
+      add :hashed_password, :string
       add :confirmed_at, :naive_datetime
       timestamps()
     end
