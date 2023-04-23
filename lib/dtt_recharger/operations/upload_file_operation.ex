@@ -7,8 +7,8 @@ defmodule DttRecharger.Operations.UploadFileOperation do
 
   alias Ecto.Multi
   alias DttRecharger.Repo
-  alias DttRecharger.Schema.{UploadFile, OrderFile}
-  alias DttRecharger.Operations.{OrderFileOperation, RecordOperation}
+  alias DttRecharger.Schema.{UploadFile, OrderFile, StockFile}
+  alias DttRecharger.Operations.{OrderFileOperation, RecordOperation, StockFileOperation, StockItemOperation}
 
   def save_file_and_import_orders(file_param) do
     %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
@@ -27,6 +27,28 @@ defmodule DttRecharger.Operations.UploadFileOperation do
         case RecordOperation.bulk_csv_import_records(record_attrs) do
           {:ok, records} -> OrderFile.changeset(Repo.get(OrderFile, info[:order_file].id), %{processed_records: Enum.count(records)})
                             |> Repo.update
+          {:error, changeset} -> {:error, changeset}
+        end
+
+      {:error, changeset} -> {:error, changeset}
+    end
+  end
+
+  def save_file_and_import_stocks(file_param) do
+    %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
+    attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "stock"}
+    csv_parsed_datas = parse_csv(path, type)
+    result = Multi.new()
+             |> Multi.insert(:upload_file, UploadFile.changeset(%UploadFile{}, attrs))
+             |> Multi.insert(:stock_file,
+                  fn %{upload_file: %UploadFile{id: upload_file_id}} ->
+                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id}) end)
+             |> Repo.transaction()
+    case result do
+      {:ok, info} ->
+        stock_attrs = Enum.map(csv_parsed_datas, fn data -> Map.put(data, :stock_file_id, info[:stock_file].id) end)
+        case StockItemOperation.bulk_csv_import_stocks(stock_attrs) do
+          {:ok, stocks} -> {:ok, stocks}
           {:error, changeset} -> {:error, changeset}
         end
 

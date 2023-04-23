@@ -6,4 +6,8 @@ defmodule DttRecharger.Helpers.StringParser do
   def snakecase(string) do
     Macro.underscore(remove_whitespace(string))
   end
+
+  def downcase(string) do
+    String.downcase(string)
+  end
 end
