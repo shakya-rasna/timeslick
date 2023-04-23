@@ -2,7 +2,7 @@ defmodule DttRecharger.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.{UserRole}
+  alias DttRecharger.Schema.{User, UserRole}
 
   schema "users" do
     field :email, :string
@@ -11,6 +11,7 @@ defmodule DttRecharger.Schema.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :sign_in_count, :integer, default: 0
 
     has_one :user_role, UserRole, on_replace: :delete, on_delete: :delete_all
     has_one :role, through: [:user_role, :role]
@@ -94,7 +95,7 @@ defmodule DttRecharger.Schema.User do
     end
   end
 
-  def sign_in_count_changeset(%Femma.Schema.User{} = user, attrs) do
+  def sign_in_count_changeset(%User{} = user, attrs) do
     user
     |> cast(attrs, [:sign_in_count])
   end

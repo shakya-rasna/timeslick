@@ -12,6 +12,7 @@
   <:item title="Last name"><%= @user.last_name %></:item>
   <:item title="Email"><%= @user.email %></:item>
   <:item title="Role"><%= @user.role.name %></:item>
+  <:item title="Invitation Status"><%= if @user.role.name != "superadmin" && @user.sign_in_count > 0, do: "Pending", else: "Joined" %></:item>
 </.list>
 
 <.back navigate={~p"/users"}>Back to users</.back>
