@@ -17,16 +17,6 @@ defmodule DttRechargerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", DttRechargerWeb do
-    pipe_through :browser
-
-    get "/", RecordController, :index
-
-    resources "/records", RecordController
-    get "/new_upload_file", UploadFileController, :new_upload_file, as: :new_upload_file
-    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", DttRechargerWeb do
   #   pipe_through :api
@@ -67,9 +57,15 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    get "/", RecordController, :index
+
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    resources "/records", RecordController
+    get "/new_upload_file", UploadFileController, :new_upload_file, as: :new_upload_file
+    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
   end
 
   scope "/", DttRechargerWeb do

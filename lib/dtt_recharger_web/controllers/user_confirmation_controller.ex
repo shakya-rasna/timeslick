@@ -8,8 +8,8 @@ defmodule DttRechargerWeb.UserConfirmationController do
   end
 
   def create(conn, %{"user" => %{"email" => email}}) do
-    if user = AccountOPeration.get_user_by_email(email) do
-      AccountOPeration.deliver_user_confirmation_instructions(
+    if user = AccountOperation.get_user_by_email(email) do
+      AccountOperation.deliver_user_confirmation_instructions(
         user,
         &url(~p"/users/confirm/#{&1}")
       )
@@ -31,7 +31,7 @@ defmodule DttRechargerWeb.UserConfirmationController do
   # Do not log in the user after confirmation to avoid a
   # leaked token giving the user access to the account.
   def update(conn, %{"token" => token}) do
-    case AccountOPeration.confirm_user(token) do
+    case AccountOperation.confirm_user(token) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "User confirmed successfully.")

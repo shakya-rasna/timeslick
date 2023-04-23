@@ -200,14 +200,19 @@ defmodule DttRechargerWeb.UserAuth do
   they use the application at all, here would be a good place.
   """
   def require_authenticated_user(conn, _opts) do
-    if conn.assigns[:current_user] do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must log in to access this page.")
-      |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log_in")
-      |> halt()
+    cond do
+      !is_nil(conn.assigns[:current_user]) ->
+        conn
+      is_nil(conn.assigns[:current_user]) && conn.request_path == "/" ->
+        conn
+        |> redirect(to: ~p"/users/log_in")
+        |> halt()
+      true ->
+        conn
+        |> put_flash(:error, "You must log in to access this page.")
+        |> maybe_store_return_to()
+        |> redirect(to: ~p"/users/log_in")
+        |> halt()
     end
   end
 
