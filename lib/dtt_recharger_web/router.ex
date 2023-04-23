@@ -64,8 +64,12 @@ defmodule DttRechargerWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     resources "/records", RecordController
-    get "/new_upload_file", UploadFileController, :new_upload_file, as: :new_upload_file
+    resources "/stock_files", StockFileController
+    resources "/stock_items", StockItemController
+    get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
+    get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
     post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
+    post "/import_stock_items", UploadFileController, :save_file_and_import_stock, as: :save_file_and_import_stock
   end
 
   scope "/", DttRechargerWeb do

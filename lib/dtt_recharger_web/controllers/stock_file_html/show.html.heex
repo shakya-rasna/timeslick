@@ -1,0 +1,14 @@
+<.header>
+  Stock file <%= @stock_file.id %>
+  <:subtitle>This is a stock_file record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/stock_files/#{@stock_file}/edit"}>
+      <.button>Edit stock_file</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+</.list>
+
+<.back navigate={~p"/stock_files"}>Back to stock_files</.back>
