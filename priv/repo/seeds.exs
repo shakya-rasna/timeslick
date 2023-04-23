@@ -1,7 +1,7 @@
 # Insert vibes
 
 alias DttRecharger.Repo
-alias DttRecharger.Schema.{FileType, Role, Status}
+alias DttRecharger.Schema.{User, FileType, Role, Status}
 
 file_types = ["stock", "order"]
 roles = ["superadmin", "admin", "uploader", "authorizer"]
@@ -24,3 +24,14 @@ Enum.each(statuses, fn(status) ->
   |> Status.changeset(%{name: status})
   |> Repo.insert
 end)
+
+# super admin
+email = "superadmin@gurzu.com"
+user = Repo.get_by(User, email: email)
+if is_nil(user) do
+  %User{}
+    |> User.registration_changeset(%{email: email, first_name: "Gurzu Inc",
+                                     last_name: "Inc", password: "Gurzu@123"})
+    |> Ecto.Changeset.put_assoc(:roles, [Repo.get_by(Role, %{name: "superadmin"})])
+    |> Repo.insert
+end
