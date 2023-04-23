@@ -8,7 +8,7 @@ defmodule DttRecharger.Schema.Role do
     field :name, :string
 
     timestamps()
-    many_to_many :users, Femma.Schema.User, join_through: "users_roles", join_keys: [role_id: :id, user_id: :id]
+    many_to_many :users, User, join_through: "users_roles", join_keys: [role_id: :id, user_id: :id]
   end
 
   @doc false
@@ -16,7 +16,7 @@ defmodule DttRecharger.Schema.Role do
     roles
     |> cast(attrs, [:name])
     |> validate_required([:name])
-    |> unsafe_validate_unique(:name, Femma.Repo)
+    |> unsafe_validate_unique(:name, DttRecharger.Repo)
     |> unique_constraint(:name)
   end
 end
