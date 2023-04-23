@@ -8,7 +8,7 @@ defmodule DttRecharger.Schema.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"DttRecharger", "contact@example.com"})
+      |> from({"DttRecharger", "noreply@dttrecharger.com"})
       |> subject(subject)
       |> text_body(body)
 
@@ -32,6 +32,25 @@ defmodule DttRecharger.Schema.UserNotifier do
     #{url}
 
     If you didn't create an account with us, please ignore this.
+
+    ==============================
+    """)
+  end
+
+  @doc """
+  Deliver instructions for invitation account.
+  """
+  def deliver_invitations(user, password) do
+    deliver(user.email, "Invitation instructions", """
+
+    ==============================
+
+    Hi #{user.first_name} <> " " <> #{user.last_name},
+
+    Welcome to DTT Recharger! Use below credentials for login :
+
+    email: #{user.email}
+    password: #{password}
 
     ==============================
     """)

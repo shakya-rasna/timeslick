@@ -1,6 +1,0 @@
-id,voucher_pin,serial_number,denomination,voucher_group_id,voucher_expiry_date,voucher_expiry_time,dealers_name,description,virtual_id,created_at,updated_at,active,product_id,status,delivery_id
-3540,6236680757869710,327058689,2000,2001,9/5/22,,KAVANGO (Hennie Brandt ),Tango_N$20_Voucher_Benefit,86,23:45.6,00:00.8,TRUE,3,1,3844
-3569,6290267218595560,327217321,4000,18,9/10/22,,KAVANGO (Hennie Brandt ),AwehGig,87,34:28.2,00:04.1,TRUE,11,1,178
-31,7943365880346780,219199415,3000,2001,12/28/21,,KAVANGO (Hennie Brandt ),Tango_N$30_Voucher_Benefit,4,08:07.4,06:46.5,TRUE,4,1,19
-5,4996810591241110,219199389,500,2001,12/28/21,,KAVANGO (Hennie Brandt ),Tango_N$5_Voucher_Benefit,1,55:36.2,19:49.8,TRUE,1,1,62
-7,9698307608489970,219199391,500,2001,12/28/21,,KAVANGO (Hennie Brandt ),Tango_N$5_Voucher_Benefit,1,55:36.2,24:22.1,TRUE,1,1,74

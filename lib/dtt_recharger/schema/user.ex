@@ -2,15 +2,19 @@ defmodule DttRecharger.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.Role
+  alias DttRecharger.Schema.{User, UserRole}
 
   schema "users" do
     field :email, :string
+    field :first_name, :string
+    field :last_name, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :sign_in_count, :integer, default: 0
 
-    many_to_many :roles, Role, join_through: "users_roles", join_keys: [user_id: :id, role_id: :id], on_replace: :delete
+    has_one :user_role, UserRole, on_replace: :delete, on_delete: :delete_all
+    has_one :role, through: [:user_role, :role]
 
     timestamps()
   end
@@ -40,9 +44,19 @@ defmodule DttRecharger.Schema.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :first_name, :last_name])
+    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_required([:first_name, :last_name])
+  end
+
+  def changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:email, :first_name, :last_name])
+    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
+    |> validate_email(opts)
+    |> validate_required([:first_name, :last_name])
   end
 
   defp validate_email(changeset, opts) do
@@ -56,11 +70,11 @@ defmodule DttRecharger.Schema.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
+    |> validate_length(:password, min: 8, max: 40)
     # Examples of additional password validation:
-    # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
-    # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
-    # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
+    |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
+    |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
+    |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
     |> maybe_hash_password(opts)
   end
 
@@ -79,6 +93,11 @@ defmodule DttRecharger.Schema.User do
     else
       changeset
     end
+  end
+
+  def sign_in_count_changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, [:sign_in_count])
   end
 
   defp maybe_validate_unique_email(changeset, opts) do

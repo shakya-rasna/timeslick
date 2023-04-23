@@ -109,6 +109,16 @@ defmodule DttRecharger.Operations.AccountOperation do
   end
 
   @doc """
+  increase sign_in count of user
+
+  """
+  def increase_signin_count(%User{} = user) do
+    user
+    |> User.sign_in_count_changeset(%{sign_in_count: user.sign_in_count + 1 })
+    |> Repo.update()
+  end
+
+  @doc """
   Emulates that the email will change without actually changing
   it in the database.
 
@@ -126,6 +136,11 @@ defmodule DttRecharger.Operations.AccountOperation do
     |> User.email_changeset(attrs)
     |> User.validate_current_password(password)
     |> Ecto.Changeset.apply_action(:update)
+  end
+
+  ## Invitation
+  def deliver_user_invitations(user, password) do
+    UserNotifier.deliver_invitations(user, password)
   end
 
   @doc """

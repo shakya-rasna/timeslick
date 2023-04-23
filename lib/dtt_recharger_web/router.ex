@@ -44,8 +44,8 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
-    get "/users/register", UserRegistrationController, :new
-    post "/users/register", UserRegistrationController, :create
+    # get "/users/register", UserRegistrationController, :new
+    # post "/users/register", UserRegistrationController, :create
     get "/users/log_in", UserSessionController, :new
     post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new
@@ -63,9 +63,10 @@ defmodule DttRechargerWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
-    resources "/records", RecordController
+    resources "/users", UserController
+    resources "/records", RecordController, except: [:new, :create]
     resources "/stock_files", StockFileController
-    resources "/stock_items", StockItemController
+    resources "/stock_items", StockItemController, except: [:new, :create]
     get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
     get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
     post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
@@ -76,9 +77,9 @@ defmodule DttRechargerWeb.Router do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
-    get "/users/confirm", UserConfirmationController, :new
-    post "/users/confirm", UserConfirmationController, :create
-    get "/users/confirm/:token", UserConfirmationController, :edit
-    post "/users/confirm/:token", UserConfirmationController, :update
+    # get "/users/confirm", UserConfirmationController, :new
+    # post "/users/confirm", UserConfirmationController, :create
+    # get "/users/confirm/:token", UserConfirmationController, :edit
+    # post "/users/confirm/:token", UserConfirmationController, :update
   end
 end
