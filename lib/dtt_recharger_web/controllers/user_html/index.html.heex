@@ -1,0 +1,31 @@
+<.header>
+  Listing Users
+  <:actions>
+    <.link href={~p"/users/new"}>
+      <.button>New User</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="users" rows={@users} row_click={&JS.navigate(~p"/users/#{&1}")}>
+  <:col :let={user} label="First name"><%= user.first_name %></:col>
+  <:col :let={user} label="Last name"><%= user.last_name %></:col>
+  <:col :let={user} label="Email"><%= user.email %></:col>
+  <:col :let={user} label="Role"><%= user.role.name %></:col>
+  <:col :let={user} label="Invitation Status"><%= if user.role.name != "superadmin" && user.sign_in_count > 0, do: "Pending", else: "Joined"  %></:col>
+  <:action :let={user}>
+    <% if user.role.name != "superadmin" do %>
+      <div class="sr-only">
+        <.link navigate={~p"/users/#{user}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/users/#{user}/edit"}>Edit</.link>
+    <% end %>
+  </:action>
+  <:action :let={user}>
+    <% if user.role.name != "superadmin" do %>
+      <.link href={~p"/users/#{user}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    <% end %>
+  </:action>
+</.table>

@@ -1,6 +1,8 @@
 defmodule DttRechargerWeb.Router do
   use DttRechargerWeb, :router
 
+  import DttRechargerWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,24 +10,11 @@ defmodule DttRechargerWeb.Router do
     plug :put_root_layout, {DttRechargerWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-  end
-
-  scope "/", DttRechargerWeb do
-    pipe_through :browser
-
-    get "/", RecordController, :index
-
-    resources "/records", RecordController
-    resources "/stock_files", StockFileController
-    resources "/stock_items", StockItemController
-    get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
-    get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
-    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
-    post "/import_stock_items", UploadFileController, :save_file_and_import_stock, as: :save_file_and_import_stock
   end
 
   # Other scopes may use custom stacks.
@@ -48,5 +37,49 @@ defmodule DttRechargerWeb.Router do
       live_dashboard "/dashboard", metrics: DttRechargerWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
+  end
+
+  ## Authentication routes
+
+  scope "/", DttRechargerWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    # get "/users/register", UserRegistrationController, :new
+    # post "/users/register", UserRegistrationController, :create
+    get "/users/log_in", UserSessionController, :new
+    post "/users/log_in", UserSessionController, :create
+    get "/users/reset_password", UserResetPasswordController, :new
+    post "/users/reset_password", UserResetPasswordController, :create
+    get "/users/reset_password/:token", UserResetPasswordController, :edit
+    put "/users/reset_password/:token", UserResetPasswordController, :update
+  end
+
+  scope "/", DttRechargerWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    get "/", RecordController, :index
+
+    get "/users/settings", UserSettingsController, :edit
+    put "/users/settings", UserSettingsController, :update
+    get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+
+    resources "/users", UserController
+    resources "/records", RecordController, except: [:new, :create]
+    resources "/stock_files", StockFileController
+    resources "/stock_items", StockItemController, except: [:new, :create]
+    get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
+    get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
+    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
+    post "/import_stock_items", UploadFileController, :save_file_and_import_stock, as: :save_file_and_import_stock
+  end
+
+  scope "/", DttRechargerWeb do
+    pipe_through [:browser]
+
+    delete "/users/log_out", UserSessionController, :delete
+    # get "/users/confirm", UserConfirmationController, :new
+    # post "/users/confirm", UserConfirmationController, :create
+    # get "/users/confirm/:token", UserConfirmationController, :edit
+    # post "/users/confirm/:token", UserConfirmationController, :update
   end
 end

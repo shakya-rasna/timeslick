@@ -32,6 +32,7 @@ defmodule DttRecharger.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 3.0"},
       {:phoenix, "~> 1.7.2"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
@@ -50,6 +51,8 @@ defmodule DttRecharger.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
+      # Used to generate random password
+      {:random_password, "~> 1.2"},
       {:csv, "~> 3.0"},
       {:waffle,  "~> 1.1.5"},
       {:waffle_ecto, "~> 0.0.11"}
