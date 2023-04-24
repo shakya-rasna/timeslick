@@ -26,7 +26,7 @@ defmodule DttRecharger.Schema.StockItem do
     attrs = Map.merge(attrs, %{activation_pin: attrs[:voucher_pin], recharge_number: attrs[:serial_number],
                                denomination: convert!(attrs[:denomination]), active: convert!(downcase(attrs[:active]))})
     stock_item
-    |> cast(attrs, [:activation_pin, :recharge_number, :denomination, :product_name, :active, :stock_file_id, :dealers_name, :description])
+    |> cast(attrs, [:activation_pin, :recharge_number, :denomination, :expiry_date, :product_name, :active, :stock_file_id, :dealers_name, :description])
     |> assoc_constraint(:status)
     |> assoc_constraint(:stock_file)
     |> validate_required([:activation_pin, :recharge_number, :denomination, :active, :stock_file_id])
@@ -34,7 +34,7 @@ defmodule DttRecharger.Schema.StockItem do
 
   def changeset(stock_item, attrs) do
     stock_item
-    |> cast(attrs, [:activation_pin, :recharge_number, :denomination, :product_name, :active, :stock_file_id, :dealers_name, :description])
+    |> cast(attrs, [:activation_pin, :expiry_date, :recharge_number, :denomination, :product_name, :active, :stock_file_id, :dealers_name, :description])
     |> assoc_constraint(:status)
     |> assoc_constraint(:stock_file)
     |> validate_required([:activation_pin, :recharge_number, :denomination, :active, :stock_file_id])
