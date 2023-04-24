@@ -1,6 +1,6 @@
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
+    Oops, something went wrong!
   </.error>
   <.input field={f[:mobile_number]} type="text" label="Mobile number" />
   <.input field={f[:product_name]} type="text" label="Product name" />
