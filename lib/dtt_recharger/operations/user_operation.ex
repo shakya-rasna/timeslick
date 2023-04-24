@@ -37,7 +37,12 @@ defmodule DttRecharger.Operations.UserOperation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(id) do
+    case Repo.get(User, id) do
+      nil -> nil
+      user -> user
+    end
+  end
 
   @doc """
   Creates a user.
