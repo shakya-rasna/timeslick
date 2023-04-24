@@ -11,6 +11,7 @@ defmodule DttRechargerWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug :fetch_current_organization
   end
 
   pipeline :api do
@@ -57,12 +58,14 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/", RecordController, :index
+    get "/", UserController, :index
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    resources "/organizations", OrganizationController, except: [:delete]
+    get "/my_organization", OrganizationController, :my_organization
     resources "/users", UserController
     resources "/order_files", OrderFileController, except: [:new, :edit, :update, :delete] do
       get "/payouts", RecordController, :list_loan_payouts
@@ -81,7 +84,7 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
+    delete "/log_out", UserSessionController, :delete
     # get "/users/confirm", UserConfirmationController, :new
     # post "/users/confirm", UserConfirmationController, :create
     # get "/users/confirm/:token", UserConfirmationController, :edit

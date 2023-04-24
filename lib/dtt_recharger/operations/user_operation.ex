@@ -5,9 +5,10 @@ defmodule DttRecharger.Operations.UserOperation do
   """
 
   import Ecto.Query, warn: false
+  alias DttRecharger.Operations.AccountOperation
   alias DttRecharger.Repo
 
-  alias DttRecharger.Schema.User
+  alias DttRecharger.Schema.{User, OrganizationRole}
 
   @doc """
   Returns the list of users.
@@ -19,7 +20,7 @@ defmodule DttRecharger.Operations.UserOperation do
 
   """
   def list_users do
-    from(u in User, preload: [:role]) |> Repo.all
+    from(u in User) |> Repo.all
   end
 
   @doc """
@@ -36,7 +37,12 @@ defmodule DttRecharger.Operations.UserOperation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload([:role])
+  def get_user!(id) do
+    case Repo.get(User, id) do
+      nil -> nil
+      user -> user
+    end
+  end
 
   @doc """
   Creates a user.
@@ -50,10 +56,19 @@ defmodule DttRecharger.Operations.UserOperation do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.registration_changeset(attrs)
-    |> Repo.insert()
+  def create_user(attrs \\ %{}, organization) do
+    org_role_params = List.first(attrs["organization_roles"])
+    case AccountOperation.get_user_by_email(attrs["email"]) do
+      nil ->
+        {:ok, user} = %User{}
+                       |> User.registration_changeset(attrs)
+                       |> Repo.insert()
+        AccountOperation.deliver_user_invitations(user, organization, attrs["password"])
+      user ->
+        OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, "user_id", user.id))
+        |> Repo.insert
+        AccountOperation.deliver_user_invitations(user, organization)
+    end
   end
 
   @doc """

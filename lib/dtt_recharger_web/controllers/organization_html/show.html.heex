@@ -1,0 +1,15 @@
+<.header>
+  Organization <%= @organization.name %>
+  <:actions>
+    <.link href={~p"/organizations/#{@organization}/edit"}>
+      <.button>Edit organization</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @organization.name %></:item>
+  <:item title="Created At"><%= @organization.inserted_at %></:item>
+</.list>
+
+<.back navigate={~p"/organizations"}>Back to organizations</.back>

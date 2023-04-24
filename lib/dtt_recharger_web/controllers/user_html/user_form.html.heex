@@ -2,12 +2,12 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong!
   </.error>
-  <.input field={f[:first_name]} type="text" label="First name" />
-  <.input field={f[:last_name]} type="text" label="Last name" />
-  <.input field={f[:email]} type="text" label="Email" />
-  <.inputs_for :let={r}  field={f[:user_role]}>
+  <.input field={f[:first_name]} type="text" label="First name" required/>
+  <.input field={f[:last_name]} type="text" label="Last name" required/>
+  <.input field={f[:email]} type="text" label="Email" required/>
+  <.inputs_for :let={r}  field={f[:organization_roles]}>
     <.input field={r[:role_id]} type="select" label="User Role" prompt="select roles"
-    options={Enum.map(@roles, fn role -> {role.name, role.id} end)}/>
+    options={Enum.map(@roles, fn role -> {role.name, role.id} end)} required/>
   </.inputs_for>
   <:actions>
     <.button>Invite User</.button>

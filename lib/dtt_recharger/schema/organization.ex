@@ -1,18 +1,16 @@
-defmodule DttRecharger.Schema.Role do
+defmodule DttRecharger.Schema.Organization do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.{UserRole}
-
-  schema "roles" do
+  schema "organizations" do
     field :name, :string
 
     timestamps()
   end
 
   @doc false
-  def changeset(roles, attrs) do
-    roles
+  def changeset(organization, attrs) do
+    organization
     |> cast(attrs, [:name])
     |> validate_required([:name])
     |> unsafe_validate_unique(:name, DttRecharger.Repo)
