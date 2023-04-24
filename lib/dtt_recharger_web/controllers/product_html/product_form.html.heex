@@ -1,0 +1,9 @@
+<.simple_form :let={f} for={@changeset} action={@action} multipart>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+   <.input field={f[:file]} type="file" label="File" accept="text/csv" />
+  <:actions>
+    <.button>Import Product</.button>
+  </:actions>
+</.simple_form>
