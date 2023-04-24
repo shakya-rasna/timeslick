@@ -18,7 +18,7 @@ defmodule DttRecharger.Operations.StockFileOperation do
 
   """
   def list_stock_files do
-    from(sf in StockFile, preload: [:upload_file]) |> Repo.all
+    from(sf in StockFile, preload: [:upload_file, :uploader]) |> Repo.all
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule DttRecharger.Operations.StockFileOperation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_stock_file!(id), do: Repo.get!(StockFile, id)
+  def get_stock_file!(id), do: Repo.preload(Repo.get!(StockFile, id), [:upload_file, :uploader])
 
   @doc """
   Creates a stock_file.

@@ -19,8 +19,8 @@ defmodule DttRecharger.Operations.UploadFileOperation do
              |> Multi.insert(:order_file,
                   fn %{upload_file: %UploadFile{id: upload_file_id}} ->
                     OrderFileOperation.change_orderfile(%OrderFile{}, %{upload_file_id: upload_file_id,
-                                                                        total_records: length(csv_parsed_datas,
-                                                                        uploader_id: current_user)}) end)
+                                                                        total_records: length(csv_parsed_datas),
+                                                                        uploader_id: current_user.id}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->
@@ -43,7 +43,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
              |> Multi.insert(:upload_file, UploadFile.changeset(%UploadFile{}, attrs))
              |> Multi.insert(:stock_file,
                   fn %{upload_file: %UploadFile{id: upload_file_id}} ->
-                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id, uploader_id: current_user}) end)
+                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id, uploader_id: current_user.id}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->
