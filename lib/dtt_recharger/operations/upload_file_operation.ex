@@ -10,7 +10,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
   alias DttRecharger.Schema.{UploadFile, OrderFile, StockFile}
   alias DttRecharger.Operations.{OrderFileOperation, RecordOperation, StockFileOperation, StockItemOperation}
 
-  def save_file_and_import_orders(file_param) do
+  def save_file_and_import_orders(file_param, current_user) do
     %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
     attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "order"}
     csv_parsed_datas = parse_csv(path, type)
@@ -19,7 +19,8 @@ defmodule DttRecharger.Operations.UploadFileOperation do
              |> Multi.insert(:order_file,
                   fn %{upload_file: %UploadFile{id: upload_file_id}} ->
                     OrderFileOperation.change_orderfile(%OrderFile{}, %{upload_file_id: upload_file_id,
-                                                                        total_records: length(csv_parsed_datas)}) end)
+                                                                        total_records: length(csv_parsed_datas,
+                                                                        uploader_id: current_user)}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->
@@ -34,7 +35,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
     end
   end
 
-  def save_file_and_import_stocks(file_param) do
+  def save_file_and_import_stocks(file_param, current_user) do
     %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
     attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "stock"}
     csv_parsed_datas = parse_csv(path, type)
@@ -42,7 +43,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
              |> Multi.insert(:upload_file, UploadFile.changeset(%UploadFile{}, attrs))
              |> Multi.insert(:stock_file,
                   fn %{upload_file: %UploadFile{id: upload_file_id}} ->
-                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id}) end)
+                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id, uploader_id: current_user}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->
