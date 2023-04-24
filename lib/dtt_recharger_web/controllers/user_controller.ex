@@ -7,7 +7,8 @@ defmodule(DefaultPassword, do: use(RandomPassword))
 
   def index(conn, _params) do
     users = UserOperation.list_users()
-    render(conn, :index, users: users)
+    current_organization = conn.assigns.current_organization
+    render(conn, :index, users: users, current_organization: current_organization)
   end
 
   def new(conn, _params) do
@@ -18,10 +19,11 @@ defmodule(DefaultPassword, do: use(RandomPassword))
 
   def create(conn, %{"user" => user_params}) do
     password = DefaultPassword.generate()
-    user_params = Map.put(user_params, "password", password)
-    case UserOperation.create_user(user_params) do
+    current_organization = conn.assigns.current_organization
+    org_role_params = Enum.map(user_params["organization_roles"], fn org_role -> Map.put(org_role, :organization_id, current_organization.id) end)
+    user_params = Map.merge(user_params, %{password: password, organization_roles: org_role_params})
+    case UserOperation.create_user(user_params, current_organization) do
       {:ok, user} ->
-        {:ok, _} = AccountOperation.deliver_user_invitations(user, password)
         conn
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: ~p"/users/#{user}")
@@ -34,7 +36,8 @@ defmodule(DefaultPassword, do: use(RandomPassword))
 
   def show(conn, %{"id" => id}) do
     user = UserOperation.get_user!(id)
-    render(conn, :show, user: user)
+    current_organization = conn.assigns.current_organization
+    render(conn, :show, user: user, current_organization: current_organization)
   end
 
   def edit(conn, %{"id" => id}) do

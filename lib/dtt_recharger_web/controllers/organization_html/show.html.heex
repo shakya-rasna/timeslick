@@ -1,6 +1,5 @@
 <.header>
-  Organization <%= @organization.id %>
-  <:subtitle>This is a organization record from your database.</:subtitle>
+  Organization <%= @organization.name %>
   <:actions>
     <.link href={~p"/organizations/#{@organization}/edit"}>
       <.button>Edit organization</.button>
@@ -10,6 +9,7 @@
 
 <.list>
   <:item title="Name"><%= @organization.name %></:item>
+  <:item title="Created At"><%= @organization.inserted_at %></:item>
 </.list>
 
 <.back navigate={~p"/organizations"}>Back to organizations</.back>

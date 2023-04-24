@@ -1,4 +1,4 @@
-defmodule DttRecharger.Operations.Organizations do
+defmodule DttRecharger.Operations.OrganizationOperation do
   @moduledoc """
   The Organizations context.
   """

@@ -5,9 +5,10 @@ defmodule DttRecharger.Operations.UserOperation do
   """
 
   import Ecto.Query, warn: false
+  alias DttRecharger.Operations.AccountOperation
   alias DttRecharger.Repo
 
-  alias DttRecharger.Schema.User
+  alias DttRecharger.Schema.{User, OrganizationRole}
 
   @doc """
   Returns the list of users.
@@ -50,10 +51,17 @@ defmodule DttRecharger.Operations.UserOperation do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.registration_changeset(attrs)
-    |> Repo.insert()
+  def create_user(attrs \\ %{}, organization) do
+    org_role_params = List.first(attrs["organization_roles"])
+    case AccountOperation.get_user_by_email(attrs["email"]) do
+      user -> OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, :user_id, user.id))
+              |> Repo.insert
+              AccountOperation.deliver_user_invitations(user, organization)
+      nil -> user = %User{}
+                    |> User.registration_changeset(attrs)
+                    |> Repo.insert()
+             AccountOperation.deliver_user_invitations(user, organization, attrs["password"])
+    end
   end
 
   @doc """

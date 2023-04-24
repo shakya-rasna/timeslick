@@ -12,8 +12,7 @@
     <:col :let={user} label="First name"><%= user.first_name %></:col>
     <:col :let={user} label="Last name"><%= user.last_name %></:col>
     <:col :let={user} label="Email"><%= user.email %></:col>
-    <:col :let={user} label="Role"><%= user.role.name %></:col>
-    <:col :let={user} label="Invitation Status"><%= if user.role.name != "superadmin" && user.sign_in_count > 0, do: "Pending", else: "Joined"  %></:col>
+    <:col :let={user} label="Role"><%= user_org_role(user, @current_organization.id) %></:col>
     <:action :let={user}>
       <div class="sr-only">
         <.link navigate={~p"/users/#{user}"}>Show</.link>

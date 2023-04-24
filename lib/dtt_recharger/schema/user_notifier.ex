@@ -40,8 +40,8 @@ defmodule DttRecharger.Schema.UserNotifier do
   @doc """
   Deliver instructions for invitation account.
   """
-  def deliver_invitations(user, password) do
-    deliver(user.email, "Invitation instructions", """
+  def deliver_invitations(user, organization, password) do
+    deliver(user.email, "Invitation to DTT Recharger", """
 
     ==============================
 
@@ -51,6 +51,23 @@ defmodule DttRecharger.Schema.UserNotifier do
 
     email: #{user.email}
     password: #{password}
+    organization: #{organization.name}
+
+    ==============================
+    """)
+  end
+
+  def deliver_invitations(user, organization) do
+    deliver(user.email, "Invitation to DTT Recharger", """
+
+    ==============================
+
+    Hi #{user.first_name} #{user.last_name},
+
+    Welcome to DTT Recharger! you have been invited to organization #{organization.name}, use your login creds to login :
+
+    email: #{user.email}
+    organization: #{organization.name}
 
     ==============================
     """)
