@@ -5,7 +5,7 @@
   <.input field={f[:first_name]} type="text" label="First name" />
   <.input field={f[:last_name]} type="text" label="Last name" />
   <.input field={f[:email]} type="text" label="Email" />
-  <.inputs_for :let={r}  field={f[:user_role]}>
+  <.inputs_for :let={r}  field={f[:organization_roles]}>
     <.input field={r[:role_id]} type="select" label="User Role" prompt="select roles"
     options={Enum.map(@roles, fn role -> {role.name, role.id} end)}/>
   </.inputs_for>

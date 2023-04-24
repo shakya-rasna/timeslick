@@ -57,12 +57,13 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/", RecordController, :index
+    get "/", UserController, :index
 
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    resources "/organizations", OrganizationController, except: [:delete]
     resources "/users", UserController
     resources "/order_files", OrderFileController, except: [:new, :edit, :update, :delete] do
       get "/payouts", RecordController, :list_loan_payouts

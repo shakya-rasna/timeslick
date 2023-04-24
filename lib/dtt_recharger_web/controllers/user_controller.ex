@@ -2,8 +2,8 @@ defmodule DttRechargerWeb.UserController do
 defmodule(DefaultPassword, do: use(RandomPassword))
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.{UserOperation, AccountOperation, RoleOperation}
-  alias DttRecharger.Schema.{User, UserRole}
+  alias DttRecharger.Operations.{UserOperation, AccountOperation, RoleOperation, OrganizationOperation}
+  alias DttRecharger.Schema.{User, UserRole, OrganizationRole}
 
   def index(conn, _params) do
     users = UserOperation.list_users()
@@ -11,14 +11,15 @@ defmodule(DefaultPassword, do: use(RandomPassword))
   end
 
   def new(conn, _params) do
-    changeset = UserOperation.change_user(%User{user_role: %UserRole{}})
+    changeset = UserOperation.change_user(%User{organization_roles: [%OrganizationRole{}]})
     roles = RoleOperation.list_role()
     render(conn, :new, roles: roles, changeset: changeset)
   end
 
   def create(conn, %{"user" => user_params}) do
     password = DefaultPassword.generate()
-    case UserOperation.create_user(Map.put(user_params, "password", password)) do
+    user_params = Map.put(user_params, "password", password)
+    case UserOperation.create_user(user_params) do
       {:ok, user} ->
         {:ok, _} = AccountOperation.deliver_user_invitations(user, password)
         conn
