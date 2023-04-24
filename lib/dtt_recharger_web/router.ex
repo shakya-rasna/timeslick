@@ -72,6 +72,7 @@ defmodule DttRechargerWeb.Router do
       get "/stocks", StockItemController, :list_stocks
     end
     resources "/stock_items", StockItemController, except: [:new, :create]
+    resources "/products", ProductController
     get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
     get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
     post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
