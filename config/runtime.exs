@@ -96,6 +96,14 @@ if config_env() == :prod do
   # Check `Plug.SSL` for all available options in `force_ssl`.
 
   # ## Configuring the mailer
+
+  config :dtt_recharger, DttRecharger.Mailer,
+    adapter: Swoosh.Adapters.Sendinblue,
+    api_key: System.get_env("SENDIN_BLUE")
+
+  # Swoosh API client is needed for adapters other than SMTP.
+  # config :swoosh, :api_client, false
+  config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # In production you need to configure the mailer to use a different adapter.
   # Also, you may need to configure the Swoosh API client of your choice if you

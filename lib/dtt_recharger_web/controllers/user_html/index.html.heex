@@ -15,19 +15,15 @@
     <:col :let={user} label="Role"><%= user.role.name %></:col>
     <:col :let={user} label="Invitation Status"><%= if user.role.name != "superadmin" && user.sign_in_count > 0, do: "Pending", else: "Joined"  %></:col>
     <:action :let={user}>
-      <% if user.role.name != "superadmin" do %>
-        <div class="sr-only">
-          <.link navigate={~p"/users/#{user}"}>Show</.link>
-        </div>
-        <.link navigate={~p"/users/#{user}/edit"}>Edit</.link>
-      <% end %>
+      <div class="sr-only">
+        <.link navigate={~p"/users/#{user}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/users/#{user}/edit"}>Edit</.link>
     </:action>
     <:action :let={user}>
-      <% if user.role.name != "superadmin" do %>
-        <.link href={~p"/users/#{user}"} method="delete" data-confirm="Are you sure?">
-          Delete
-        </.link>
-      <% end %>
+      <.link href={~p"/users/#{user}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
     </:action>
   </.table>
 </div>

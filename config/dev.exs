@@ -74,5 +74,13 @@ config :phoenix, :stacktrace_depth, 20
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
+config :dtt_recharger, DttRecharger.Mailer,
+  adapter: Swoosh.Adapters.Sendinblue,
+  api_key: System.get_env("SENDIN_BLUE")
+
+# Swoosh API client is needed for adapters other than SMTP.
+# config :swoosh, :api_client, false
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
