@@ -24,7 +24,16 @@ defmodule DttRecharger.Schema.Record do
   def changeset(record, attrs) do
     record
     |> cast(attrs, [:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name, :order_file_id])
+    |> validate_mobile_number(attrs)
     |> assoc_constraint(:order_file)
     |> validate_required([:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name, :order_file_id])
+  end
+
+  defp validate_mobile_number(changeset, attrs) do
+    if attrs[:mobile_number] != nil &&  Regex.match?(~r/^\d{10}$/, attrs[:mobile_number]) do
+      changeset
+    else
+      add_error(changeset, :mobile_number, "Invalid mobile number")
+    end
   end
 end
