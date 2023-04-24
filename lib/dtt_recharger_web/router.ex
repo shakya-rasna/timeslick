@@ -64,6 +64,7 @@ defmodule DttRechargerWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     resources "/users", UserController
+    resources "/products", ProductController
     resources "/records", RecordController, except: [:new, :create]
     resources "/stock_files", StockFileController
     resources "/stock_items", StockItemController, except: [:new, :create]

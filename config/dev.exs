@@ -2,10 +2,13 @@ import Config
 
 # Configure your database
 config :dtt_recharger, DttRecharger.Repo,
-  url: System.get_env("DATABASE_URL"),
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+username: "postgres",
+password: "postgres",
+hostname: "localhost",
+database: "ddt_recharger_development",
+stacktrace: true,
+show_sensitive_data_on_connection_error: true,
+pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
