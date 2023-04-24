@@ -8,9 +8,7 @@ defmodule DttRechargerWeb.UserSessionController do
     render(conn, :new, error_message: nil)
   end
 
-  require IEx
   def create(conn, %{"user" => user_params}) do
-    IEx.pry
     %{"email" => email, "password" => password, "organization_id" => organization_id} = user_params
 
     if user = AccountOperation.get_user_by_email_and_password(email, password) do

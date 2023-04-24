@@ -19,7 +19,7 @@ defmodule DttRecharger.Operations.UserOperation do
 
   """
   def list_users do
-    from(u in User, preload: [:role]) |> Repo.all
+    from(u in User) |> Repo.all
   end
 
   @doc """
@@ -36,7 +36,7 @@ defmodule DttRecharger.Operations.UserOperation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id) |> Repo.preload([:role])
+  def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
   Creates a user.

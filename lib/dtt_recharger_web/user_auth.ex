@@ -4,6 +4,8 @@ defmodule DttRechargerWeb.UserAuth do
   import Plug.Conn
   import Phoenix.Controller
 
+  alias DttRecharger.Repo
+  alias DttRecharger.Schema.Organization
   alias DttRecharger.Operations.AccountOperation
 
   # Make the remember me cookie valid for 60 days.
@@ -32,6 +34,7 @@ defmodule DttRechargerWeb.UserAuth do
     conn
     |> renew_session()
     |> put_token_in_session(token)
+    |> put_org_id_in_session(params["organization_id"])
     |> maybe_write_remember_me_cookie(token, params)
     |> redirect(to: user_return_to || signed_in_path(conn))
   end
@@ -88,12 +91,19 @@ defmodule DttRechargerWeb.UserAuth do
   Authenticates the user by looking into the session
   and remember me token.
   """
-  require IEx
   def fetch_current_user(conn, _opts) do
-    IEx.pry
     {user_token, conn} = ensure_user_token(conn)
     user = user_token && AccountOperation.get_user_by_session_token(user_token)
     assign(conn, :current_user, user)
+  end
+
+  def fetch_current_organization(conn, _opts) do
+    if org_id = get_session(conn, :current_organization_id) do
+      organization = Repo.get(Organization, org_id)
+      assign(conn, :current_organization, organization)
+    else
+      assign(conn, :current_organization, nil)
+    end
   end
 
   defp ensure_user_token(conn) do
@@ -222,6 +232,11 @@ defmodule DttRechargerWeb.UserAuth do
     conn
     |> put_session(:user_token, token)
     |> put_session(:live_socket_id, "users_sessions:#{Base.url_encode64(token)}")
+  end
+
+  defp put_org_id_in_session(conn, org_id) do
+    conn
+    |> put_session(:current_organization_id, org_id)
   end
 
   defp maybe_store_return_to(%{method: "GET"} = conn) do
