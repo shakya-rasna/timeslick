@@ -14,6 +14,7 @@ defmodule DttRechargerWeb.UserSessionController do
     if user = AccountOperation.get_user_by_email_and_password(email, password) do
       if user_org = OrganizationRoleOperation.get_user_org_role(user, organization_id) do
         AccountOperation.increase_signin_count(user)
+        OrganizationRoleOperation.increase_signin_count(user_org)
         conn
         |> put_flash(:info, "Welcome back!")
         |> UserAuth.log_in_user(user, user_params)

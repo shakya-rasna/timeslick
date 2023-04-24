@@ -22,8 +22,14 @@ defmodule DttRecharger.Operations.OrganizationRoleOperation do
         preload: [:role]
 
     case Repo.one(query) do
-      org_role -> org_role.role.name
       nil -> nil
+      org_role -> org_role.role.name
     end
+  end
+
+  def increase_signin_count(%OrganizationRole{} = org_role) do
+    org_role
+    |> OrganizationRole.sign_in_count_changeset(%{sign_in_count: org_role.sign_in_count + 1 })
+    |> Repo.update()
   end
 end

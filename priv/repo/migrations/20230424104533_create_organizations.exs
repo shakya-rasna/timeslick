@@ -12,6 +12,7 @@ defmodule DttRecharger.Repo.Migrations.CreateOrganizations do
       add :user_id, references(:users, on_delete: :nothing)
       add :organization_id, references(:organizations, on_delete: :nothing)
       add :role_id, references(:roles, on_delete: :nothing)
+      add :sign_in_count, :integer, default: 0
 
       timestamps()
     end

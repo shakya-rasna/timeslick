@@ -20,13 +20,15 @@ defmodule(DefaultPassword, do: use(RandomPassword))
   def create(conn, %{"user" => user_params}) do
     password = DefaultPassword.generate()
     current_organization = conn.assigns.current_organization
-    org_role_params = Enum.map(user_params["organization_roles"], fn org_role -> Map.put(org_role, :organization_id, current_organization.id) end)
-    user_params = Map.merge(user_params, %{password: password, organization_roles: org_role_params})
+    org_role_params = Enum.map(user_params["organization_roles"], fn {key, value} -> value end)
+                      |> Enum.map(fn org_role -> Map.put(org_role, "organization_id", current_organization.id) end)
+    user_params = Map.put(user_params, "organization_roles", org_role_params)
+    user_params = Map.put(user_params, "password", password)
     case UserOperation.create_user(user_params, current_organization) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: ~p"/users/#{user}")
+        |> redirect(to: ~p"/users")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         roles = RoleOperation.list_role()
@@ -42,7 +44,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
 
   def edit(conn, %{"id" => id}) do
     user = UserOperation.get_user!(id)
-    changeset = UserOperation.change_user(user)
+    changeset = UserOperation.change_user(Repo.preload(user, [:organization_role]))
     roles = RoleOperation.list_role()
     render(conn, :edit, user: user, changeset: changeset, roles: roles)
   end

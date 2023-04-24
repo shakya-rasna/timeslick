@@ -13,16 +13,17 @@
     <:col :let={user} label="Last name"><%= user.last_name %></:col>
     <:col :let={user} label="Email"><%= user.email %></:col>
     <:col :let={user} label="Role"><%= user_org_role(user, @current_organization.id) %></:col>
+    <:col :let={user} label="Invitation Status"><%= if user_org_role(user, @current_organization.id) != "superadmin" && org_role(user, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined"  %></:col>
     <:action :let={user}>
       <div class="sr-only">
         <.link navigate={~p"/users/#{user}"}>Show</.link>
       </div>
-      <.link navigate={~p"/users/#{user}/edit"}>Edit</.link>
+      <!--<.link navigate={~p"/users/#{user}/edit"}>Edit</.link>-->
     </:action>
     <:action :let={user}>
-      <.link href={~p"/users/#{user}"} method="delete" data-confirm="Are you sure?">
+      <!--<.link href={~p"/users/#{user}"} method="delete" data-confirm="Are you sure?">
         Delete
-      </.link>
+      </.link>-->
     </:action>
   </.table>
 </div>

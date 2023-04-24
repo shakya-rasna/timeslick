@@ -1,10 +1,10 @@
 <.header>
   <%= @user.first_name <> " " <> @user.last_name %>
-  <:actions>
+  <!--<:actions>
     <.link href={~p"/users/#{@user}/edit"}>
       <.button>Edit user</.button>
     </.link>
-  </:actions>
+  </:actions>-->
 </.header>
 
 <.list>
@@ -12,6 +12,7 @@
   <:item title="Last name"><%= @user.last_name %></:item>
   <:item title="Email"><%= @user.email %></:item>
   <:item title="Role"><%= user_org_role(@user, @current_organization.id) %></:item>
+  <:item title="Invitation Status"><%= if user_org_role(@user, @current_organization.id) != "superadmin" && org_role(@user, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
 </.list>
 
 <.back navigate={~p"/users"}>Back to users</.back>

@@ -54,13 +54,15 @@ defmodule DttRecharger.Operations.UserOperation do
   def create_user(attrs \\ %{}, organization) do
     org_role_params = List.first(attrs["organization_roles"])
     case AccountOperation.get_user_by_email(attrs["email"]) do
-      user -> OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, :user_id, user.id))
-              |> Repo.insert
-              AccountOperation.deliver_user_invitations(user, organization)
-      nil -> user = %User{}
-                    |> User.registration_changeset(attrs)
-                    |> Repo.insert()
-             AccountOperation.deliver_user_invitations(user, organization, attrs["password"])
+      nil ->
+        {:ok, user} = %User{}
+                       |> User.registration_changeset(attrs)
+                       |> Repo.insert()
+        AccountOperation.deliver_user_invitations(user, organization, attrs["password"])
+      user ->
+        OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, "user_id", user.id))
+        |> Repo.insert
+        AccountOperation.deliver_user_invitations(user, organization)
     end
   end
 

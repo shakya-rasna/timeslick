@@ -14,9 +14,7 @@ defmodule DttRecharger.Schema.User do
     field :sign_in_count, :integer, default: 0
     field :organization_id, :integer, virtual: true
 
-    has_many :organization_roles, OrganizationRole
-    # has_many :organizations, through: :organization_roles
-    # has_many :roles, through: :organization_roles
+    has_many :organization_roles, OrganizationRole, on_delete: :delete_all
 
     timestamps()
   end
