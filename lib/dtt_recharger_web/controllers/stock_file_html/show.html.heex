@@ -1,14 +1,24 @@
 <.header>
-  Stock file <%= @stock_file.id %>
-  <:subtitle>This is a stock_file record from your database.</:subtitle>
-  <:actions>
+  Stock File
+  <!--<:actions>
     <.link href={~p"/stock_files/#{@stock_file}/edit"}>
       <.button>Edit stock_file</.button>
     </.link>
-  </:actions>
+  </:actions>-->
 </.header>
 
 <.list>
+  <:item title="Uploader Name">
+    <.link href={~p"/users/#{@stock_file.uploader.id}"}>
+      <%= @stock_file.uploader.first_name <> " " <> @stock_file.uploader.last_name %>
+    </.link>
+  </:item>
+  <:item title="Uploaded Date"><%= @stock_file.inserted_at%></:item>
+  <:item title="Uploaded File">
+    <.link href={DttRecharger.FileCsv.url({@stock_file.upload_file.file, @stock_file.upload_file})}>
+      <%= @stock_file.upload_file.filename %>
+    </.link>
+  </:item>
 </.list>
 
 <.back navigate={~p"/stock_files"}>Back to stock_files</.back>

@@ -7,16 +7,25 @@
   </:actions>
 </.header>
 
-<.table id="stock_files" rows={@stock_files} row_click={&JS.navigate(~p"/stock_files/#{&1}")}>
-  <:action :let={stock_file}>
-    <div class="sr-only">
-      <.link navigate={~p"/stock_files/#{stock_file}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/stock_files/#{stock_file}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={stock_file}>
-    <.link href={~p"/stock_files/#{stock_file}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+<div class="container w-full mx-auto px-2 py-10">
+  <.table id="stock_files" rows={@stock_files} row_click={&JS.navigate(~p"/stock_files/#{&1}")}>
+    <:col :let={stock_file} label="Uploaded By"><%= stock_file.uploader.first_name <> " " <> stock_file.uploader.last_name %></:col>
+    <:col :let={stock_file} label="Uploaded Date"><%= stock_file.upload_file.inserted_at %></:col>
+    <:col :let={stock_file} label="Uploaded File">
+      <.link href={DttRecharger.FileCsv.url({stock_file.upload_file.file, stock_file.upload_file})}>
+        <%= stock_file.upload_file.filename %>
+      </.link>
+    </:col>
+    <:action :let={stock_file}>
+      <div class="sr-only">
+        <.link navigate={~p"/stock_files/#{stock_file}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/stock_files/#{stock_file}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={stock_file}>
+      <.link href={~p"/stock_files/#{stock_file}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</div>

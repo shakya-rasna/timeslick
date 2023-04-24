@@ -56,7 +56,7 @@ defmodule DttRecharger.Operations.StockItemOperation do
   end
 
   def bulk_csv_import_stocks(attrs) do
-    stock_changesets = Enum.map(attrs, fn attr -> StockItem.changeset(%StockItem{}, attr) end)
+    stock_changesets = Enum.map(attrs, fn attr -> StockItem.import_changeset(%StockItem{}, attr) end)
     result = stock_changesets
              |> Enum.with_index()
              |> Enum.reduce(Ecto.Multi.new(), fn ({changeset, index}, multi) ->

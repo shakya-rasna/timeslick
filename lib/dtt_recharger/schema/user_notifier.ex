@@ -45,7 +45,7 @@ defmodule DttRecharger.Schema.UserNotifier do
 
     ==============================
 
-    Hi #{user.first_name} <> " " <> #{user.last_name},
+    Hi #{user.first_name} #{user.last_name},
 
     Welcome to DTT Recharger! Use below credentials for login :
 

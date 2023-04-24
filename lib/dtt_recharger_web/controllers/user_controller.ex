@@ -2,7 +2,7 @@ defmodule DttRechargerWeb.UserController do
 defmodule(DefaultPassword, do: use(RandomPassword))
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.{UserOperation, RoleOperation}
+  alias DttRecharger.Operations.{UserOperation, AccountOperation, RoleOperation}
   alias DttRecharger.Schema.{User, UserRole}
 
   def index(conn, _params) do

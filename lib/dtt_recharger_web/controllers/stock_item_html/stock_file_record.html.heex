@@ -1,12 +1,3 @@
-<.header>
-  Listing Stock items
-  <:actions>
-    <.link href={~p"/import_stocks"}>
-      <.button>Import Stocks</.button>
-    </.link>
-  </:actions>
-</.header>
-
 <div class="container w-full mx-auto px-2 py-10">
   <.table id="stock_items" rows={@stock_items} row_click={&JS.navigate(~p"/stock_items/#{&1}")}>
     <:col :let={stock_item} label="Activation pin"><%= stock_item.activation_pin %></:col>

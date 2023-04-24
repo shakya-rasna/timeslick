@@ -30,7 +30,7 @@ email = "superadmin@gurzu.com"
 user = Repo.get_by(User, email: email)
 if is_nil(user) do
   %User{}
-    |> User.registration_changeset(%{email: email, first_name: "Gurzu Inc",
+    |> User.registration_changeset(%{email: email, first_name: "Gurzu",
                                      last_name: "Inc", password: "Gurzu@123",
                                      user_role: %{role_id: Repo.get_by(Role, %{name: "superadmin"}).id}})
     |> Repo.insert
