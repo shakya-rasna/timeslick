@@ -65,6 +65,7 @@ defmodule DttRechargerWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     resources "/organizations", OrganizationController, except: [:delete]
+    get "/my_organization", OrganizationController, :my_organization
     resources "/users", UserController
     resources "/order_files", OrderFileController, except: [:new, :edit, :update, :delete] do
       get "/payouts", RecordController, :list_loan_payouts

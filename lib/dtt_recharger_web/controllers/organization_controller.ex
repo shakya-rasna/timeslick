@@ -31,6 +31,12 @@ defmodule DttRechargerWeb.OrganizationController do
     render(conn, :show, organization: organization)
   end
 
+  def my_organization(conn, _params) do
+    org = conn.assigns.current_organization
+    organization = OrganizationOperation.get_organization!(org.id)
+    render(conn, :my_organization, organization: organization)
+  end
+
   def edit(conn, %{"id" => id}) do
     organization = OrganizationOperation.get_organization!(id)
     changeset = OrganizationOperation.change_organization(organization)
