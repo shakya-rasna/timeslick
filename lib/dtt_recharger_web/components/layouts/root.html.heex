@@ -152,6 +152,14 @@
               </li>
               <li>
                 <.link
+                  href={~p"/my_organization"}
+                  class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                >
+                  Organization
+                </.link>
+              </li>
+              <li>
+                <.link
                   href={~p"/users/settings"}
                   class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
                 >
@@ -160,7 +168,7 @@
               </li>
               <li>
                 <.link
-                  href={~p"/users/log_out"}
+                  href={~p"/log_out"}
                   method="delete"
                   class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
                 >
@@ -194,18 +202,10 @@
       <div class="sidebar-wrapper">
         <div class="sidebar-item">
           <.link
-            href={~p"/order_files"}
+            href={~p"/organizations"}
             class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
           >
-            Loan Payout Files
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/stock_files"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Stock Files
+            Organizations
           </.link>
         </div>
         <div class="sidebar-item">
@@ -216,13 +216,28 @@
             Users
           </.link>
         </div>
-
         <div class="sidebar-item">
           <.link
             href={~p"/products"}
             class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
           >
             Products
+          </.link>
+        </div>
+        <div class="sidebar-item">
+          <.link
+            href={~p"/order_files"}
+            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          >
+            Payout Files
+          </.link>
+        </div>
+        <div class="sidebar-item">
+          <.link
+            href={~p"/stock_files"}
+            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+          >
+            Stock Files
           </.link>
         </div>
       </div>

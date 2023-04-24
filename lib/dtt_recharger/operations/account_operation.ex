@@ -139,8 +139,8 @@ defmodule DttRecharger.Operations.AccountOperation do
   end
 
   ## Invitation
-  def deliver_user_invitations(user, password) do
-    UserNotifier.deliver_invitations(user, password)
+  def deliver_user_invitations(user, organization, password \\ nil) do
+    UserNotifier.deliver_invitations(user, organization, password)
   end
 
   @doc """

@@ -1,10 +1,9 @@
 <.header class="text-center">
   Account Settings
-  <:subtitle>Manage your account email address and password settings</:subtitle>
 </.header>
 
 <div class="space-y-12 divide-y">
-  <div>
+  <!--<div>
     <.simple_form :let={f} for={@email_changeset} action={~p"/users/settings"} id="update_email">
       <.error :if={@email_changeset.action}>
         Oops, something went wrong!
@@ -25,7 +24,7 @@
         <.button phx-disable-with="Changing...">Change Email</.button>
       </:actions>
     </.simple_form>
-  </div>
+  </div>-->
   <div>
     <.simple_form
       :let={f}

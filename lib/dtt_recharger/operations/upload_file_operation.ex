@@ -3,8 +3,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
   The Payments context.
   """
   import Ecto.Query, warn: false
-  import DttRecharger.Helpers.CsvParser
-
+  import DttRecharger.Helpers.{CsvParser, DateParser}
   alias Ecto.Multi
   alias DttRecharger.Repo
   alias DttRecharger.Schema.{UploadFile, OrderFile, StockFile}
@@ -47,7 +46,11 @@ defmodule DttRecharger.Operations.UploadFileOperation do
              |> Repo.transaction()
     case result do
       {:ok, info} ->
-        stock_attrs = Enum.map(csv_parsed_datas, fn data -> Map.put(data, :stock_file_id, info[:stock_file].id) end)
+        stock_attrs = Enum.map(csv_parsed_datas, fn data ->
+          expiry_date = convert_string_to_date(data.voucher_expiry_date)
+            Map.put(data, :expiry_date, expiry_date)
+            |> Map.put(:stock_file_id, info[:stock_file].id)
+          end)
         case StockItemOperation.bulk_csv_import_stocks(stock_attrs) do
           {:ok, stocks} -> {:ok, stocks}
           {:error, changeset} -> {:error, changeset}

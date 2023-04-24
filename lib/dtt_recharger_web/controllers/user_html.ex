@@ -1,6 +1,8 @@
 defmodule DttRechargerWeb.UserHTML do
   use DttRechargerWeb, :html
 
+  import DttRechargerWeb.Helpers.RoleHelper
+
   embed_templates "user_html/*"
 
   @doc """
