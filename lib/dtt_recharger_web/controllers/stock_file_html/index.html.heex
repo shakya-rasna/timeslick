@@ -12,9 +12,7 @@
     <:col :let={stock_file} label="Uploaded By"><%= stock_file.uploader.first_name <> " " <> stock_file.uploader.last_name %></:col>
     <:col :let={stock_file} label="Uploaded Date"><%= stock_file.upload_file.inserted_at %></:col>
     <:col :let={stock_file} label="Uploaded File">
-      <.link href={DttRecharger.FileCsv.url({stock_file.upload_file.file, stock_file.upload_file})}>
-        <%= stock_file.upload_file.filename %>
-      </.link>
+      <%= stock_file.upload_file.filename %>
     </:col>
     <:action :let={stock_file}>
       <div class="sr-only">

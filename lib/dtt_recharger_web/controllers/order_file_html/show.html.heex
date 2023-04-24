@@ -1,10 +1,15 @@
 <.header>
-  Order File
+  Loan Payout
   <!--<:actions>
     <.link href={~p"/order_files/#{@order_file}/edit"}>
       <.button>Edit order_file</.button>
     </.link>
   </:actions>-->
+  <:actions>
+    <.link href={~p"/order_files/#{@order_file}/payouts"}>
+      <.button>View Imported Loan Payouts</.button>
+    </.link>
+  </:actions>
 </.header>
 
 <.list>
@@ -23,4 +28,4 @@
   </:item>
 </.list>
 
-<.back navigate={~p"/order_files"}>Back to order_files</.back>
+<.back navigate={~p"/order_files"}>Back to order files</.back>

@@ -14,9 +14,7 @@
     <:col :let={order_file} label="Total Records"><%= order_file.total_records %></:col>
     <:col :let={order_file} label="Processed Records"><%= order_file.processed_records %></:col>
     <:col :let={order_file} label="Uploaded File">
-      <.link href={DttRecharger.FileCsv.url({order_file.upload_file.file, order_file.upload_file})}>
-        <%= order_file.upload_file.filename %>
-      </.link>
+      <%= order_file.upload_file.filename %>
     </:col>
     <:action :let={order_file}>
       <div class="sr-only">

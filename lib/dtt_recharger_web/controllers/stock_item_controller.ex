@@ -9,6 +9,11 @@ defmodule DttRechargerWeb.StockItemController do
     render(conn, :index, stock_items: stock_items)
   end
 
+  def list_stocks(conn, %{"stock_file_id" => stock_file_id}) do
+    stocks = StockItemOperation.list_stocks_by_file(stock_file_id)
+    render(conn, :list_stocks, stock_items: stocks)
+  end
+
   def new(conn, _params) do
     changeset = StockItemOperation.change_stock_item(%StockItem{})
     render(conn, :new, changeset: changeset)

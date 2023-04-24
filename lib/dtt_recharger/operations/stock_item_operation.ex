@@ -21,6 +21,10 @@ defmodule DttRecharger.Operations.StockItemOperation do
     Repo.all(StockItem)
   end
 
+  def list_stocks_by_file(stock_file_id) do
+    from(r in StockItem, where: r.stock_file_id == ^stock_file_id) |> Repo.all
+  end
+
   @doc """
   Gets a single stock_item.
 

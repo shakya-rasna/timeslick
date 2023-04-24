@@ -20,6 +20,10 @@ defmodule DttRecharger.Operations.RecordOperation do
     Repo.all(Record)
   end
 
+  def list_records_by_file(order_file_id) do
+    from(r in Record, where: r.order_file_id == ^order_file_id) |> Repo.all
+  end
+
   @doc """
   Gets a single record.
 
