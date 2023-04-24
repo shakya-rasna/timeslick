@@ -1,0 +1,9 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong!
+  </.error>
+
+  <:actions>
+    <.button>Save Order file</.button>
+  </:actions>
+</.simple_form>

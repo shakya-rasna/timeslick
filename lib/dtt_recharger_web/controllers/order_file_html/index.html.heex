@@ -1,0 +1,31 @@
+<.header>
+  Loan Payout Files
+  <:actions>
+    <.link href={~p"/import_orders"}>
+      <.button>Import Loan Payouts</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<div class="container w-full mx-auto px-2 py-10">
+  <.table id="order_files" rows={@order_files} row_click={&JS.navigate(~p"/order_files/#{&1}")}>
+    <:col :let={order_file} label="Uploaded By"><%= order_file.uploader.first_name <> " " <> order_file.uploader.last_name %></:col>
+    <:col :let={order_file} label="Uploaded Date"><%= order_file.upload_file.inserted_at %></:col>
+    <:col :let={order_file} label="Total Records"><%= order_file.total_records %></:col>
+    <:col :let={order_file} label="Processed Records"><%= order_file.processed_records %></:col>
+    <:col :let={order_file} label="Uploaded File">
+      <%= order_file.upload_file.filename %>
+    </:col>
+    <:action :let={order_file}>
+      <div class="sr-only">
+        <.link navigate={~p"/order_files/#{order_file}"}>Show</.link>
+      </div>
+      <!--<.link navigate={~p"/order_files/#{order_file}/edit"}>Edit</.link>-->
+    </:action>
+    <:action :let={order_file}>
+      <!--<.link href={~p"/order_files/#{order_file}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>-->
+    </:action>
+  </.table>
+</div>

@@ -64,8 +64,13 @@ defmodule DttRechargerWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     resources "/users", UserController
+    resources "/order_files", OrderFileController, except: [:new, :edit, :update, :delete] do
+      get "/payouts", RecordController, :list_loan_payouts
+    end
     resources "/records", RecordController, except: [:new, :create]
-    resources "/stock_files", StockFileController
+    resources "/stock_files", StockFileController, except: [:new, :edit, :update, :delete] do
+      get "/stocks", StockItemController, :list_stocks
+    end
     resources "/stock_items", StockItemController, except: [:new, :create]
     get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
     get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file

@@ -1,0 +1,31 @@
+<.header>
+  Loan Payout
+  <!--<:actions>
+    <.link href={~p"/order_files/#{@order_file}/edit"}>
+      <.button>Edit order_file</.button>
+    </.link>
+  </:actions>-->
+  <:actions>
+    <.link href={~p"/order_files/#{@order_file}/payouts"}>
+      <.button>View Imported Loan Payouts</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Uploader Name">
+    <.link href={~p"/users/#{@order_file.uploader.id}"}>
+      <%= @order_file.uploader.first_name <> " " <> @order_file.uploader.last_name %>
+    </.link>
+  </:item>
+  <:item title="Uploaded Date"><%= @order_file.inserted_at%></:item>
+  <:item title="Total Records"><%= @order_file.total_records%></:item>
+  <:item title="Processed Records"><%= @order_file.processed_records%></:item>
+  <:item title="Uploaded File">
+    <.link href={DttRecharger.FileCsv.url({@order_file.upload_file.file, @order_file.upload_file})}>
+      <%= @order_file.upload_file.filename %>
+    </.link>
+  </:item>
+</.list>
+
+<.back navigate={~p"/order_files"}>Back to order files</.back>

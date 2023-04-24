@@ -1,8 +1,8 @@
 <.header>
-  Listing Stock files
+  Stock Files
   <:actions>
-    <.link href={~p"/stock_files/new"}>
-      <.button>New Stock file</.button>
+    <.link href={~p"/import_stocks"}>
+      <.button>Import Stocks</.button>
     </.link>
   </:actions>
 </.header>
@@ -12,20 +12,18 @@
     <:col :let={stock_file} label="Uploaded By"><%= stock_file.uploader.first_name <> " " <> stock_file.uploader.last_name %></:col>
     <:col :let={stock_file} label="Uploaded Date"><%= stock_file.upload_file.inserted_at %></:col>
     <:col :let={stock_file} label="Uploaded File">
-      <.link href={DttRecharger.FileCsv.url({stock_file.upload_file.file, stock_file.upload_file})}>
-        <%= stock_file.upload_file.filename %>
-      </.link>
+      <%= stock_file.upload_file.filename %>
     </:col>
     <:action :let={stock_file}>
       <div class="sr-only">
         <.link navigate={~p"/stock_files/#{stock_file}"}>Show</.link>
       </div>
-      <.link navigate={~p"/stock_files/#{stock_file}/edit"}>Edit</.link>
+      <!--<.link navigate={~p"/stock_files/#{stock_file}/edit"}>Edit</.link>-->
     </:action>
     <:action :let={stock_file}>
-      <.link href={~p"/stock_files/#{stock_file}"} method="delete" data-confirm="Are you sure?">
+      <!--<.link href={~p"/stock_files/#{stock_file}"} method="delete" data-confirm="Are you sure?">
         Delete
-      </.link>
+      </.link>-->
     </:action>
   </.table>
 </div>

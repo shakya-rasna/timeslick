@@ -1,10 +1,5 @@
 <.header>
-  Order Records
-  <:actions>
-    <.link href={~p"/import_orders"}>
-      <.button>Import Orders</.button>
-    </.link>
-  </:actions>
+  Loan Payouts
 </.header>
 
 <div class="container w-full mx-auto px-2 py-10">
@@ -25,9 +20,9 @@
       <.link navigate={~p"/records/#{record}/edit"}>Edit</.link>
     </:action>
     <:action :let={record}>
-      <.link href={~p"/records/#{record}"} method="delete" data-confirm="Are you sure?">
+      <!--<.link href={~p"/records/#{record}"} method="delete" data-confirm="Are you sure?">
         Delete
-      </.link>
+      </.link>-->
     </:action>
   </.table>
 </div>

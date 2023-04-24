@@ -9,6 +9,11 @@ defmodule DttRechargerWeb.RecordController do
     render(conn, :index, records: records)
   end
 
+  def list_loan_payouts(conn, %{"order_file_id" => order_file_id}) do
+    records = RecordOperation.list_records_by_file(order_file_id)
+    render(conn, :list_loan_payouts, records: records)
+  end
+
   def new(conn, _params) do
     changeset = RecordOperation.change_record(%Record{})
     render(conn, :new, changeset: changeset)

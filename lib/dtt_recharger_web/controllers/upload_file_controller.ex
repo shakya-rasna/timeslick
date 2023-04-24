@@ -19,8 +19,8 @@ defmodule DttRechargerWeb.UploadFileController do
     case UploadFileOperation.save_file_and_import_orders(upload_file_params["file"], current_user) do
       {:ok, _records} ->
         conn
-          |> put_flash(:info, "Record has been imported successfully.")
-          |> redirect(to: ~p"/records")
+          |> put_flash(:info, "Loan Payouts have been imported successfully.")
+          |> redirect(to: ~p"/order_files")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new_order_file, changeset: changeset)
@@ -32,8 +32,8 @@ defmodule DttRechargerWeb.UploadFileController do
     case UploadFileOperation.save_file_and_import_stocks(upload_file_params["file"], current_user) do
       {:ok, _records} ->
         conn
-          |> put_flash(:info, "Stock has been imported successfully.")
-          |> redirect(to: ~p"/stock_items")
+          |> put_flash(:info, "Stocks have been imported successfully.")
+          |> redirect(to: ~p"/stock_files")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, :new_order_file, changeset: changeset)
