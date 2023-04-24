@@ -18,7 +18,7 @@ defmodule DttRecharger.Operations.StockFileOperation do
 
   """
   def list_stock_files do
-    Repo.all(StockFile)
+    from(sf in StockFile, preload: [:upload_file]) |> Repo.all
   end
 
   @doc """

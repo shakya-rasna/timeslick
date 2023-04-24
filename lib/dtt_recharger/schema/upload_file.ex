@@ -22,7 +22,6 @@ defmodule DttRecharger.Schema.UploadFile do
     attrs = if is_nil(attrs[:file_type]), do: attrs, else: Map.put(attrs, :file_type_id, get_file_type_id(attrs[:file_type]))
     upload_file
     |> cast(attrs, [:file, :filename, :path, :content_type, :file_type_id])
-    |> cast_attachments(attrs, [:file])
     |> assoc_constraint(:file_type)
     |> validate_required([:file, :filename, :path, :content_type, :file_type_id])
   end
