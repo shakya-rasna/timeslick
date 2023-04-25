@@ -1,6 +1,5 @@
 defmodule DttRechargerWeb.OrderFileHTML do
   use DttRechargerWeb, :html
-
   embed_templates "order_file_html/*"
 
   @doc """

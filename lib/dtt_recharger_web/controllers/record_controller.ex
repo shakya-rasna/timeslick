@@ -1,7 +1,7 @@
 defmodule DttRechargerWeb.RecordController do
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.RecordOperation
+  alias DttRecharger.Operations.{RecordOperation, OrderFileOperation}
   alias DttRecharger.Schema.Record
 
   def index(conn, _params) do

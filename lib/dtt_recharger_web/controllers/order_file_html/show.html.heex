@@ -6,7 +6,7 @@
     </.link>
   </:actions>-->
   <:actions>
-    <% if is_nil(@order_file.authorized_at) do %>
+    <%= if is_nil(@order_file.authorized_at) do %>
       <.link navigate={~p"/"}>
         <.button>Authorize Loan Payouts</.button>
       </.link>
