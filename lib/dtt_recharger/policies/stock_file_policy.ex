@@ -1,5 +1,4 @@
-defmodule DttRecharger.Policies.UserPolicy do
-
+defmodule DttRecharger.Policies.StockFilePolicy do
   def index(current_user_role) do
     check_role(current_user_role)
   end

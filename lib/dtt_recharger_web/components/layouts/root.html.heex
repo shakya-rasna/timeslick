@@ -227,6 +227,14 @@
               Products
             </.link>
           </div>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/stock_files"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Stock Files
+            </.link>
+        </div>
         <% end %>
         <%= if Enum.member?(["superadmin", "admin", "uploader"], @current_user_role) do %>
           <div class="sidebar-item">
@@ -238,14 +246,6 @@
             </.link>
           </div>
         <% end %>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/stock_files"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Stock Files
-          </.link>
-        </div>
       </div>
     <%= @inner_content %>
 

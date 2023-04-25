@@ -6,7 +6,6 @@ defmodule(DefaultPassword, do: use(RandomPassword))
   alias DttRecharger.Schema.{User, OrganizationRole}
   alias DttRecharger.Policies.UserPolicy
   alias DttRecharger.Helpers.RenderHelper
-  require IEx
   def index(conn, _params) do
     if UserPolicy.index(conn.assigns.current_user_role) do
       current_organization = conn.assigns.current_organization

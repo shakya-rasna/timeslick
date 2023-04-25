@@ -1,9 +1,9 @@
 defmodule DttRechargerWeb.OrganizationController do
   use DttRechargerWeb, :controller
-  alias DttRecharger.Policies.OrganizationPolicy
 
   alias DttRecharger.Operations.OrganizationOperation
   alias DttRecharger.Schema.Organization
+  alias DttRecharger.Policies.OrganizationPolicy
   alias DttRecharger.Helpers.RenderHelper
 
   def index(conn, _params) do
