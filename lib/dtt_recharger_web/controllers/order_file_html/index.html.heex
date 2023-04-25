@@ -20,9 +20,11 @@
       <div class="sr-only">
         <.link navigate={~p"/order_files/#{order_file}"}>Show</.link>
       </div>
-      <.link navigate={~p"/"}>
-        <.button>Authorize</.button>
-      </.link>
+      <%= if is_nil(order_file.authorized_at) do %>
+        <.link navigate={~p"/"}>
+          <.button>Authorize</.button>
+        </.link>
+      <% end %>
       <!--<.link navigate={~p"/order_files/#{order_file}/edit"}>Edit</.link>-->
     </:action>
     <:action :let={order_file}>

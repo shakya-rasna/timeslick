@@ -11,7 +11,8 @@ defmodule DttRechargerWeb.RecordController do
 
   def list_loan_payouts(conn, %{"order_file_id" => order_file_id}) do
     records = RecordOperation.list_records_by_file(order_file_id)
-    render(conn, :list_loan_payouts, records: records)
+    order_file = OrderFileOperation.get_order_file!(order_file_id)
+    render(conn, :list_loan_payouts, records: records, order_file: order_file)
   end
 
   def new(conn, _params) do

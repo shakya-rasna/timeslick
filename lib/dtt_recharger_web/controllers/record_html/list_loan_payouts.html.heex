@@ -6,9 +6,11 @@
     </.link>
   </:actions>
   <:actions>
-    <.link href={~p"/"}>
-      <.button>Authorize loan Payouts</.button>
-    </.link>
+    <% if is_nil(@order_file.authorized_at) do %>
+      <.link href={~p"/"}>
+        <.button>Authorize loan Payouts</.button>
+      </.link>
+    <% end %>
   </:actions>
 </.header>
 
