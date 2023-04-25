@@ -99,8 +99,8 @@ defmodule DttRechargerWeb.UserAuth do
   end
 
   def fetch_current_user_role(conn, _opts) do
-    if get_session(conn, :current_organization_id) != nil do
-      role = GetCurrentUserRoleHelper.current_user_role_helper(conn.assigns.current_user)
+    if get_session(conn, :current_organization_id) != nil && conn.assigns.current_user != nil do
+      role = GetCurrentUserRoleHelper.current_user_role_helper(conn.assigns.current_user, conn.assigns.current_organization)
       assign(conn, :current_user_role, role)
     else
       assign(conn, :current_user_role, nil)

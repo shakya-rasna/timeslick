@@ -6,21 +6,23 @@ defmodule DttRechargerWeb.OrganizationController do
   alias DttRecharger.Schema.Organization
 
   def index(conn, _params) do
-    case  OrganizationPolicy.index(conn.assigns.current_user_role) do
-      true -> render(conn, :index, organizations: OrganizationOperation.list_organizations())
-      false -> redirect(conn, to: ~p"/")
+    if OrganizationPolicy.index(conn.assigns.current_user_role) do
+      render(conn, :index, organizations: OrganizationOperation.list_organizations())
+    else
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
     end
   end
 
   def new(conn, _params) do
-    case  OrganizationPolicy.index(conn.assigns.current_user_role) do
-      true -> render(conn, :new, changeset: OrganizationOperation.change_organization(%Organization{}))
-      false -> redirect(conn, to: ~p"/")
+    if OrganizationPolicy.new(conn.assigns.current_user_role) do
+      render(conn, :new, changeset: OrganizationOperation.change_organization(%Organization{}))
+    else
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
     end
   end
 
   def create(conn, %{"organization" => organization_params}) do
-    if OrganizationPolicy.index(conn.assigns.current_user_role) do
+    if OrganizationPolicy.create(conn.assigns.current_user_role) do
       case OrganizationOperation.create_organization(organization_params) do
         {:ok, organization} ->
           conn
@@ -31,24 +33,23 @@ defmodule DttRechargerWeb.OrganizationController do
           render(conn, :new, changeset: changeset)
       end
     else
-      redirect(conn, to: ~p"/")
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
     end
-
   end
 
   def show(conn, %{"id" => id}) do
-    organization = OrganizationOperation.get_organization!(id)
-    render(conn, :show, organization: organization)
+    if OrganizationPolicy.create(conn.assigns.current_user_role) do
+      organization = OrganizationOperation.get_organization!(id)
+      render(conn, :show, organization: organization)
+    else
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+    end
   end
 
   def my_organization(conn, _params) do
-    if OrganizationPolicy.index(conn.assigns.current_user_role) do
-      org = conn.assigns.current_organization
-      organization = OrganizationOperation.get_organization!(org.id)
-      render(conn, :my_organization, organization: organization)
-    else
-      redirect(conn, to: ~p"/")
-    end
+    org = conn.assigns.current_organization
+    organization = OrganizationOperation.get_organization!(org.id)
+    render(conn, :my_organization, organization: organization)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -57,22 +58,27 @@ defmodule DttRechargerWeb.OrganizationController do
       changeset = OrganizationOperation.change_organization(organization)
       render(conn, :edit, organization: organization, changeset: changeset)
     else
-      redirect(conn, to: ~p"/")
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
     end
   end
 
   def update(conn, %{"id" => id, "organization" => organization_params}) do
-    organization = OrganizationOperation.get_organization!(id)
+    if OrganizationPolicy.index(conn.assigns.current_user_role) do
+      organization = OrganizationOperation.get_organization!(id)
 
-    case OrganizationOperation.update_organization(organization, organization_params) do
-      {:ok, organization} ->
-        conn
-        |> put_flash(:info, "Organization updated successfully.")
-        |> redirect(to: ~p"/organizations/#{organization}")
+      case OrganizationOperation.update_organization(organization, organization_params) do
+        {:ok, organization} ->
+          conn
+          |> put_flash(:info, "Organization updated successfully.")
+          |> redirect(to: ~p"/organizations/#{organization}")
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, organization: organization, changeset: changeset)
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, :edit, organization: organization, changeset: changeset)
+      end
+    else
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
     end
+
   end
 
   def delete(conn, %{"id" => id}) do
@@ -84,7 +90,7 @@ defmodule DttRechargerWeb.OrganizationController do
       |> put_flash(:info, "Organization deleted successfully.")
       |> redirect(to: ~p"/organizations")
     else
-      redirect(conn, to: ~p"/")
+      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
     end
   end
 end

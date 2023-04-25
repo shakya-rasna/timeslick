@@ -200,7 +200,7 @@
     <%= if @current_user do %>
     <div class="flex">
       <div class="sidebar-wrapper">
-        <%= if @current_user_role == "superadmin" do %>
+        <%= if Enum.member?(["superadmin", "admin"], @current_user_role) do %>
           <div class="sidebar-item">
             <.link
               href={~p"/organizations"}
@@ -209,23 +209,25 @@
               Organizations
             </.link>
           </div>
+
+          <div class="sidebar-item">
+            <.link
+              href={~p"/users"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Users
+            </.link>
+          </div>
+
+          <div class="sidebar-item">
+            <.link
+              href={~p"/products"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Products
+            </.link>
+          </div>
         <% end %>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/users"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Users
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/products"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Products
-          </.link>
-        </div>
         <div class="sidebar-item">
           <.link
             href={~p"/order_files"}

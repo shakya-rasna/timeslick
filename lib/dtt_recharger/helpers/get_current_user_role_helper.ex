@@ -1,8 +1,11 @@
 defmodule DttRecharger.Helpers.GetCurrentUserRoleHelper do
-
-  def current_user_role_helper(current_user) do
-    user_organization =  current_user |> DttRecharger.Repo.preload([organization_roles: :role])
-    [organization_role ] = user_organization.organization_roles
-    organization_role.role.name
+  import Ecto.Query, warn: false
+  def current_user_role_helper(current_user, current_organization) do
+    role = from r in DttRecharger.Schema.Role,
+                join: ro in DttRecharger.Schema.OrganizationRole,
+                on: r.id == ro.organization_id,
+                where: ro.user_id ==  ^current_user.id and ro.organization_id == ^current_organization.id
+    [role] = DttRecharger.Repo.all(role)
+    role.name
   end
 end

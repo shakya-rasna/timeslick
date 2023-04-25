@@ -1,5 +1,4 @@
-defmodule DttRecharger.Policies.OrganizationPolicy do
-
+defmodule DttRecharger.Policies.ProductPolicy do
   def index(current_user_role) do
     check_role(current_user_role)
   end
@@ -32,4 +31,5 @@ defmodule DttRecharger.Policies.OrganizationPolicy do
     roles = ["superadmin", "admin"]
     if Enum.member?(roles, role), do: true, else: false
   end
+
 end
