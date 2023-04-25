@@ -25,7 +25,7 @@ defmodule DttRecharger.Schema.OrderFile do
     |> assoc_constraint(:uploader)
     |> assoc_constraint(:authorizer)
     |> assoc_constraint(:organization)
-    |> validate_required([:total_records, :upload_file_id, :uploader_id, :organization_id, :authorizer_id])
+    |> validate_required([:total_records, :upload_file_id, :uploader_id, :organization_id])
   end
 
   def authorize_changeset(order_file, attrs) do
