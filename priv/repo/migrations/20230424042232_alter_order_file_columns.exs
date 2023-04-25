@@ -6,6 +6,7 @@ defmodule DttRecharger.Repo.Migrations.AlterOrderFileColumns do
       add :uploader_id, references(:users, on_delete: :nothing)
       add :authorizer_id, references(:users, on_delete: :nothing)
       add :authorized_at, :naive_datetime
+      add :authorize_status, :string
     end
 
     create index(:order_files, [:uploader_id, :authorizer_id])
