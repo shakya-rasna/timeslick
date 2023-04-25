@@ -2,7 +2,7 @@ defmodule DttRecharger.Schema.Record do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.OrderFile
+  alias DttRecharger.Schema.{OrderFile, Organization}
 
   schema "records" do
     field :amount, :string
@@ -15,7 +15,7 @@ defmodule DttRecharger.Schema.Record do
     field :quantity, :integer
     field :surname, :string
 
-    belongs_to :organization, User, foreign_key: :organization_id
+    belongs_to :organization, Organization, foreign_key: :organization_id
     belongs_to :order_file, OrderFile, foreign_key: :order_file_id
 
     timestamps()

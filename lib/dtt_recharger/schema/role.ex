@@ -2,7 +2,6 @@ defmodule DttRecharger.Schema.Role do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.{UserRole}
 
   schema "roles" do
     field :name, :string

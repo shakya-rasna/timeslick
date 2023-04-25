@@ -16,7 +16,7 @@ defmodule DttRecharger.Operations.OrderFileOperation do
 
   """
   def list_order_files do
-    from(sf in OrderFile, preload: [:upload_file, :uploader]) |> Repo.all
+    from(sf in OrderFile, preload: [:upload_file, :uploader, :authorizer]) |> Repo.all
   end
 
   @doc """
@@ -33,7 +33,12 @@ defmodule DttRecharger.Operations.OrderFileOperation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_order_file!(id), do: Repo.preload(Repo.get!(OrderFile, id), [:upload_file, :uploader])
+  def get_order_file!(id) do
+    case Repo.get(OrderFile, id) do
+      nil -> nil
+      order_file -> Repo.preload(order_file, [:upload_file, :uploader, :authorizer])
+    end
+  end
 
   @doc """
   Creates a order_file.

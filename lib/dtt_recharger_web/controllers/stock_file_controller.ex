@@ -1,7 +1,7 @@
 defmodule DttRechargerWeb.StockFileController do
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.{StockFileOperation, StockItemOperation}
+  alias DttRecharger.Operations.{StockFileOperation}
   alias DttRecharger.Schema.StockFile
 
   def index(conn, _params) do

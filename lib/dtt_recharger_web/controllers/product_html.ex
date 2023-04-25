@@ -10,4 +10,5 @@ defmodule DttRechargerWeb.ProductHTML do
   attr :action, :string, required: true
 
   def product_form(assigns)
+  def edit_product_form(assigns)
 end

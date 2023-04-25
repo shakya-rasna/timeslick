@@ -2,12 +2,14 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong!
   </.error>
-  <.input field={f[:activation_pin]} type="text" label="Activation pin" />
-  <.input field={f[:recharge_number]} type="text" label="Recharge number" />
-  <.input field={f[:denomination]} type="text" label="Denomination" />
-  <.input field={f[:expiry_date]} type="datetime-local" label="Expiry date" />
-  <.input field={f[:product_name]} type="text" label="Product name" />
-  <.input field={f[:active]} type="checkbox" label="Active" />
+  <.input field={f[:activation_pin]} type="text" label="Activation pin" required/>
+  <.input field={f[:recharge_number]} type="text" label="Recharge number" required/>
+  <.input field={f[:description]} type="text" label="Description" required/>
+  <.input field={f[:dealers_name]} type="text" label="Dealers Name" required/>
+  <.input field={f[:denomination]} type="integer" label="Denomination" required/>
+  <.input field={f[:expiry_date]} type="date" label="Expiry date" required/>
+  <.input field={f[:product_name]} type="text" label="Product name" required/>
+  <.input field={f[:active]} type="checkbox" label="Active" required/>
   <:actions>
     <.button>Save Stock item</.button>
   </:actions>

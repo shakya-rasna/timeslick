@@ -1,0 +1,10 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong!
+  </.error>
+  <.input field={f[:name]} type="text" label="Name" required/>
+  <.input field={f[:validity_in_days]} type="integer" label="Validity in Days" required/>
+  <:actions>
+    <.button>Save Product</.button>
+  </:actions>
+</.simple_form>

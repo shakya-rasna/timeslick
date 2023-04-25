@@ -10,6 +10,4 @@ defmodule DttRecharger.Helpers.StringParser do
   def downcase(string) do
     String.downcase(string)
   end
-
-  def downcase(nil), do: nil
 end
