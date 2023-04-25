@@ -6,8 +6,7 @@ defmodule DttRechargerWeb.UserAuth do
 
   alias DttRecharger.Repo
   alias DttRecharger.Schema.Organization
-  alias DttRecharger.Operations.AccountOperation
-  alias DttRecharger.Helpers.GetCurrentUserRoleHelper
+  alias DttRecharger.Operations.{AccountOperation, OrganizationRoleOperation}
 
   # Make the remember me cookie valid for 60 days.
   # If you want bump or reduce this value, also change
@@ -98,21 +97,22 @@ defmodule DttRechargerWeb.UserAuth do
     assign(conn, :current_user, user)
   end
 
-  def fetch_current_user_role(conn, _opts) do
-    if get_session(conn, :current_organization_id) != nil && conn.assigns.current_user != nil do
-      role = GetCurrentUserRoleHelper.current_user_role_helper(conn.assigns.current_user, conn.assigns.current_organization)
-      assign(conn, :current_user_role, role)
-    else
-      assign(conn, :current_user_role, nil)
-    end
-  end
-
   def fetch_current_organization(conn, _opts) do
     if org_id = get_session(conn, :current_organization_id) do
       organization = Repo.get(Organization, org_id)
       assign(conn, :current_organization, organization)
     else
       assign(conn, :current_organization, nil)
+    end
+  end
+  def fetch_current_user_role(conn, _opts) do
+    user = conn.assigns.current_user
+    org = conn.assigns.current_organization
+    if !is_nil(user) && !is_nil(org) do
+      role = OrganizationRoleOperation.get_user_org_role_name(user, org.id)
+      assign(conn, :current_user_role, role)
+    else
+      assign(conn, :current_user_role, nil)
     end
   end
 
