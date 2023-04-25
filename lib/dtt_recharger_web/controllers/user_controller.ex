@@ -5,14 +5,15 @@ defmodule(DefaultPassword, do: use(RandomPassword))
   alias DttRecharger.Operations.{UserOperation, RoleOperation}
   alias DttRecharger.Schema.{User, OrganizationRole}
   alias DttRecharger.Policies.UserPolicy
-
+  alias DttRecharger.Helpers.RenderHelper
+  require IEx
   def index(conn, _params) do
     if UserPolicy.index(conn.assigns.current_user_role) do
       current_organization = conn.assigns.current_organization
       users = UserOperation.organization_users(current_organization.id)
       render(conn, :index, users: users, current_organization: current_organization)
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -22,7 +23,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
       roles = RoleOperation.list_role()
       render(conn, :new, roles: roles, changeset: changeset)
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -45,7 +46,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
           render(conn, :new, changeset: changeset, roles: roles)
       end
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -55,18 +56,19 @@ defmodule(DefaultPassword, do: use(RandomPassword))
       current_organization = conn.assigns.current_organization
       render(conn, :show, user: user, current_organization: current_organization)
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
   def edit(conn, %{"id" => id}) do
+    IEx.pry
     if UserPolicy.edit(conn.assigns.current_user_role) do
       user = UserOperation.get_user!(id)
       changeset = UserOperation.change_user(user, [:organization_role])
       roles = RoleOperation.list_role()
       render(conn, :edit, user: user, changeset: changeset, roles: roles)
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -85,7 +87,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
           render(conn, :edit, user: user, changeset: changeset, roles: roles)
       end
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -98,7 +100,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
       |> put_flash(:info, "User deleted successfully.")
       |> redirect(to: ~p"/users")
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+       RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 end

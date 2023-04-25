@@ -4,12 +4,13 @@ defmodule DttRechargerWeb.OrganizationController do
 
   alias DttRecharger.Operations.OrganizationOperation
   alias DttRecharger.Schema.Organization
+  alias DttRecharger.Helpers.RenderHelper
 
   def index(conn, _params) do
     if OrganizationPolicy.index(conn.assigns.current_user_role) do
       render(conn, :index, organizations: OrganizationOperation.list_organizations())
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -17,7 +18,7 @@ defmodule DttRechargerWeb.OrganizationController do
     if OrganizationPolicy.new(conn.assigns.current_user_role) do
       render(conn, :new, changeset: OrganizationOperation.change_organization(%Organization{}))
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -33,7 +34,7 @@ defmodule DttRechargerWeb.OrganizationController do
           render(conn, :new, changeset: changeset)
       end
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -42,7 +43,7 @@ defmodule DttRechargerWeb.OrganizationController do
       organization = OrganizationOperation.get_organization!(id)
       render(conn, :show, organization: organization)
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -58,7 +59,7 @@ defmodule DttRechargerWeb.OrganizationController do
       changeset = OrganizationOperation.change_organization(organization)
       render(conn, :edit, organization: organization, changeset: changeset)
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 
@@ -76,7 +77,7 @@ defmodule DttRechargerWeb.OrganizationController do
           render(conn, :edit, organization: organization, changeset: changeset)
       end
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
 
   end
@@ -90,7 +91,7 @@ defmodule DttRechargerWeb.OrganizationController do
       |> put_flash(:info, "Organization deleted successfully.")
       |> redirect(to: ~p"/organizations")
     else
-      put_flash(conn, :error, "Unauthorized") |> redirect(to: ~p"/")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 end
