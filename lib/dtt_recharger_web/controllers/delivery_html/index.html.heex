@@ -1,0 +1,24 @@
+<.header>
+  Listing Deliveries
+  <:actions>
+    <.link href={~p"/deliveries/new"}>
+      <.button>New Delivery</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="deliveries" rows={@deliveries} row_click={&JS.navigate(~p"/deliveries/#{&1}")}>
+  <:col :let={delivery} label="Status"><%= delivery.status %></:col>
+  <:col :let={delivery} label="Delivery date"><%= delivery.delivery_date %></:col>
+  <:action :let={delivery}>
+    <div class="sr-only">
+      <.link navigate={~p"/deliveries/#{delivery}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/deliveries/#{delivery}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={delivery}>
+    <.link href={~p"/deliveries/#{delivery}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

@@ -1,0 +1,16 @@
+<.header>
+  Delivery <%= @delivery.id %>
+  <:subtitle>This is a delivery record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/deliveries/#{@delivery}/edit"}>
+      <.button>Edit delivery</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Status"><%= @delivery.status %></:item>
+  <:item title="Delivery date"><%= @delivery.delivery_date %></:item>
+</.list>
+
+<.back navigate={~p"/deliveries"}>Back to deliveries</.back>
