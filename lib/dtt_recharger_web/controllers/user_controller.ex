@@ -2,8 +2,8 @@ defmodule DttRechargerWeb.UserController do
 defmodule(DefaultPassword, do: use(RandomPassword))
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.{UserOperation, AccountOperation, RoleOperation, OrganizationOperation}
-  alias DttRecharger.Schema.{User, UserRole, OrganizationRole}
+  alias DttRecharger.Operations.{UserOperation, RoleOperation}
+  alias DttRecharger.Schema.{User, OrganizationRole}
 
   def index(conn, _params) do
     users = UserOperation.list_users()
@@ -20,12 +20,12 @@ defmodule(DefaultPassword, do: use(RandomPassword))
   def create(conn, %{"user" => user_params}) do
     password = DefaultPassword.generate()
     current_organization = conn.assigns.current_organization
-    org_role_params = Enum.map(user_params["organization_roles"], fn {key, value} -> value end)
+    org_role_params = Enum.map(user_params["organization_roles"], fn {_key, value} -> value end)
                       |> Enum.map(fn org_role -> Map.put(org_role, "organization_id", current_organization.id) end)
     user_params = Map.put(user_params, "organization_roles", org_role_params)
     user_params = Map.put(user_params, "password", password)
     case UserOperation.create_user(user_params, current_organization) do
-      {:ok, user} ->
+      {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: ~p"/users")
@@ -44,7 +44,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
 
   def edit(conn, %{"id" => id}) do
     user = UserOperation.get_user!(id)
-    changeset = UserOperation.change_user(Repo.preload(user, [:organization_role]))
+    changeset = UserOperation.change_user(user, [:organization_role])
     roles = RoleOperation.list_role()
     render(conn, :edit, user: user, changeset: changeset, roles: roles)
   end

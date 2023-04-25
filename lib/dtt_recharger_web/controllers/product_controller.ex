@@ -16,7 +16,7 @@ defmodule DttRechargerWeb.ProductController do
   end
 
   def create(conn, %{"product" => product_params}) do
-    %Plug.Upload{path: path, filename: filename, content_type: type} = product_params["file"]
+    %Plug.Upload{path: path, filename: _filename, content_type: type} = product_params["file"]
     csv_parsed_datas = parse_csv( path, type)
     case ProductOperation.bulk_csv_import_records(csv_parsed_datas) do
       {:ok, _products} ->

@@ -2,7 +2,7 @@ defmodule DttRecharger.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias DttRecharger.Schema.{User, UserRole, Organization, OrganizationRole, Role}
+  alias DttRecharger.Schema.{User, OrganizationRole}
 
   schema "users" do
     field :email, :string
@@ -54,7 +54,7 @@ defmodule DttRecharger.Schema.User do
   def changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email, :first_name, :last_name])
-    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
+    |> cast_assoc(:organization_roles, with: &OrganizationRole.changeset/2)
     |> validate_email(opts)
     |> validate_required([:first_name, :last_name])
   end

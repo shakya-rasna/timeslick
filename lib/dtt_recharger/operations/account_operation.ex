@@ -2,7 +2,6 @@ defmodule DttRecharger.Operations.AccountOperation do
   @moduledoc """
   The Accounts context.
   """
-
   import Ecto.Query, warn: false
   alias DttRecharger.Repo
 

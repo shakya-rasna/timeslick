@@ -4,7 +4,7 @@ defmodule DttRecharger.Operations.OrganizationRoleOperation do
   """
   import Ecto.Query, warn: false
   alias DttRecharger.Repo
-  alias DttRecharger.Schema.{OrganizationRole, Organization}
+  alias DttRecharger.Schema.{OrganizationRole}
 
   def get_user_org_role(user, org_id) do
     query =

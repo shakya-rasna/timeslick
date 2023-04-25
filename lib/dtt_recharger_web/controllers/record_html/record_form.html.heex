@@ -2,15 +2,15 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong!
   </.error>
-  <.input field={f[:mobile_number]} type="text" label="Mobile number" />
-  <.input field={f[:product_name]} type="text" label="Product name" />
-  <.input field={f[:quantity]} type="number" label="Quantity" />
-  <.input field={f[:id_number]} type="text" label="Id number" />
-  <.input field={f[:contract_number]} type="text" label="Contract number" />
-  <.input field={f[:surname]} type="text" label="Surname" />
-  <.input field={f[:initials]} type="text" label="Initials" />
-  <.input field={f[:amount]} type="text" label="Amount" />
-  <.input field={f[:entity_name]} type="text" label="Entity name" />
+  <.input field={f[:mobile_number]} type="text" label="Mobile number" required/>
+  <.input field={f[:product_name]} type="text" label="Product name" required/>
+  <.input field={f[:quantity]} type="number" label="Quantity" required/>
+  <.input field={f[:id_number]} type="text" label="Id number" required/>
+  <.input field={f[:contract_number]} type="text" label="Contract number" required/>
+  <.input field={f[:surname]} type="text" label="Surname" required/>
+  <.input field={f[:initials]} type="text" label="Initials" required/>
+  <.input field={f[:amount]} type="text" label="Amount" required/>
+  <.input field={f[:entity_name]} type="text" label="Entity name" required/>
   <:actions>
     <.button>Save Record</.button>
   </:actions>
