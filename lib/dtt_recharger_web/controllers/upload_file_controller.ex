@@ -16,7 +16,8 @@ defmodule DttRechargerWeb.UploadFileController do
 
   def save_file_and_import_record(conn, %{"upload_file" => upload_file_params}) do
     current_user = conn.assigns.current_user
-    case UploadFileOperation.save_file_and_import_orders(upload_file_params["file"], current_user) do
+    current_org = conn.assigns.current_organization
+    case UploadFileOperation.save_file_and_import_orders(upload_file_params["file"], current_user, current_org) do
       {:ok, _records} ->
         conn
           |> put_flash(:info, "Loan Payouts have been imported successfully.")

@@ -9,7 +9,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
   alias DttRecharger.Schema.{UploadFile, OrderFile, StockFile}
   alias DttRecharger.Operations.{OrderFileOperation, RecordOperation, StockFileOperation, StockItemOperation}
 
-  def save_file_and_import_orders(file_param, current_user) do
+  def save_file_and_import_orders(file_param, current_user, current_org) do
     %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
     attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "order"}
     csv_parsed_datas = parse_csv(path, type)
@@ -19,11 +19,15 @@ defmodule DttRecharger.Operations.UploadFileOperation do
                   fn %{upload_file: %UploadFile{id: upload_file_id}} ->
                     OrderFileOperation.change_orderfile(%OrderFile{}, %{upload_file_id: upload_file_id,
                                                                         total_records: length(csv_parsed_datas),
-                                                                        uploader_id: current_user.id}) end)
+                                                                        uploader_id: current_user.id,
+                                                                        organization_id: current_org.id}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->
-        record_attrs = Enum.map(csv_parsed_datas, fn data -> Map.put(data, :order_file_id, info[:order_file].id) end)
+        record_attrs = Enum.map(csv_parsed_datas, fn data ->
+          Map.put(data, :order_file_id, info[:order_file].id)
+          |> Map.put(:organization_id, current_org.id)
+        end)
         case RecordOperation.bulk_csv_import_records(record_attrs) do
           {:ok, records} -> OrderFile.changeset(Repo.get(OrderFile, info[:order_file].id), %{processed_records: Enum.count(records)})
                             |> Repo.update
@@ -42,7 +46,8 @@ defmodule DttRecharger.Operations.UploadFileOperation do
              |> Multi.insert(:upload_file, UploadFile.changeset(%UploadFile{}, attrs))
              |> Multi.insert(:stock_file,
                   fn %{upload_file: %UploadFile{id: upload_file_id}} ->
-                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id, uploader_id: current_user.id}) end)
+                    StockFileOperation.change_stock_file(%StockFile{}, %{upload_file_id: upload_file_id,
+                                                                         uploader_id: current_user.id}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->

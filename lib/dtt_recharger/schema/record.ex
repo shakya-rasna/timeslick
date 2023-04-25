@@ -15,6 +15,7 @@ defmodule DttRecharger.Schema.Record do
     field :quantity, :integer
     field :surname, :string
 
+    belongs_to :organization, User, foreign_key: :organization_id
     belongs_to :order_file, OrderFile, foreign_key: :order_file_id
 
     timestamps()
@@ -23,10 +24,13 @@ defmodule DttRecharger.Schema.Record do
   @doc false
   def changeset(record, attrs) do
     record
-    |> cast(attrs, [:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name, :order_file_id])
-    |> validate_mobile_number(attrs)
+    |> cast(attrs, [:mobile_number, :product_name, :quantity, :id_number, :contract_number,
+                    :surname, :initials, :amount, :entity_name, :order_file_id, :organization_id])
+    # |> validate_mobile_number(attrs)
     |> assoc_constraint(:order_file)
-    |> validate_required([:mobile_number, :product_name, :quantity, :id_number, :contract_number, :surname, :initials, :amount, :entity_name, :order_file_id])
+    |> assoc_constraint(:organization)
+    |> validate_required([:mobile_number, :product_name, :quantity, :id_number, :contract_number,
+                          :surname, :initials, :amount, :entity_name, :order_file_id, :organization_id])
   end
 
   defp validate_mobile_number(changeset, attrs) do
