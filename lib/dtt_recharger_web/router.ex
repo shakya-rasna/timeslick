@@ -12,6 +12,7 @@ defmodule DttRechargerWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
     plug :fetch_current_organization
+    plug :fetch_current_user_role
   end
 
   pipeline :api do

@@ -200,14 +200,16 @@
     <%= if @current_user do %>
     <div class="flex">
       <div class="sidebar-wrapper">
-        <div class="sidebar-item">
-          <.link
-            href={~p"/organizations"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Organizations
-          </.link>
-        </div>
+        <%= if @current_user_role == "superadmin" do %>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/organizations"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Organizations
+            </.link>
+          </div>
+        <% end %>
         <div class="sidebar-item">
           <.link
             href={~p"/users"}
