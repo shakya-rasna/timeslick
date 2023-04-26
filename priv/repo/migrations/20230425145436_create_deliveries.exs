@@ -6,6 +6,7 @@ defmodule DttRecharger.Repo.Migrations.CreateDeliveries do
       add :status, :string
       add :delivery_date, :naive_datetime
       add :record_id, references(:records, on_delete: :nothing)
+      add :mobile_number, :string
       add :organization_id, references(:organizations, on_delete: :nothing)
 
       timestamps()

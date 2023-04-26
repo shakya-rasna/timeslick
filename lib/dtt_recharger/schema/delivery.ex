@@ -4,6 +4,7 @@ defmodule DttRecharger.Schema.Delivery do
 
   schema "deliveries" do
     field :delivery_date, :naive_datetime
+    field :mobile_number, :string
     field :status, Ecto.Enum, values: [:completed, :failed, :scheduled]
     field :record_id, :id
 

@@ -21,7 +21,7 @@
         <.link navigate={~p"/order_files/#{order_file}"}>Show</.link>
       </div>
       <%= if is_nil(order_file.authorized_at) do %>
-        <.link navigate={~p"/"}>
+        <.link navigate={~p"/order_files/#{order_file}/authorize_payouts"}>
           <.button>Authorize</.button>
         </.link>
       <% end %>

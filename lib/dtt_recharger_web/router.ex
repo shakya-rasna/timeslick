@@ -58,30 +58,44 @@ defmodule DttRechargerWeb.Router do
   scope "/", DttRechargerWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    #root path
     get "/", UserController, :index
 
+    # User setting
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    # Organization
     resources "/organizations", OrganizationController, except: [:delete]
     get "/my_organization", OrganizationController, :my_organization
+
+    # Users
     resources "/users", UserController
+
+    # Orders and payouts
     resources "/order_files", OrderFileController, except: [:new, :edit, :update, :delete] do
       get "/payouts", RecordController, :list_loan_payouts
+      post "/authorize_payouts", OrderFileController, :authorize_payout
     end
+    get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
+    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
     resources "/records", RecordController, except: [:new, :create]
+
+
+    # Stocks
     resources "/stock_files", StockFileController, except: [:new, :edit, :update, :delete] do
       get "/stocks", StockItemController, :list_stocks
     end
-    resources "/stock_items", StockItemController, except: [:new, :create]
-    resources "/products", ProductController
-    get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
     get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
-    post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
     post "/import_stock_items", UploadFileController, :save_file_and_import_stock, as: :save_file_and_import_stock
+    resources "/stock_items", StockItemController, except: [:new, :create]
 
-    resources "/deliveries", DeliveryController
+    # Products
+    resources "/products", ProductController
+
+    # Deliveries
+    resources "/deliveries", DeliveryController, except: [:new, :create, :edit, :update, :delete]
   end
 
   scope "/", DttRechargerWeb do

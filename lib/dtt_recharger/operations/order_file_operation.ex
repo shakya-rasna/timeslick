@@ -4,7 +4,8 @@ defmodule DttRecharger.Operations.OrderFileOperation do
   """
   import Ecto.Query, warn: false
   alias DttRecharger.Repo
-  alias DttRecharger.Schema.{OrderFile}
+  alias DttRecharger.Schema.{OrderFile, Delivery}
+  import DttRecharger.Services.DeliveryDateCalculator
 
   @doc """
   Returns the list of order_files.
@@ -56,6 +57,16 @@ defmodule DttRecharger.Operations.OrderFileOperation do
     %OrderFile{}
     |> OrderFile.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def authorize_payouts(order_file_id) do
+    # records = from(r in Record, where: r.order_file_id == ^order_file_id) |> Repo.all()
+    # Enum.map(records, fn record ->
+    #   delivery = from(d in Delivery, where: d.mobile_number == ^record.mobile_number, order_by: [desc: q.delivery_date]) |> Repo.one
+    #   case delivery do
+    #     nil ->
+    #   end
+    # end)
   end
 
   @doc """
