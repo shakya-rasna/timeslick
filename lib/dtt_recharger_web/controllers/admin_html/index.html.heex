@@ -1,0 +1,29 @@
+<.header>
+  Listing Admins
+  <:actions>
+    <.link href={~p"/admins/new"}>
+      <.button>New Admin</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<div class="container w-full mx-auto px-2 py-10">
+  <.table id="admins" rows={@admins} row_click={&JS.navigate(~p"/admins/#{&1}")}>
+    <:col :let={admin} label="First name"><%= admin.first_name %></:col>
+      <:col :let={admin} label="Last name"><%= admin.last_name %></:col>
+      <:col :let={admin} label="Email"><%= admin.email %></:col>
+      <:col :let={admin} label="Role"><%= user_org_role(admin, @current_organization.id) %></:col>
+      <:col :let={admin} label="Invitation Status"><%= if user_org_role(admin, @current_organization.id) != "superadmin" && org_role(admin, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined"  %></:col>
+    <:action :let={admin}>
+      <div class="sr-only">
+        <.link navigate={~p"/admins/#{admin}"}>Show</.link>
+      </div>
+      <!--<.link navigate={~p"/admins/#{admin}/edit"}>Edit</.link>-->
+    </:action>
+    <:action :let={admin}>
+      <!--<.link href={~p"/admins/#{admin}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>-->
+    </:action>
+  </.table>
+</div>

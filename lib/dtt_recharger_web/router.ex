@@ -80,6 +80,8 @@ defmodule DttRechargerWeb.Router do
     get "/import_stocks", UploadFileController, :new_stock_file, as: :new_stock_file
     post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
     post "/import_stock_items", UploadFileController, :save_file_and_import_stock, as: :save_file_and_import_stock
+
+    resources "/admins", AdminController, except: [:edit, :update, :delete]
   end
 
   scope "/", DttRechargerWeb do

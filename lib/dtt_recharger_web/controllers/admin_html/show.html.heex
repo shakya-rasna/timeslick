@@ -1,0 +1,18 @@
+<.header>
+  <%= @admin.first_name <> " " <> @admin.last_name %>
+  <:actions>
+    <!--<.link href={~p"/admins/#{@admin}/edit"}>
+      <.button>Edit admin</.button>
+    </.link>-->
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="First name"><%= @admin.first_name %></:item>
+  <:item title="Last name"><%= @admin.last_name %></:item>
+  <:item title="Email"><%= @admin.email %></:item>
+  <:item title="Role"><%= user_org_role(@admin, @current_organization.id) %></:item>
+  <:item title="Invitation Status"><%= if org_role(@admin, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
+</.list>
+
+<.back navigate={~p"/admins"}>Back to admins</.back>

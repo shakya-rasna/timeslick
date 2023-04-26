@@ -7,6 +7,6 @@ defmodule DttRecharger.Operations.RoleOperation do
   alias DttRecharger.Schema.{Role}
 
     def list_role do
-      from(r in Role, where: r.name != "superadmin") |> Repo.all
+      from(r in Role, where: r.name != "superadmin" and r.name != "admin") |> Repo.all
     end
   end
