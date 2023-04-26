@@ -200,54 +200,59 @@
     <%= if @current_user do %>
     <div class="flex">
       <div class="sidebar-wrapper">
-        <div class="sidebar-item">
-          <.link
-            href={~p"/organizations"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Organizations
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/admins"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Admins
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/users"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Users
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/products"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Products
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/order_files"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Payout Files
-          </.link>
-        </div>
-        <div class="sidebar-item">
-          <.link
-            href={~p"/stock_files"}
-            class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Stock Files
-          </.link>
-        </div>
+        <%= if @current_user_role == "superadmin" do %>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/admins"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Admins
+            </.link>
+          </div>
+        <% end %>
+
+        <%= if Enum.member?(["superadmin", "admin"], @current_user_role) do %>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/organizations"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Organizations
+            </.link>
+          </div>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/users"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Users
+            </.link>
+          </div>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/products"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Products
+            </.link>
+          </div>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/stock_files"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Stock Files
+            </.link>
+          </div>
+        <% end %>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/order_files"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Payout Files
+            </.link>
+          </div>
       </div>
     <%= @inner_content %>
 

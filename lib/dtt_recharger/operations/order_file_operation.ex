@@ -19,6 +19,19 @@ defmodule DttRecharger.Operations.OrderFileOperation do
     from(sf in OrderFile, preload: [:upload_file, :uploader, :authorizer]) |> Repo.all
   end
 
+   @doc """
+  Returns the list of organization_order_files.
+
+  ## Examples
+
+      iex> list_organization_order_files()
+      [%OrderFile{}, ...]
+
+  """
+  def list_organization_order_files(organization_id) do
+    from(sf in OrderFile, where: sf.organization_id == ^organization_id, preload: [:upload_file, :uploader, :authorizer]) |> Repo.all
+  end
+
   @doc """
   Gets a single order_file.
 
