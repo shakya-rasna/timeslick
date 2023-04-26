@@ -1,4 +1,4 @@
-defmodule DttRecharger.Policies.OrderFilePolicy do
+defmodule DttRecharger.Policies.AdminPolicy do
   def index(current_user_role) do
     check_role(current_user_role)
   end
@@ -28,7 +28,7 @@ defmodule DttRecharger.Policies.OrderFilePolicy do
   end
 
   defp check_role(role) do
-    roles = ["superadmin", "admin", "uploader", "authorizer"]
+    roles = ["superadmin"]
     if Enum.member?(roles, role), do: true, else: false
   end
 end

@@ -1,0 +1,8 @@
+<.header>
+  Edit Admin <%= @admin.id %>
+  <:subtitle>Use this form to manage admin records in your database.</:subtitle>
+</.header>
+
+<.admin_form changeset={@changeset} action={~p"/admins/#{@admin}"} />
+
+<.back navigate={~p"/admins"}>Back to admins</.back>

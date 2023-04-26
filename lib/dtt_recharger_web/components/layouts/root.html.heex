@@ -200,6 +200,17 @@
     <%= if @current_user do %>
     <div class="flex">
       <div class="sidebar-wrapper">
+        <%= if @current_user_role == "superadmin" do %>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/admins"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Admins
+            </.link>
+          </div>
+        <% end %>
+
         <%= if Enum.member?(["superadmin", "admin"], @current_user_role) do %>
           <div class="sidebar-item">
             <.link
@@ -209,7 +220,6 @@
               Organizations
             </.link>
           </div>
-
           <div class="sidebar-item">
             <.link
               href={~p"/users"}
@@ -218,7 +228,6 @@
               Users
             </.link>
           </div>
-
           <div class="sidebar-item">
             <.link
               href={~p"/products"}
@@ -234,9 +243,8 @@
             >
               Stock Files
             </.link>
-        </div>
+          </div>
         <% end %>
-        <%= if Enum.member?(["superadmin", "admin", "uploader"], @current_user_role) do %>
           <div class="sidebar-item">
             <.link
               href={~p"/order_files"}
@@ -245,7 +253,6 @@
               Payout Files
             </.link>
           </div>
-        <% end %>
       </div>
     <%= @inner_content %>
 
