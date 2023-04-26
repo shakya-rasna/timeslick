@@ -60,7 +60,6 @@ defmodule(DefaultPassword, do: use(RandomPassword))
   end
 
   def edit(conn, %{"id" => id}) do
-    IEx.pry
     if UserPolicy.edit(conn.assigns.current_user_role) do
       user = UserOperation.get_user!(id)
       changeset = UserOperation.change_user(user, [:organization_role])
