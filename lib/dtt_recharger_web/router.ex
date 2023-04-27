@@ -1,5 +1,4 @@
 defmodule DttRechargerWeb.Router do
-  alias DttRechargerWeb.OrderFileController
   use DttRechargerWeb, :router
 
   import DttRechargerWeb.UserAuth
