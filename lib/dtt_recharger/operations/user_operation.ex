@@ -8,7 +8,7 @@ defmodule DttRecharger.Operations.UserOperation do
   alias DttRecharger.Operations.AccountOperation
   alias DttRecharger.Repo
 
-  alias DttRecharger.Schema.{User, OrganizationRole}
+  alias DttRecharger.Schema.{User, Role, OrganizationRole}
 
   @doc """
   Returns the list of users.
@@ -28,7 +28,11 @@ defmodule DttRecharger.Operations.UserOperation do
   """
 
   def organization_users(organization_id) do
-    from(u in User, join: ou in OrganizationRole, on: u.id == ou.user_id, where: ou.organization_id == ^organization_id) |> Repo.all
+    roles_id = from(r in Role, where: r.name != "superadmin" and r.name != "admin", select: r.id) |> Repo.all
+    from(u in User,
+      join: ou in OrganizationRole,
+      on: u.id == ou.user_id,
+      where: ou.organization_id == ^organization_id and ou.role_id in ^roles_id) |> Repo.all
   end
 
   @doc """
