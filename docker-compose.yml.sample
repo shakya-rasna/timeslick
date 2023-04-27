@@ -9,5 +9,6 @@ services:
       - POOL_SIZE=xx
       - SECRET_KEY_BASE=xxxxxxxx
       - DATABASE_URL=xxxxxxxxxxx
+      - SENDIN_BLUE=xxx
     ports:
       - "4000:4000"
