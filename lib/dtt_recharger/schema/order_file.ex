@@ -8,7 +8,7 @@ defmodule DttRecharger.Schema.OrderFile do
     field :total_records, :integer
     field :processed_records, :integer
     field :authorized_at, :naive_datetime
-    field :authorize_status, Ecto.Enum, values: [:authorized, :failed, :declined]
+    field :authorize_status, Ecto.Enum, values: [:authorized, :declined]
 
     belongs_to :upload_file, UploadFile, foreign_key: :upload_file_id
     has_many :records, Record, on_replace: :delete

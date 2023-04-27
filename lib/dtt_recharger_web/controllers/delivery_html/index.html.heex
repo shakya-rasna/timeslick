@@ -1,14 +1,16 @@
 <.header>
   Listing Deliveries
   <:actions>
-    <.link href={~p"/deliveries/new"}>
+    <!--<.link href={~p"/deliveries/new"}>
       <.button>New Delivery</.button>
-    </.link>
+    </.link>-->
   </:actions>
 </.header>
 
 <div class="container w-full mx-auto px-2 py-10">
   <.table id="deliveries" rows={@deliveries} row_click={&JS.navigate(~p"/deliveries/#{&1}")}>
+    <:col :let={delivery} label="Mobile Number"><%= delivery.mobile_number %></:col>
+    <:col :let={delivery} label="Product Name"><%= delivery.product.name %></:col>
     <:col :let={delivery} label="Status"><%= delivery.status %></:col>
     <:col :let={delivery} label="Delivery date"><%= delivery.delivery_date %></:col>
     <:action :let={delivery}>

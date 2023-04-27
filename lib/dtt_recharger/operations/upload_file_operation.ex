@@ -29,8 +29,7 @@ defmodule DttRecharger.Operations.UploadFileOperation do
           |> Map.put(:organization_id, current_org.id)
         end)
         case RecordOperation.bulk_csv_import_records(record_attrs) do
-          {:ok, records} -> OrderFile.changeset(Repo.get(OrderFile, info[:order_file].id), %{processed_records: Enum.count(records)})
-                            |> Repo.update
+          {:ok, records} -> {:ok, records}
           {:error, changeset} -> {:error, changeset}
         end
 

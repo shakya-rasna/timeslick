@@ -18,7 +18,7 @@ defmodule DttRecharger.Operations.DeliveryOperation do
 
   """
   def list_deliveries do
-    Repo.all(Delivery)
+    Repo.all(from d in Delivery, preload: [:product])
   end
 
   @doc """
@@ -53,6 +53,20 @@ defmodule DttRecharger.Operations.DeliveryOperation do
     %Delivery{}
     |> Delivery.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_multi_deliveries(attrs) do
+    delivery_changesets = Enum.map(attrs, fn attr -> Delivery.changeset(%Delivery{}, attr) end)
+    result = delivery_changesets
+            |> Enum.with_index()
+            |> Enum.reduce(Ecto.Multi.new(), fn ({changeset, index}, multi) ->
+                Ecto.Multi.insert(multi, Integer.to_string(index), changeset)
+              end)
+            |> Repo.transaction
+    case result do
+      {:ok, deliveries } -> {:ok, deliveries}
+      {:error, _, changeset, _ } -> {:error, changeset}
+    end
   end
 
   @doc """

@@ -50,6 +50,13 @@ defmodule DttRecharger.Operations.ProductOperation do
   """
   def get_product!(id), do: Repo.get!(Product, id)
 
+  def get_product_by_back_name!(name) do
+    case Repo.get_by(Product, back_name: name) do
+      nil -> nil
+      product -> product
+    end
+  end
+
   @doc """
   Creates a product.
 

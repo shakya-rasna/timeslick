@@ -10,4 +10,12 @@ defmodule DttRecharger.Helpers.StringParser do
   def downcase(string) do
     String.downcase(string)
   end
+
+  def split_string_by_X(string) do
+    String.split(string, "X")
+  end
+
+  def remove_space(string) do
+    String.replace(string, ~r/\s+/, "")
+  end
 end

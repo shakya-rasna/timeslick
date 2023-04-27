@@ -8,10 +8,11 @@ defmodule DttRecharger.Repo.Migrations.CreateDeliveries do
       add :record_id, references(:records, on_delete: :nothing)
       add :mobile_number, :string
       add :organization_id, references(:organizations, on_delete: :nothing)
+      add :product_id, references(:products, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:deliveries, [:record_id, :organization_id])
+    create index(:deliveries, [:record_id, :organization_id, :product_id])
   end
 end

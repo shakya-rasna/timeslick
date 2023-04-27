@@ -7,7 +7,7 @@
   </:actions>
   <:actions>
     <%= if is_nil(@order_file.authorized_at) do %>
-      <.link href={~p"/order_files/#{@order_file}/authorize_payouts"}>
+      <.link href={~p"/order_files/#{@order_file}/authorize_payouts"} method="post">
         <.button>Authorize loan Payouts</.button>
       </.link>
     <% end %>

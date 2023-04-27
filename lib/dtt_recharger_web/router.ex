@@ -76,7 +76,7 @@ defmodule DttRechargerWeb.Router do
     # Orders and payouts
     resources "/order_files", OrderFileController, except: [:new, :edit, :update, :delete] do
       get "/payouts", RecordController, :list_loan_payouts
-      post "/authorize_payouts", OrderFileController, :authorize_payout
+      post "/authorize_payouts", OrderFileController, :authorize_payouts
     end
     get "/import_orders", UploadFileController, :new_order_file, as: :new_order_file
     post "/import_order_records", UploadFileController, :save_file_and_import_record, as: :save_file_and_import_record
