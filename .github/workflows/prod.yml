@@ -33,12 +33,12 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
           env: 
-              password: ${{ secrets.GITHUB_TOKEN }}
+              GHCR_PS: ${{ secrets.TOKEN }}
           command: |
             cd /opt/dtt_recharger
            
             # Docker login 
-            echo $password | docker login ghcr.io -u USERNAME --password-stdin                        
+            echo $GHCR_PS | docker login ghcr.io -u USERNAME --password-stdin                        
             
             # Pull docker image
             docker-compose pull
