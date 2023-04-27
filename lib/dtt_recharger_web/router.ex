@@ -12,6 +12,7 @@ defmodule DttRechargerWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_user
     plug :fetch_current_organization
+    plug :fetch_current_user_role
   end
 
   pipeline :api do
@@ -96,6 +97,8 @@ defmodule DttRechargerWeb.Router do
 
     # Deliveries
     resources "/deliveries", DeliveryController, except: [:new, :create, :edit, :update, :delete]
+
+    resources "/admins", AdminController, except: [:edit, :update, :delete]
   end
 
   scope "/", DttRechargerWeb do

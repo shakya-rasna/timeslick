@@ -24,6 +24,14 @@ defmodule DttRecharger.Operations.UserOperation do
   end
 
   @doc """
+  Returns the list of organization's users.
+  """
+
+  def organization_users(organization_id) do
+    from(u in User, join: ou in OrganizationRole, on: u.id == ou.user_id, where: ou.organization_id == ^organization_id) |> Repo.all
+  end
+
+  @doc """
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the Stock file does not exist.

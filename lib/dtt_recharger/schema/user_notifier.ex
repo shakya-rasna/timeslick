@@ -73,6 +73,37 @@ defmodule DttRecharger.Schema.UserNotifier do
     """)
   end
 
+  def deliver_admin_invitations(user, password) do
+    deliver(user.email, "Invitation to DTT Recharger", """
+
+    ==============================
+
+    Hi #{user.first_name} #{user.last_name},
+
+    Welcome to DTT Recharger! You have been invited as admin on DTT Recharger. Use below credentials for login :
+
+    email: #{user.email}
+    password: #{password}
+
+    ==============================
+    """)
+  end
+
+  def deliver_admin_invitations(user) do
+    deliver(user.email, "Invitation to DTT Recharger", """
+
+    ==============================
+
+    Hi #{user.first_name} #{user.last_name},
+
+    Welcome to DTT Recharger! you have been invited as admin on DTT Recharger, use your login creds to login :
+
+    email: #{user.email}
+
+    ==============================
+    """)
+  end
+
   @doc """
   Deliver instructions to reset a user password.
   """
