@@ -32,13 +32,12 @@ jobs:
         # using ssh to run sctipts; Ref: https://github.com/marketplace/actions/remote-ssh-commands
         uses: fifsky/ssh-action@master
         with:
-          env: 
-              GHCR_PS: ${{ secrets.TOKEN }}
           command: |
             cd /opt/dtt_recharger
-           
+
             # Docker login 
-            echo $GHCR_PS | docker login ghcr.io -u USERNAME --password-stdin                        
+            # export GHCR_PS=
+            # echo $GHCR_PS | docker login ghcr.io -u USERNAME --password-stdin                        
             
             # Pull docker image
             docker-compose pull
