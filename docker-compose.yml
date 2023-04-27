@@ -7,9 +7,9 @@ services:
     depends_on:
       - hemhawk_db
     environment:
-      - MIX_ENV=prod
-      - POOL_SIZE=20
-      - SECRET_KEY_BASE=V0yMfvOYv2XjIpRVI20nqln2K+IlZrImAUxa7kO1V/FE33mRy7KiWQSJpwIwMbCz
-      - DATABASE_URL=postgresql://gurzu:Gurzu456&*()@localhost/dtt_recharger_db
+      - MIX_ENV=xxx
+      - POOL_SIZE=xx
+      - SECRET_KEY_BASE=xxxxxxxx
+      - DATABASE_URL=xxxxxxxxxxx
     ports:
       - "4000:4000"

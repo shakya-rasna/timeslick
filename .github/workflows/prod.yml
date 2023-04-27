@@ -1,0 +1,55 @@
+name: Deploy DTT-Recharger to Linode Compute Instance(Production)
+on: 
+  push:
+    branches: [develop]
+jobs:
+  build-push:
+    name: Build and Push to GHCR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build, Tag and Push the image to GHCR
+        id: build-image
+        env:
+          REGISTRY: ghcr.io
+          NAMESPACE: dtt-recharger
+          IMAGE_TAG: prod-latest
+        run: |
+          docker build --build-arg MIX_ENV="prod" -t $REGISTRY/$NAMESPACE:$IMAGE_TAG .
+          docker push $REGISTRY/$NAMESPACE:$IMAGE_TAG
+  deploy:
+    name: Deploy to Compute Instance
+    runs-on: ubuntu-latest
+    needs: build-push
+    steps:
+      - name: Running docker container
+        # using ssh to run sctipts; Ref: https://github.com/marketplace/actions/remote-ssh-commands
+        uses: fifsky/ssh-action@master
+        with:
+          env: 
+              PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          command: |
+            cd /opt/dtt_recharger
+           
+            # Docker login 
+            echo $PASSWORD | docker login ghcr.io -u USERNAME --password-stdin                        
+            
+            # Pull docker image
+            docker-compose pull
+
+            # Run docker
+            docker-compose up -d
+
+            #Removing dandling images
+            docker image prune -f
+
+          host: ${{ secrets.SERVER_HOST_PROD }}
+          user: root
+          Key: ${{ secrets.SERVER_KEY_PROD }}
+
