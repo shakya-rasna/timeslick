@@ -57,7 +57,8 @@ defmodule DttRecharger.MixProject do
       {:waffle,  "~> 1.1.5"},
       {:waffle_ecto, "~> 0.0.11"},
       {:gen_smtp, "~> 1.2"},
-      {:hackney, "~> 1.9"}
+      {:hackney, "~> 1.9"},
+      {:sentry, "~> 8.0"}
     ]
   end
 
