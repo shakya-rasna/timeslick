@@ -1,7 +1,7 @@
 defmodule DttRechargerWeb.OrganizationController do
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.OrganizationOperation
+  alias DttRecharger.Operations.{OrganizationOperation, OrganizationRoleOperation}
   alias DttRecharger.Schema.Organization
   alias DttRecharger.Policies.OrganizationPolicy
   alias DttRecharger.Helpers.RenderHelper
