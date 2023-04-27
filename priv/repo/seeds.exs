@@ -25,7 +25,7 @@ Enum.each(statuses, fn(status) ->
   |> Repo.insert
 end)
 
-organizations = ["gurzu"]
+organizations = ["Gurzu"]
 Enum.each(organizations, fn(organization) ->
   %Organization{}
   |> Organization.changeset(%{name: organization})

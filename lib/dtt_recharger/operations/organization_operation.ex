@@ -6,7 +6,7 @@ defmodule DttRecharger.Operations.OrganizationOperation do
   import Ecto.Query, warn: false
   alias DttRecharger.Repo
 
-  alias DttRecharger.Schema.Organization
+  alias DttRecharger.Schema.{Organization}
 
   @doc """
   Returns the list of organizations.
