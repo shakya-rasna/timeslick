@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  dtt_recharger_app:
+    image: dtt_recharger_app:latest
+    restart: always
+    depends_on:
+      - hemhawk_db
+    environment:
+      - MIX_ENV=prod
+      - POOL_SIZE=20
+      - SECRET_KEY_BASE=V0yMfvOYv2XjIpRVI20nqln2K+IlZrImAUxa7kO1V/FE33mRy7KiWQSJpwIwMbCz
+      - DATABASE_URL=postgresql://gurzu:Gurzu456&*()@localhost/dtt_recharger_db
+    ports:
+      - "4000:4000"
