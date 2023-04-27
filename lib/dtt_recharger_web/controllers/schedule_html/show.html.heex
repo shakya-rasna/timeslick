@@ -1,0 +1,18 @@
+<.header>
+  Schedule <%= @schedule.id %>
+  <:subtitle>This is a schedule record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/schedules/#{@schedule}/edit"}>
+      <.button>Edit schedule</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Status"><%= @schedule.status %></:item>
+  <:item title="Delivery date"><%= @schedule.delivery_date %></:item>
+  <:item title="Delivered date"><%= @schedule.delivered_date %></:item>
+  <:item title="Queued date"><%= @schedule.queued_date %></:item>
+</.list>
+
+<.back navigate={~p"/schedules"}>Back to schedules</.back>

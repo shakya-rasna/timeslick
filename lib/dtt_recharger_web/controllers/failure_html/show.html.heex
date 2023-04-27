@@ -1,0 +1,16 @@
+<.header>
+  Failure <%= @failure.id %>
+  <:subtitle>This is a failure record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/failures/#{@failure}/edit"}>
+      <.button>Edit failure</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Status"><%= @failure.status %></:item>
+  <:item title="Error message"><%= @failure.error_message %></:item>
+</.list>
+
+<.back navigate={~p"/failures"}>Back to failures</.back>

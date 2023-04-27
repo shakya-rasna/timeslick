@@ -1,0 +1,24 @@
+<.header>
+  Listing Failures
+  <:actions>
+    <.link href={~p"/failures/new"}>
+      <.button>New Failure</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="failures" rows={@failures} row_click={&JS.navigate(~p"/failures/#{&1}")}>
+  <:col :let={failure} label="Status"><%= failure.status %></:col>
+  <:col :let={failure} label="Error message"><%= failure.error_message %></:col>
+  <:action :let={failure}>
+    <div class="sr-only">
+      <.link navigate={~p"/failures/#{failure}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/failures/#{failure}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={failure}>
+    <.link href={~p"/failures/#{failure}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

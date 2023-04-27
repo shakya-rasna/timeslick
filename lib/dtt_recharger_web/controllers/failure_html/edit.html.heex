@@ -1,0 +1,8 @@
+<.header>
+  Edit Failure <%= @failure.id %>
+  <:subtitle>Use this form to manage failure records in your database.</:subtitle>
+</.header>
+
+<.failure_form changeset={@changeset} action={~p"/failures/#{@failure}"} />
+
+<.back navigate={~p"/failures"}>Back to failures</.back>

@@ -210,7 +210,6 @@
             </.link>
           </div>
         <% end %>
-
         <%= if Enum.member?(["superadmin", "admin"], @current_user_role) do %>
           <div class="sidebar-item">
             <.link
@@ -251,6 +250,22 @@
               class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
             >
               Payout Files
+            </.link>
+          </div>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/stock_items"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Stocks
+            </.link>
+          </div>
+          <div class="sidebar-item">
+            <.link
+              href={~p"/deliveries"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Deliveries
             </.link>
           </div>
       </div>

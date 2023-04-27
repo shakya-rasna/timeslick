@@ -1,0 +1,8 @@
+<.header>
+  Edit Delivery <%= @delivery.id %>
+  <:subtitle>Use this form to manage delivery records in your database.</:subtitle>
+</.header>
+
+<.delivery_form changeset={@changeset} action={~p"/deliveries/#{@delivery}"} />
+
+<.back navigate={~p"/deliveries"}>Back to deliveries</.back>

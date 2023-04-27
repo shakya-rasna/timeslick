@@ -12,7 +12,6 @@
     <:col :let={order_file} label="Uploaded By"><%= order_file.uploader.first_name <> " " <> order_file.uploader.last_name %></:col>
     <:col :let={order_file} label="Uploaded Date"><%= order_file.upload_file.inserted_at %></:col>
     <:col :let={order_file} label="Total Records"><%= order_file.total_records %></:col>
-    <:col :let={order_file} label="Processed Records"><%= order_file.processed_records %></:col>
     <:col :let={order_file} label="Uploaded File">
       <%= order_file.upload_file.filename %>
     </:col>
@@ -21,9 +20,11 @@
         <.link navigate={~p"/order_files/#{order_file}"}>Show</.link>
       </div>
       <%= if is_nil(order_file.authorized_at) do %>
-        <.link navigate={~p"/"}>
+        <.link href={~p"/order_files/#{order_file}/authorize_payouts"} method="post">
           <.button>Authorize</.button>
         </.link>
+      <% else %>
+        <%= order_file.authorize_status %>
       <% end %>
       <!--<.link navigate={~p"/order_files/#{order_file}/edit"}>Edit</.link>-->
     </:action>

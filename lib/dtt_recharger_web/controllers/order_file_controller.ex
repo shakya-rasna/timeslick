@@ -40,6 +40,36 @@ defmodule DttRechargerWeb.OrderFileController do
     end
   end
 
+  def authorize_payouts(conn, %{"order_file_id" => order_file_id}) do
+    current_user = conn.assigns[:current_user]
+    case OrderFileOperation.get_order_file!(order_file_id) do
+      nil ->
+        conn
+        |> put_flash(:error, "Payouts are not valid")
+        |> redirect(to: ~p"/order_files")
+
+      order_file -> cond do
+        !is_nil(order_file.authorized_at) && order_file.authorize_status == "authorized" ->
+          conn
+          |> put_flash(:error, "Payouts has already been authorized")
+          |> redirect(to: ~p"/order_files")
+
+        is_nil(order_file.authorized_at) && is_nil(order_file.authorize_status) ->
+          case OrderFileOperation.authorize_payouts(order_file, current_user) do
+            {:ok, _order_file} ->
+              conn
+              |> put_flash(:info, "You have successfully authorized payout file.")
+              |> redirect(to: ~p"/order_files")
+
+            {:error, %Ecto.Changeset{} = _changeset} ->
+              conn
+              |> put_flash(:error, "Something went wrong.")
+              |> redirect(to: ~p"/order_files")
+          end
+      end
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     if OrderFilePolicy.show(conn.assigns.current_user_role) do
       order_file = OrderFileOperation.get_order_file!(id)

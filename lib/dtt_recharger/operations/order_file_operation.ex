@@ -4,7 +4,9 @@ defmodule DttRecharger.Operations.OrderFileOperation do
   """
   import Ecto.Query, warn: false
   alias DttRecharger.Repo
-  alias DttRecharger.Schema.{OrderFile}
+  alias DttRecharger.Schema.{OrderFile, Record}
+  alias DttRecharger.Operations.DeliveryOperation
+  import DttRecharger.Services.DeliveryHandler
 
   @doc """
   Returns the list of order_files.
@@ -69,6 +71,32 @@ defmodule DttRecharger.Operations.OrderFileOperation do
     %OrderFile{}
     |> OrderFile.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def authorize_payouts(order_file, current_user) do
+    records = from(r in Record, where: r.order_file_id == ^order_file.id, preload: [:organization, :product]) |> Repo.all
+    result = []
+    delivery_attrs = Enum.map(records, fn record ->
+      delivery_params = List.flatten(delivery_params(record))
+      params = case record.product_id do
+        nil ->
+          Enum.map(delivery_params, fn delivery_param ->
+            Map.merge(delivery_param, %{status: "failed", failure: %{status: "failed", error_message: "Package not found"}})
+          end)
+        _id ->
+          Enum.map(delivery_params, fn delivery_param ->
+            Map.merge(delivery_param, %{status: "scheduled", schedule: %{delivery_date: delivery_param[:delivery_date], status: "scheduled"}})
+          end)
+      end
+      result = [params | result]
+    end)
+    case DeliveryOperation.create_multi_deliveries(List.flatten(delivery_attrs)) do
+      {:ok, _deliveries} ->
+        order_file
+        |> OrderFile.authorize_changeset(%{authorize_status: "authorized", authorized_at: NaiveDateTime.utc_now(), authorizer_id: current_user.id})
+        |> Repo.update
+      {:error, changeset} -> {:error, changeset}
+    end
   end
 
   @doc """
