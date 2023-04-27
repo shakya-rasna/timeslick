@@ -16,7 +16,7 @@ defmodule DttRecharger.Schema.Failure do
   def changeset(failure, attrs) do
     failure
     |> cast(attrs, [:status, :error_message])
-    |> assoc_constraint(:failure)
+    |> assoc_constraint(:delivery)
     |> validate_required([:status, :error_message])
   end
 end

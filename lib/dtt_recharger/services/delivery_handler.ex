@@ -23,8 +23,9 @@ defmodule DttRecharger.Services.DeliveryHandler do
     result = []
     times_to_append = String.to_integer(List.first(split_string_by_X(remove_space(record.product_name))))
     for _ <- 1..times_to_append do
+
       result = [%{record_id: record.id, organization_id: record.organization.id,
-                  mobile_number: record.mobile_number, product_id: record.product.id,
+                  mobile_number: record.mobile_number, product_id: record |> Map.get(:product) |> get_in([:id]),
                   delivery_date: delivery_day(record.mobile_number)} | result]
     end
   end
