@@ -60,7 +60,7 @@ defmodule DttRechargerWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     #root path
-    get "/", UserController, :index
+    get "/", OrderFileController, :index
 
     # User setting
     get "/users/settings", UserSettingsController, :edit
