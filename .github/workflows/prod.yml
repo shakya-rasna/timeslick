@@ -21,7 +21,7 @@ jobs:
           NAMESPACE: dtt_recharger_app
           IMAGE_TAG: prod-latest
         run: |
-          docker build --build-arg MIX_ENV="prod" -t $REGISTRY/$NAMESPACE:$IMAGE_TAG .
+          docker build --build-arg MIX_ENV="prod" -t ghcr.io/dtt_recharger_app:prod-latest ../../
           docker push $REGISTRY/$NAMESPACE:$IMAGE_TAG
   deploy:
     name: Deploy to Compute Instance
