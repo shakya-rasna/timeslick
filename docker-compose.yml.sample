@@ -4,8 +4,6 @@ services:
   dtt_recharger_app:
     image: dtt_recharger_app:latest
     restart: always
-    depends_on:
-      - hemhawk_db
     environment:
       - MIX_ENV=xxx
       - POOL_SIZE=xx
