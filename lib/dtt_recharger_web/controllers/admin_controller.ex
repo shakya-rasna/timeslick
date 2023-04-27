@@ -1,4 +1,5 @@
 defmodule DttRechargerWeb.AdminController do
+defmodule(DefaultPassword, do: use(RandomPassword))
   use DttRechargerWeb, :controller
 
   alias DttRecharger.Schema.User
@@ -25,6 +26,8 @@ defmodule DttRechargerWeb.AdminController do
   end
 
   def create(conn, %{"user" => admin_params}) do
+    password = DefaultPassword.generate()
+    admin_params = Map.put(admin_params, "password", password)
     if AdminPolicy.create(conn.assigns.current_user_role) do
       case AdminOperation.create_admin(admin_params) do
         {:ok, _admin} ->
