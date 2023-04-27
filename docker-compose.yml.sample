@@ -2,7 +2,7 @@ version: "3"
 
 services:
   dtt_recharger_app:
-    image: dtt_recharger_app:latest
+    image: dtt_recharger_app:prod-latest
     restart: always
     environment:
       - MIX_ENV=xxx
