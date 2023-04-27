@@ -27,6 +27,11 @@ defmodule DttRecharger.Policies.OrderFilePolicy do
     check_role(current_user_role)
   end
 
+  def authorize_payouts(current_user_role) do
+    roles = ["superadmin", "admin", "authorizer"]
+    if Enum.member?(roles, current_user_role), do: true, else: false
+  end
+
   defp check_role(role) do
     roles = ["superadmin", "admin", "uploader", "authorizer"]
     if Enum.member?(roles, role), do: true, else: false

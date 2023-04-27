@@ -33,10 +33,12 @@
       <%= @order_file.upload_file.filename %>
     </.link>
   </:item>
-  <:item title="Authorizer Name">
-    <.link href={~p"/users/#{@order_file.authorizer.id}"}>
-      <%= @order_file.authorizer.first_name <> " " <> @order_file.authorizer.last_name %>
-    </.link>
+   <:item title="Authorizer Name">
+    <%= if @order_file.authorizer != nil do  %>
+      <.link href={~p"/users/#{@order_file.authorizer.id}"}>
+        <%= @order_file.authorizer.first_name <> " " <> @order_file.authorizer.last_name %>
+      </.link>
+    <% end %>
   </:item>
   <:item title="Authorized At"><%= @order_file.authorized_at%></:item>
   <:item title="Authorized Status"><%= @order_file.authorize_status%></:item>
