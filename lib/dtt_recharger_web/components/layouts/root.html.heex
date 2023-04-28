@@ -210,15 +210,16 @@
               Payout Files
             </.link>
         </div>
-        <div class="sidebar-item">
-            <.link
-              href={~p"/deliveries"}
-              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-            >
-              Deliveries
-            </.link>
-        </div>
         <%= if Enum.member?(["superadmin", "admin"], @current_user_role) do %>
+           <div class="sidebar-item">
+              <.link
+                href={~p"/deliveries"}
+                class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+              >
+                Deliveries
+              </.link>
+          </div>
+
           <div class="sidebar-item">
             <.link
               href={~p"/stock_files"}
