@@ -38,7 +38,7 @@ user = Repo.get_by(User, email: email)
 organizations = Repo.all(Organization)
 if is_nil(user) do
   %User{}
-    |> User.registration_changeset(%{email: email, first_name: "Gurzu",
+    |> User.admin_registration_changeset(%{email: email, first_name: "Gurzu",
                                      last_name: "Inc", password: "Gurzu@123",
                                      user_role: %{role_id: Repo.get_by(Role, name: "superadmin").id}})
     |> Repo.insert!
