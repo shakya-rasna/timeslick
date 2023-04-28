@@ -11,7 +11,7 @@ defmodule DttRecharger.Operations.UserOperation do
   alias DttRecharger.Operations.AccountOperation
   alias DttRecharger.Repo
 
-  alias DttRecharger.Schema.{User, Role, OrganizationRole, UserRole, Organization}
+  alias DttRecharger.Schema.{User, Role, OrganizationRole, UserRole, Organization, UserNotifier}
 
   @doc """
   Returns the list of users.
@@ -84,13 +84,13 @@ defmodule DttRecharger.Operations.UserOperation do
         {:ok, user} = %User{}
                        |> User.user_registration_changeset(user_params)
                        |> Repo.insert()
-        AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]), attrs["password"])
+        UserNotifier.deliver_invitations(user, Repo.get(Organization,org_role_params["organization_id"]), attrs["password"])
       user ->
         case OrganizationRoleOperation.get_user_org_role(user, org_role_params["organization_id"]) do
           nil ->
             OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, "user_id", user.id))
             |> Repo.insert
-            AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]))
+            UserNotifier.deliver_invitations(user, Repo.get(Organization, org_role_params["organization_id"]))
           org_role ->
             RenderHelper.user_validation_error(conn, "Already user invited on this organization")
         end
