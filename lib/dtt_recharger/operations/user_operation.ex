@@ -5,6 +5,9 @@ defmodule DttRecharger.Operations.UserOperation do
   """
 
   import Ecto.Query, warn: false
+  alias DttRecharger.Helpers.RenderHelper
+  alias DttRecharger.Operations.OrganizationRoleOperation
+  alias DttRecharger.Helpers.RenderHelper
   alias DttRecharger.Operations.AccountOperation
   alias DttRecharger.Repo
 
@@ -73,7 +76,7 @@ defmodule DttRecharger.Operations.UserOperation do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
+  def create_user(conn, attrs \\ %{}) do
     user_params = Map.put(attrs, "user_role", %{role_id: Repo.get_by(Role, name: "user").id})
     org_role_params = List.first(Enum.map(attrs["organization_roles"], fn {_key, val} -> val end))
     case AccountOperation.get_user_by_email(attrs["email"]) do
@@ -83,9 +86,14 @@ defmodule DttRecharger.Operations.UserOperation do
                        |> Repo.insert()
         AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]), attrs["password"])
       user ->
-        OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, "user_id", user.id))
-        |> Repo.insert
-        AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]))
+        case OrganizationRoleOperation.get_user_org_role(user, org_role_params["organization_id"]) do
+          nil ->
+            OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, "user_id", user.id))
+            |> Repo.insert
+            AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]))
+          org_role ->
+            RenderHelper.user_validation_error(conn, "Already user invited on this organization")
+        end
     end
   end
 

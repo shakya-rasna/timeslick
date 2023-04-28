@@ -30,7 +30,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
     if UserPolicy.create(conn.assigns.current_user_role) do
       password = DefaultPassword.generate()
       user_params = Map.put(user_params, "password", password)
-      case UserOperation.create_user(user_params) do
+      case UserOperation.create_user(conn, user_params) do
         {:ok, _user} ->
           conn
           |> put_flash(:info, "User created successfully.")

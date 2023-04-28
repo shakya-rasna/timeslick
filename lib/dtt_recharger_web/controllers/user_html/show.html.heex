@@ -12,7 +12,7 @@
   <:item title="Last name"><%= @user.last_name %></:item>
   <:item title="Email"><%= @user.email %></:item>
   <:item title="Role"><%= @user.role.name %></:item>
-  <:item title="Organization Name"><%= Enum.map(@user.organizations, fn org -> org.name end) %></:item>
+  <:item title="Organization Name"><%= Enum.map(@user.organizations, fn org -> if length(@user.organizations) > 1, do: org.name <>", ", else: org.name end) %></:item>
   <:item title="Invitation Status"><%= if @user.sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
 </.list>
 

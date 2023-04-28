@@ -13,7 +13,7 @@
     <:col :let={user} label="Last name"><%= user.last_name %></:col>
     <:col :let={user} label="Email"><%= user.email %></:col>
     <:col :let={user} label="Role"><%= user.role.name %></:col>
-    <:col :let={user} label="Organization"><%=Enum.map(user.organizations, fn org -> org.name end)%></:col>
+    <:col :let={user} label="Organization"><%=Enum.map(user.organizations, fn org -> if length(user.organizations) > 1, do: org.name <>", ", else: org.name end)%></:col>
     <:col :let={user} label="Invitation Status"><%= if user.sign_in_count <= 0, do: "Pending", else: "Joined"%></:col>
     <:action :let={user}>
       <div class="sr-only">
