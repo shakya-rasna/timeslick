@@ -21,6 +21,10 @@ defmodule DttRecharger.Operations.DeliveryOperation do
     Repo.all(from d in Delivery, preload: [:product])
   end
 
+  def list_organization_deliveries(organization_id) do
+    from(d in Delivery, where: d.organization_id == ^organization_id, preload: [:product]) |> Repo.all
+  end
+
   @doc """
   Gets a single delivery.
 

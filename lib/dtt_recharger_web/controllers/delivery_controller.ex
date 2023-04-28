@@ -8,7 +8,7 @@ defmodule DttRechargerWeb.DeliveryController do
 
   def index(conn, _params) do
     if DeliveryPolicy.index(conn.assigns.current_user_role) do
-      deliveries = DeliveryOperation.list_deliveries()
+      deliveries = if conn.assigns.current_user_role == "user", do: DeliveryOperation.list_organization_deliveries(conn.assigns.current_organization.id), else: DeliveryOperation.list_deliveries()
       render(conn, :index, deliveries: deliveries)
     else
       RenderHelper.render_error_default(conn, "Unauthorized")
