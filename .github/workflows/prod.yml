@@ -21,7 +21,7 @@ jobs:
         id: build-image
         env:
           REGISTRY: ghcr.io
-          NAMESPACE: rumrail/dtt-recharger
+          NAMESPACE: shakya-rasna/timeslick
           IMAGE_TAG: prod-latest
         run: |
           docker build --build-arg MIX_ENV="prod" -t $REGISTRY/$NAMESPACE:$IMAGE_TAG .
