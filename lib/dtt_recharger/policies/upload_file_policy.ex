@@ -8,12 +8,11 @@ defmodule DttRecharger.Policies.UploadFilePolicy do
   end
 
   def save_file_and_import_stock(current_user_role) do
-    roles = ["superadmin", "admin"]
-    if Enum.member?(roles, current_user_role), do: true, else: false
+    check_role(current_user_role)
   end
 
   defp check_role(role) do
-    roles = ["superadmin", "admin", "uploader"]
+    roles = ["superadmin", "admin", "user"]
     if Enum.member?(roles, role), do: true, else: false
   end
 end

@@ -1,11 +1,9 @@
 <.header>
   Loan Payout Files
     <:actions>
-      <%= if Enum.member?(["superadmin", "admin", "uploader"], @current_user_role) do %>
         <.link href={~p"/import_orders"}>
           <.button>Import Loan Payouts</.button>
         </.link>
-      <% end %>
     </:actions>
 </.header>
 
@@ -22,7 +20,7 @@
         <.link navigate={~p"/order_files/#{order_file}"}>Show</.link>
       </div>
 
-      <%= if is_nil(order_file.authorized_at) && Enum.member?(["superadmin", "admin", "authorizer"], @current_user_role) do %>
+      <%= if is_nil(order_file.authorized_at) &&  !(@current_user_role == "user" && order_file.uploader_id == @current_user.id) do %>
         <.link href={~p"/order_files/#{order_file}/authorize_payouts"} method="post">
           <.button>Authorize</.button>
         </.link>

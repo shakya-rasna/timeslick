@@ -8,7 +8,6 @@ defmodule DttRecharger.Operations.UploadFileOperation do
   alias DttRecharger.Repo
   alias DttRecharger.Schema.{UploadFile, OrderFile, StockFile}
   alias DttRecharger.Operations.{OrderFileOperation, RecordOperation, StockFileOperation, StockItemOperation}
-  require IEx
   def save_file_and_import_orders(file_param, current_user, current_org) do
     %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
     attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "order"}
@@ -29,7 +28,6 @@ defmodule DttRecharger.Operations.UploadFileOperation do
           data = Map.put(data, :order_file_id, info[:order_file].id)
           data = if is_nil(current_org_id), do: data, else: Map.put(data, :organization_id, current_org_id)
         end)
-        IEx.pry
         case RecordOperation.bulk_csv_import_records(record_attrs) do
           {:ok, records} -> {:ok, records}
           {:error, changeset} -> {:error, changeset}
