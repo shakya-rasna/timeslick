@@ -150,16 +150,14 @@
               <li class="text-[0.8125rem] leading-6 text-zinc-900">
                 <%= @current_user.email %>
               </li>
-              <%= if @current_organization do %>
-                <li>
-                  <.link
-                    href={~p"/my_organization"}
-                    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-                  >
-                    Organization
-                  </.link>
-                </li>
-              <% end %>
+              <li>
+                <.link
+                  href={~p"/my_organization"}
+                  class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                >
+                  Organization
+                </.link>
+              </li>
               <li>
                 <.link
                   href={~p"/users/settings"}
@@ -210,16 +208,15 @@
               Payout Files
             </.link>
         </div>
+        <div class="sidebar-item">
+            <.link
+              href={~p"/deliveries"}
+              class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+            >
+              Deliveries
+            </.link>
+        </div>
         <%= if Enum.member?(["superadmin", "admin"], @current_user_role) do %>
-           <div class="sidebar-item">
-              <.link
-                href={~p"/deliveries"}
-                class="text-[1rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-              >
-                Deliveries
-              </.link>
-          </div>
-
           <div class="sidebar-item">
             <.link
               href={~p"/stock_files"}

@@ -29,7 +29,7 @@ defmodule DttRecharger.Policies.DeliveryPolicy do
   end
 
   defp check_role(role) do
-    roles = ["superadmin", "admin"]
+    roles = ["superadmin", "admin", "user"]
     if Enum.member?(roles, role), do: true, else: false
   end
 end
