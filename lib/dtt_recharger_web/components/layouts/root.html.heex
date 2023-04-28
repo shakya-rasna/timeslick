@@ -150,14 +150,16 @@
               <li class="text-[0.8125rem] leading-6 text-zinc-900">
                 <%= @current_user.email %>
               </li>
-              <li>
-                <.link
-                  href={~p"/my_organization"}
-                  class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-                >
-                  Organization
-                </.link>
-              </li>
+              <%= if @current_organization do %>
+                <li>
+                  <.link
+                    href={~p"/my_organization"}
+                    class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
+                  >
+                    Organization
+                  </.link>
+                </li>
+              <% end %>
               <li>
                 <.link
                   href={~p"/users/settings"}

@@ -12,7 +12,7 @@ defmodule(DefaultPassword, do: use(RandomPassword))
       users = UserOperation.list_users()
       render(conn, :index, users: users)
     else
-       RenderHelper.render_error_default(conn, "Unauthorized")
+      RenderHelper.render_error_default(conn, "Unauthorized")
     end
   end
 

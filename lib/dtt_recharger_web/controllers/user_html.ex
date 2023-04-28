@@ -1,8 +1,5 @@
 defmodule DttRechargerWeb.UserHTML do
   use DttRechargerWeb, :html
-  require IEx
-
-  import DttRechargerWeb.Helpers.RoleHelper
 
   embed_templates "user_html/*"
 

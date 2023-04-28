@@ -51,6 +51,7 @@ defmodule DttRechargerWeb.Router do
     get "/users/log_in", UserSessionController, :new
     get "/admin", UserSessionController, :admin_new
     post "/users/log_in", UserSessionController, :create
+    post "/admin", UserSessionController, :admin_create
     get "/users/reset_password", UserResetPasswordController, :new
     post "/users/reset_password", UserResetPasswordController, :create
     get "/users/reset_password/:token", UserResetPasswordController, :edit
