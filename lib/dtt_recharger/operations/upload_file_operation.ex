@@ -8,11 +8,12 @@ defmodule DttRecharger.Operations.UploadFileOperation do
   alias DttRecharger.Repo
   alias DttRecharger.Schema.{UploadFile, OrderFile, StockFile}
   alias DttRecharger.Operations.{OrderFileOperation, RecordOperation, StockFileOperation, StockItemOperation}
-
+  require IEx
   def save_file_and_import_orders(file_param, current_user, current_org) do
     %Plug.Upload{path: path, filename: filename, content_type: type} = file_param
     attrs = %{file: file_param, path: path, filename: filename, content_type: type, file_type: "order"}
     csv_parsed_datas = parse_csv(path, type)
+    current_org_id = if is_nil(current_org), do: nil, else: current_org.id
     result = Multi.new()
              |> Multi.insert(:upload_file, UploadFile.changeset(%UploadFile{}, attrs))
              |> Multi.insert(:order_file,
@@ -20,14 +21,15 @@ defmodule DttRecharger.Operations.UploadFileOperation do
                     OrderFileOperation.change_orderfile(%OrderFile{}, %{upload_file_id: upload_file_id,
                                                                         total_records: length(csv_parsed_datas),
                                                                         uploader_id: current_user.id,
-                                                                        organization_id: current_org.id}) end)
+                                                                        organization_id: current_org_id}) end)
              |> Repo.transaction()
     case result do
       {:ok, info} ->
         record_attrs = Enum.map(csv_parsed_datas, fn data ->
-          Map.put(data, :order_file_id, info[:order_file].id)
-          |> Map.put(:organization_id, current_org.id)
+          data = Map.put(data, :order_file_id, info[:order_file].id)
+          data = if is_nil(current_org_id), do: data, else: Map.put(data, :organization_id, current_org_id)
         end)
+        IEx.pry
         case RecordOperation.bulk_csv_import_records(record_attrs) do
           {:ok, records} -> {:ok, records}
           {:error, changeset} -> {:error, changeset}

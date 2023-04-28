@@ -9,8 +9,7 @@ defmodule DttRecharger.Operations.OrganizationRoleOperation do
   def get_user_org_role(user, org_id \\ nil) do
     query =
       from og in OrganizationRole,
-        where: og.user_id == ^user.id and og.organization_id == ^org_id,
-        preload: [:role]
+        where: og.user_id == ^user.id and og.organization_id == ^org_id
 
     case Repo.one(query) do
       nil -> nil

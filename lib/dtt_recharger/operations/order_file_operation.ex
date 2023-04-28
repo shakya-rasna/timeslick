@@ -93,7 +93,9 @@ defmodule DttRecharger.Operations.OrderFileOperation do
     case DeliveryOperation.create_multi_deliveries(List.flatten(delivery_attrs)) do
       {:ok, _deliveries} ->
         order_file
-        |> OrderFile.authorize_changeset(%{authorize_status: "authorized", authorized_at: NaiveDateTime.utc_now(), authorizer_id: current_user.id})
+        |> OrderFile.authorize_changeset(%{authorize_status: "authorized",
+                                           authorized_at: NaiveDateTime.utc_now(),
+                                           authorizer_id: current_user.id})
         |> Repo.update
       {:error, changeset} -> {:error, changeset}
     end

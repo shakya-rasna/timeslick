@@ -33,7 +33,7 @@ defmodule DttRecharger.Schema.Record do
     |> assoc_constraint(:product)
     |> set_product_association
     |> validate_required([:mobile_number, :quantity, :id_number, :contract_number,
-                          :surname, :initials, :amount, :entity_name, :order_file_id, :organization_id])
+                          :surname, :initials, :amount, :entity_name, :order_file_id])
   end
 
   defp validate_mobile_number(changeset, attrs) do
