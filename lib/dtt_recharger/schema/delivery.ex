@@ -28,7 +28,7 @@ defmodule DttRecharger.Schema.Delivery do
     |> assoc_constraint(:product)
     |> cast_assoc(:schedule, with: &Schedule.changeset/2)
     |> cast_assoc(:failure, with: &Failure.changeset/2)
-    |> validate_required([:status, :delivery_date, :mobile_number, :record_id, :organization_id, :product_id])
+    |> validate_required([:status, :delivery_date, :mobile_number, :record_id, :product_id])
     |> validate_inclusion(:status, [:completed, :failed, :scheduled])
   end
 end

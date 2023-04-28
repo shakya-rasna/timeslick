@@ -8,7 +8,7 @@ defmodule DttRechargerWeb.OrderFileController do
 
   def index(conn, _params) do
     if OrderFilePolicy.index(conn.assigns.current_user_role) do
-      order_files = if conn.assigns.current_user_role == "uploader", do: OrderFileOperation.list_organization_order_files(conn.assigns.current_organization.id), else: OrderFileOperation.list_order_files()
+      order_files = if conn.assigns.current_user_role == "user", do: OrderFileOperation.list_organization_order_files(conn.assigns.current_organization.id), else: OrderFileOperation.list_order_files()
       render(conn, :index, order_files: order_files)
     else
       RenderHelper.render_error_default(conn, "Unauthorized")
@@ -48,25 +48,31 @@ defmodule DttRechargerWeb.OrderFileController do
         |> put_flash(:error, "Payouts are not valid")
         |> redirect(to: ~p"/order_files")
 
-      order_file -> cond do
-        !is_nil(order_file.authorized_at) && order_file.authorize_status == "authorized" ->
-          conn
-          |> put_flash(:error, "Payouts has already been authorized")
-          |> redirect(to: ~p"/order_files")
+      order_file ->
+        cond do
+          order_file.uploader_id == current_user.id ->
+            conn
+            |> put_flash(:error, "You are not allowed to authorize your own uploads")
+            |> redirect(to: ~p"/order_files")
 
-        is_nil(order_file.authorized_at) && is_nil(order_file.authorize_status) ->
-          case OrderFileOperation.authorize_payouts(order_file, current_user) do
-            {:ok, _order_file} ->
-              conn
-              |> put_flash(:info, "You have successfully authorized payout file.")
-              |> redirect(to: ~p"/order_files")
+          !is_nil(order_file.authorized_at) && order_file.authorize_status == "authorized" ->
+            conn
+            |> put_flash(:error, "Payouts has already been authorized")
+            |> redirect(to: ~p"/order_files")
 
-            {:error, %Ecto.Changeset{} = _changeset} ->
-              conn
-              |> put_flash(:error, "Something went wrong.")
-              |> redirect(to: ~p"/order_files")
-          end
-      end
+          is_nil(order_file.authorized_at) && is_nil(order_file.authorize_status) ->
+            case OrderFileOperation.authorize_payouts(order_file, current_user) do
+              {:ok, _order_file} ->
+                conn
+                |> put_flash(:info, "You have successfully authorized payout file.")
+                |> redirect(to: ~p"/order_files")
+
+              {:error, %Ecto.Changeset{} = _changeset} ->
+                conn
+                |> put_flash(:error, "Something went wrong.")
+                |> redirect(to: ~p"/order_files")
+            end
+        end
     end
   end
 
