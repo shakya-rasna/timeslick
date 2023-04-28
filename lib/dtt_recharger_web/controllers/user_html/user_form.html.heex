@@ -6,8 +6,8 @@
   <.input field={f[:last_name]} type="text" label="Last name" required/>
   <.input field={f[:email]} type="text" label="Email" required/>
   <.inputs_for :let={r}  field={f[:organization_roles]}>
-    <.input field={r[:role_id]} type="select" label="User Role" prompt="select roles"
-    options={Enum.map(@roles, fn role -> {role.name, role.id} end)} required/>
+    <.input field={r[:organization_id]} type="select" label="Organization" prompt="select organizations"
+    options={Enum.map(@organizations, fn organization -> {organization.name, organization.id} end)} required/>
   </.inputs_for>
   <:actions>
     <.button>Invite User</.button>

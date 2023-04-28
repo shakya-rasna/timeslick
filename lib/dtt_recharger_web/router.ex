@@ -49,6 +49,7 @@ defmodule DttRechargerWeb.Router do
     # get "/users/register", UserRegistrationController, :new
     # post "/users/register", UserRegistrationController, :create
     get "/users/log_in", UserSessionController, :new
+    get "/admin", UserSessionController, :admin_new
     post "/users/log_in", UserSessionController, :create
     get "/users/reset_password", UserResetPasswordController, :new
     post "/users/reset_password", UserResetPasswordController, :create
@@ -99,7 +100,6 @@ defmodule DttRechargerWeb.Router do
     resources "/deliveries", DeliveryController, except: [:new, :create, :edit, :update, :delete]
 
     resources "/admins", AdminController, except: [:edit, :update, :delete]
-    get "/super_admin/login", UserSessionController, :super_admin_new
   end
 
   scope "/", DttRechargerWeb do

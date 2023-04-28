@@ -20,7 +20,8 @@ defmodule DttRecharger.Operations.AdminOperation do
     from(u in User,
       left_join: ur in UserRole,
       on: u.id == ur.user_id,
-      where: ur.role_id == ^role_id) |> Repo.all
+      where: ur.role_id == ^role_id,
+      preload: [:role]) |> Repo.all
   end
 
   @doc """
@@ -37,7 +38,12 @@ defmodule DttRecharger.Operations.AdminOperation do
       ** (Ecto.NoResultsError)
 
   """
-  def get_admin!(id), do: Repo.get!(User, id)
+  def get_admin!(id) do
+    case Repo.get(User, id) do
+      nil -> nil
+      user -> Repo.preload(user, [:role])
+    end
+  end
 
   def create_admin(attrs \\ %{}) do
     # org_params = Enum.map(Repo.all(Organization), fn organization ->

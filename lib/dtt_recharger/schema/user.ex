@@ -17,6 +17,7 @@ defmodule DttRecharger.Schema.User do
     has_one :user_role, UserRole, on_delete: :delete_all
     has_one :role, through: [:user_role, :role]
     has_many :organization_roles, OrganizationRole, on_delete: :delete_all
+    has_many :organizations, through: [:organization_roles, :organization], on_delete: :delete_all
 
     timestamps()
   end
@@ -69,7 +70,6 @@ defmodule DttRecharger.Schema.User do
     |> cast_assoc(:user_role, with: &UserRole.changeset/2)
     |> cast_assoc(:organization_roles, with: &OrganizationRole.changeset/2)
     |> validate_email(opts)
-    |> validate_required([:first_name, :last_name])
   end
 
   defp validate_email(changeset, opts) do

@@ -1,5 +1,6 @@
 defmodule DttRechargerWeb.UserHTML do
   use DttRechargerWeb, :html
+  require IEx
 
   import DttRechargerWeb.Helpers.RoleHelper
 
@@ -10,7 +11,7 @@ defmodule DttRechargerWeb.UserHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
-  attr :roles, :list, required: true
+  attr :organizations, :list, required: true
 
   def user_form(assigns)
 end

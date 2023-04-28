@@ -11,8 +11,8 @@
   <:item title="First name"><%= @admin.first_name %></:item>
   <:item title="Last name"><%= @admin.last_name %></:item>
   <:item title="Email"><%= @admin.email %></:item>
-  <:item title="Role"><%= user_org_role(@admin, @current_organization.id) %></:item>
-  <:item title="Invitation Status"><%= if org_role(@admin, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
+  <:item title="Role"><%= @admin.role.name %></:item>
+  <:item title="Invitation Status"><%= if @admin.sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
 </.list>
 
 <.back navigate={~p"/admins"}>Back to admins</.back>

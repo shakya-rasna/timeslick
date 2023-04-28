@@ -11,8 +11,9 @@
   <:item title="First name"><%= @user.first_name %></:item>
   <:item title="Last name"><%= @user.last_name %></:item>
   <:item title="Email"><%= @user.email %></:item>
-  <:item title="Role"><%= user_org_role(@user, @current_organization.id) %></:item>
-  <:item title="Invitation Status"><%= if user_org_role(@user, @current_organization.id) != "superadmin" && org_role(@user, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
+  <:item title="Role"><%= @user.role.name %></:item>
+  <:item title="Organization Name"><%= Enum.map(@user.organizations, fn org -> org.name end) %></:item>
+  <:item title="Invitation Status"><%= if @user.sign_in_count <= 0, do: "Pending", else: "Joined" %></:item>
 </.list>
 
 <.back navigate={~p"/users"}>Back to users</.back>

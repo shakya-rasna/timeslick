@@ -26,7 +26,6 @@ defmodule DttRechargerWeb.OrganizationController do
     if OrganizationPolicy.create(conn.assigns.current_user_role) do
       case OrganizationOperation.create_organization(organization_params) do
         {:ok, organization} ->
-          OrganizationRoleOperation.bulk_assign_org_to_admin(organization)
           conn
           |> put_flash(:info, "Organization created successfully.")
           |> redirect(to: ~p"/organizations/#{organization}")

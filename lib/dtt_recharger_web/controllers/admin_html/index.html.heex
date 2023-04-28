@@ -12,8 +12,8 @@
     <:col :let={admin} label="First name"><%= admin.first_name %></:col>
       <:col :let={admin} label="Last name"><%= admin.last_name %></:col>
       <:col :let={admin} label="Email"><%= admin.email %></:col>
-      <:col :let={admin} label="Role"><%= user_org_role(admin, @current_organization.id) %></:col>
-      <:col :let={admin} label="Invitation Status"><%= if user_org_role(admin, @current_organization.id) != "superadmin" && org_role(admin, @current_organization.id).sign_in_count <= 0, do: "Pending", else: "Joined"  %></:col>
+      <:col :let={admin} label="Role"><%= admin.role.name %></:col>
+      <:col :let={admin} label="Invitation Status"><%= if admin.sign_in_count <= 0, do: "Pending", else: "Joined"  %></:col>
     <:action :let={admin}>
       <div class="sr-only">
         <.link navigate={~p"/admins/#{admin}"}>Show</.link>

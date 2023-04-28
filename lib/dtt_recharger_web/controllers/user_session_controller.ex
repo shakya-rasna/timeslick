@@ -1,28 +1,41 @@
 defmodule DttRechargerWeb.UserSessionController do
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Operations.{AccountOperation, OrganizationRoleOperation}
+  alias DttRecharger.Operations.{AccountOperation, OrganizationRoleOperation, UserRoleOperation}
   alias DttRechargerWeb.UserAuth
 
   def new(conn, _params) do
     render(conn, :new, error_message: nil)
   end
 
+  def admin_new(conn, _params) do
+    render(conn, :admin_new, error_message: nil)
+  end
+  require IEx
   def create(conn, %{"user" => user_params}) do
-    %{"email" => email, "password" => password, "organization_id" => organization_id} = user_params
-
-    if user = AccountOperation.get_user_by_email_and_password(email, password) do
-      if user_org = OrganizationRoleOperation.get_user_org_role(user, organization_id) do
-        AccountOperation.increase_signin_count(user)
-        OrganizationRoleOperation.increase_signin_count(user_org)
-        conn
-        |> put_flash(:info, "Welcome back!")
-        |> UserAuth.log_in_user(user, user_params)
+    IEx.pry
+    if user = AccountOperation.get_user_by_email_and_password(user_params["email"], user_params["password"]) do
+      if user_role = UserRoleOperation.get_user_role!(user) do
+        user_org = if is_nil(user_params["organization_id"]), do: nil, else: OrganizationRoleOperation.get_user_org_role(user, user_params["organization_id"])
+        cond do
+          user_role == "superadmin" || user_role == "admin" ->
+            AccountOperation.increase_signin_count(user)
+            conn
+            |> put_flash(:info, "Welcome back!")
+            |> UserAuth.log_in_user(user, user_params)
+          user_role == "user" &&  user_org != nil ->
+            AccountOperation.increase_signin_count(user)
+            OrganizationRoleOperation.increase_signin_count(user_org)
+            conn
+            |> put_flash(:info, "Welcome back!")
+            |> UserAuth.log_in_user(user, user_params)
+          user_role == "user" &&  user_org == nil ->
+            render(conn, :new, error_message: "You are not belong to this organization.")
+        end
       else
-        render(conn, :new, error_message: "You are not belong to this organization.")
+        render(conn, :new, error_message: "Something went wrong. Please try again")
       end
     else
-      # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       render(conn, :new, error_message: "Invalid email or password")
     end
   end

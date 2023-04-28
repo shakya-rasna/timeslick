@@ -8,7 +8,7 @@ defmodule DttRecharger.Operations.UserOperation do
   alias DttRecharger.Operations.AccountOperation
   alias DttRecharger.Repo
 
-  alias DttRecharger.Schema.{User, Role, OrganizationRole}
+  alias DttRecharger.Schema.{User, Role, OrganizationRole, UserRole, Organization}
 
   @doc """
   Returns the list of users.
@@ -20,7 +20,12 @@ defmodule DttRecharger.Operations.UserOperation do
 
   """
   def list_users do
-    from(u in User) |> Repo.all
+    role = Repo.get_by(Role, name: "user")
+    from(u in User,
+      left_join: ur in UserRole,
+      on: ur.user_id == u.id,
+      where: ur.role_id == ^role.id,
+      preload: [:role, :organizations]) |> Repo.all
   end
 
   @doc """
@@ -52,7 +57,7 @@ defmodule DttRecharger.Operations.UserOperation do
   def get_user!(id) do
     case Repo.get(User, id) do
       nil -> nil
-      user -> user
+      user -> Repo.preload(user, [:role, :organizations])
     end
   end
 
@@ -68,18 +73,19 @@ defmodule DttRecharger.Operations.UserOperation do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}, organization) do
-    org_role_params = List.first(attrs["organization_roles"])
+  def create_user(attrs \\ %{}) do
+    user_params = Map.put(attrs, "user_role", %{role_id: Repo.get_by(Role, name: "user").id})
+    org_role_params = List.first(Enum.map(attrs["organization_roles"], fn {_key, val} -> val end))
     case AccountOperation.get_user_by_email(attrs["email"]) do
       nil ->
         {:ok, user} = %User{}
-                       |> User.registration_changeset(attrs)
+                       |> User.user_registration_changeset(user_params)
                        |> Repo.insert()
-        AccountOperation.deliver_user_invitations(user, organization, attrs["password"])
+        AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]), attrs["password"])
       user ->
         OrganizationRole.changeset(%OrganizationRole{}, Map.put(org_role_params, "user_id", user.id))
         |> Repo.insert
-        AccountOperation.deliver_user_invitations(user, organization)
+        AccountOperation.deliver_user_invitations(user, Repo.get(Organization,org_role_params["organization_id"]))
     end
   end
 
@@ -128,6 +134,6 @@ defmodule DttRecharger.Operations.UserOperation do
 
   """
   def change_user(%User{} = user, attrs \\ %{}) do
-    User.registration_changeset(user, attrs)
+    User.changeset(user, attrs)
   end
 end

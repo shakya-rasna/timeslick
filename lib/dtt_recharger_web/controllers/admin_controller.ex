@@ -2,7 +2,7 @@ defmodule DttRechargerWeb.AdminController do
 defmodule(DefaultPassword, do: use(RandomPassword))
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Schema.{User, UsesrNotifier}
+  alias DttRecharger.Schema.{User, UserNotifier}
   alias DttRecharger.Operations.AdminOperation
   alias DttRecharger.Policies.AdminPolicy
   alias DttRecharger.Helpers.RenderHelper
