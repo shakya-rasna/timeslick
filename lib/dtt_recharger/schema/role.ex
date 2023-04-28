@@ -6,6 +6,9 @@ defmodule DttRecharger.Schema.Role do
   schema "roles" do
     field :name, :string
 
+    has_one :user_role, UserRole, on_delete: :delete_all
+    has_one :user, through: [:user_role, :user]
+
     timestamps()
   end
 

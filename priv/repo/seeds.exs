@@ -1,10 +1,10 @@
 # Insert vibes
 
 alias DttRecharger.Repo
-alias DttRecharger.Schema.{User, FileType, Role, Status, Organization}
+alias DttRecharger.Schema.{User, FileType, Role, Status, Organization, Role}
 
 file_types = ["stock", "order"]
-roles = ["superadmin", "admin", "uploader", "authorizer"]
+roles = ["superadmin", "admin", "user"]
 statuses = ["pending"]
 
 Enum.each(file_types, fn(file_type) ->
@@ -40,8 +40,6 @@ if is_nil(user) do
   %User{}
     |> User.registration_changeset(%{email: email, first_name: "Gurzu",
                                      last_name: "Inc", password: "Gurzu@123",
-                                     organization_roles: Enum.map(organizations, fn organization ->
-                                       %{organization_id: organization.id,
-                                         role_id: Repo.get_by(Role, %{name: "superadmin"}).id} end)})
+                                     user_role: %{role_id: Repo.get_by(Role, name: "superadmin").id}})
     |> Repo.insert!
 end
