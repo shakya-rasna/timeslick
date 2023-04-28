@@ -44,7 +44,16 @@ defmodule DttRecharger.Schema.User do
       submitting the form), this option can be set to `false`.
       Defaults to `true`.
   """
-  def registration_changeset(user, attrs, opts \\ []) do
+  def admin_registration_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:email, :password, :first_name, :last_name])
+    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
+    |> validate_email(opts)
+    |> validate_password(opts)
+    |> validate_required([:first_name, :last_name])
+  end
+
+  def user_registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email, :password, :first_name, :last_name])
     |> cast_assoc(:user_role, with: &UserRole.changeset/2)
@@ -57,6 +66,7 @@ defmodule DttRecharger.Schema.User do
   def changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email, :first_name, :last_name])
+    |> cast_assoc(:user_role, with: &UserRole.changeset/2)
     |> cast_assoc(:organization_roles, with: &OrganizationRole.changeset/2)
     |> validate_email(opts)
     |> validate_required([:first_name, :last_name])

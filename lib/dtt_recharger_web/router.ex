@@ -99,6 +99,7 @@ defmodule DttRechargerWeb.Router do
     resources "/deliveries", DeliveryController, except: [:new, :create, :edit, :update, :delete]
 
     resources "/admins", AdminController, except: [:edit, :update, :delete]
+    get "/super_admin/login", UserSessionController, :super_admin_new
   end
 
   scope "/", DttRechargerWeb do

@@ -4,8 +4,7 @@ defmodule DttRecharger.Operations.AdminOperation do
   """
   import Ecto.Query, warn: false
   alias DttRecharger.Repo
-  alias DttRecharger.Operations.AccountOperation
-  alias DttRecharger.Schema.{User, Role, OrganizationRole, Organization, UserNotifier}
+  alias DttRecharger.Schema.{User, Role, UserRole}
 
   @doc """
   Returns the list of admins.
@@ -19,9 +18,9 @@ defmodule DttRecharger.Operations.AdminOperation do
   def list_admins do
     role_id = Repo.get_by(Role, name: "admin").id
     from(u in User,
-      left_join: ro in OrganizationRole,
-      on: u.id == ro.user_id,
-      where: ro.role_id == ^role_id) |> Repo.all
+      left_join: ur in UserRole,
+      on: u.id == ur.user_id,
+      where: ur.role_id == ^role_id) |> Repo.all
   end
 
   @doc """
@@ -40,36 +39,15 @@ defmodule DttRecharger.Operations.AdminOperation do
   """
   def get_admin!(id), do: Repo.get!(User, id)
 
-  @doc """
-  Creates a admin.
-
-  ## Examples
-
-      iex> create_admin(%{field: value})
-      {:ok, %User{}}
-
-      iex> create_admin(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_admin(attrs \\ %{}) do
-    org_params = Enum.map(Repo.all(Organization), fn organization ->
-                   %{organization_id: organization.id,
-                     role_id: Repo.get_by(Role, %{name: "admin"}).id} end)
-    attrs = Map.put(attrs, "organization_roles", org_params)
-    case AccountOperation.get_user_by_email(attrs["email"]) do
-      nil ->
-        {:ok, user} = %User{}
-                      |> User.changeset(attrs)
-                      |> Repo.insert()
-        UserNotifier.deliver_admin_invitations(user, attrs["password"])
-      user ->
-        user
-        |> Repo.preload([:organization_role])
-        |> User.changeset(attrs)
-        |> Repo.update()
-        UserNotifier.deliver_admin_invitations(user)
-    end
+    # org_params = Enum.map(Repo.all(Organization), fn organization ->
+    #                %{organization_id: organization.id,
+    #                  role_id: Repo.get_by(Role, %{name: "admin"}).id} end)
+    # attrs = Map.put(attrs, "organization_roles", org_params)
+    attrs = Map.put(attrs, "user_role", %{role_id: Repo.get_by(Role, name: "admin").id})
+    %User{}
+    |> User.admin_registration_changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """

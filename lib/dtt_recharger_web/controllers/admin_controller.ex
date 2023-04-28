@@ -2,7 +2,7 @@ defmodule DttRechargerWeb.AdminController do
 defmodule(DefaultPassword, do: use(RandomPassword))
   use DttRechargerWeb, :controller
 
-  alias DttRecharger.Schema.User
+  alias DttRecharger.Schema.{User, UsesrNotifier}
   alias DttRecharger.Operations.AdminOperation
   alias DttRecharger.Policies.AdminPolicy
   alias DttRecharger.Helpers.RenderHelper
@@ -30,7 +30,8 @@ defmodule(DefaultPassword, do: use(RandomPassword))
     admin_params = Map.put(admin_params, "password", password)
     if AdminPolicy.create(conn.assigns.current_user_role) do
       case AdminOperation.create_admin(admin_params) do
-        {:ok, _admin} ->
+        {:ok, admin} ->
+          UserNotifier.deliver_admin_invitations(admin, password)
           conn
           |> put_flash(:info, "Admin created successfully.")
           |> redirect(to: ~p"/admins")
