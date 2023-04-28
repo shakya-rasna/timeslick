@@ -1,4 +1,4 @@
-defmodule Femma.Release.Seeder do
+defmodule DttRecharger.Release.Seeder do
   @moduledoc """
   Release tasks for seeds.
   """
@@ -10,6 +10,7 @@ defmodule Femma.Release.Seeder do
     :ssl,
     :postgrex,
     :ecto,
+    :dtt_recharger
   ]
   def migrate do
     start_services()
@@ -22,7 +23,7 @@ defmodule Femma.Release.Seeder do
     run_seeds()
   end
 
-  @repos Application.compile_env(:femma, :ecto_repos, [])
+  @repos Application.compile_env(:dtt_recharger, :ecto_repos, [])
 
   defp start_services do
     # Start apps necessary for executing migrations

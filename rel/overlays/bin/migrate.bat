@@ -1,1 +1,1 @@
-call "%~dp0\dtt_recharger" eval DttRecharger.Release.migrate
+call "%~dp0\dtt_recharger" eval DttRecharger.Release.Seeder.migrate
