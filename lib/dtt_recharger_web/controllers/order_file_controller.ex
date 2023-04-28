@@ -42,6 +42,7 @@ defmodule DttRechargerWeb.OrderFileController do
 
   def authorize_payouts(conn, %{"order_file_id" => order_file_id}) do
     current_user = conn.assigns[:current_user]
+    current_role = conn.assigns[:current_user_role]
     case OrderFileOperation.get_order_file!(order_file_id) do
       nil ->
         conn
@@ -50,7 +51,7 @@ defmodule DttRechargerWeb.OrderFileController do
 
       order_file ->
         cond do
-          order_file.uploader_id == current_user.id ->
+          current_role == "user" && order_file.uploader_id == current_user.id ->
             conn
             |> put_flash(:error, "You are not allowed to authorize your own uploads")
             |> redirect(to: ~p"/order_files")
