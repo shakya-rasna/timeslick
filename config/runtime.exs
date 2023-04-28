@@ -70,6 +70,8 @@ if config_env() == :prod do
     root_source_code_path: File.cwd!(),
     included_environments: [:prod]
 
+  config :waffle, storage: Waffle.Storage.Local
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key
